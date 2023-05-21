@@ -50,7 +50,7 @@ export default function Nav() {
   const drawer = (
     <Box>
       <Link href='/'>
-        <ListItemButton>
+        <ListItemButton onClick={handleDrawerToggle}>
           <Typography variant="h6" sx={{ m: 2 }}>
             Ecom MN
           </Typography>
@@ -60,7 +60,7 @@ export default function Nav() {
       <List>
         {navItems.map((text) => (
           <Link href={`/products/${text}`} key={text} >
-            <ListItemButton>
+            <ListItemButton onClick={handleDrawerToggle}>
               <ListItemText primary={text} className='capitalize'/>
             </ListItemButton>
           </Link>
