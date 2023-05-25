@@ -25,7 +25,7 @@ export default function ProductItemPage({ params: { slug } }: PageProps) {
       <NotFound />
     )
   }
-
+  
   return (
     <div className="min-h-80vh my-12 w-3/4 mx-auto grid ml:grid-cols-2 gap-6 flex">
       <div className="relative aspect-square">
