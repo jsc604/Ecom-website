@@ -3,9 +3,7 @@ import { createEdgeRouter } from "next-connect";
 import Product from "@/models/Product";
 import db from "@/utils/db";
 
-interface RequestContext {
- 
-}
+interface RequestContext {};
 
 const handler = createEdgeRouter<NextRequest, RequestContext>();
 
