@@ -1,37 +1,40 @@
 import mongoose from "mongoose";
 
-const connection = {};
+interface Connection {
+  isConnected: boolean;
+}
+
+const connection: Connection = {
+  isConnected: false,
+};
 
 async function connect() {
-
   if (connection.isConnected) {
     console.log('already connected');
     return;
   }
 
   if (mongoose.connections.length > 0) {
-    connection.isConnected = mongoose.connections[0].readyState;
-    if (connection.isConnected === 1) {
+    const state = mongoose.connections[0].readyState;
+    if (state === 1) {
+      connection.isConnected = true;
       console.log('use previous connection');
       return;
     }
     await mongoose.disconnect();
   }
 
-  const db = await mongoose.connect(process.env.NEXT_PUBLIC_MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
-  });
+  const uri = process.env.MONGODB_URI ?? ""; // Ensure fallback value if undefined
+  const db = await mongoose.connect(uri);
 
   console.log('new connection');
 
-  connection.isConnected = db.connections[0].readyState;
+  connection.isConnected = db.connections[0].readyState === 1;
 }
 
 async function disconnect() {
   if (connection.isConnected) {
-    if(process.env.NODE_ENV === 'production') {
+    if (process.env.NODE_ENV === 'production') {
       await mongoose.disconnect();
       connection.isConnected = false;
     } else {
