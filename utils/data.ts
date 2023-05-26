@@ -39,6 +39,8 @@ export const data = {
       slug: "camaro-tires",
       category: "tires",
       image: "/../public/images/camaro.jpeg",
+      isFeatured: false,
+      featuredImage: "/../public/images/camaro.jpeg",
       options: [
         { size: "One Tire", price: 500, countInStock: 20 },
         { size: "Set of 4", price: 1800, countInStock: 20 },
@@ -53,6 +55,8 @@ export const data = {
       slug: "steering-wheel",
       category: "accessories",
       image: "/../public/images/chevelle interior.jpeg",
+      isFeatured: false,
+      featuredImage: "/../public/images/chevelle interior.jpeg",
       options: [{ size: "one size", price: 250, countInStock: 20 }],
       brand: "Chevrolet",
       rating: 4.5,
@@ -64,6 +68,8 @@ export const data = {
       slug: "polishing-agent",
       category: "accessories",
       image: "/../public/images/Koch Chemie.png",
+      isFeatured: false,
+      featuredImage: "/../public/images/Koch Chemie.png",
       options: [
         { size: "500ml", price: 55, countInStock: 20 },
         { size: "1 litre", price: 95, countInStock: 20 },
@@ -79,6 +85,8 @@ export const data = {
       slug: "skyline-wheels",
       category: "wheels",
       image: "/../public/images/skyline front.jpeg",
+      isFeatured: false,
+      featuredImage: "/../public/images/skyline front.jpeg",
       options: [
         { size: "One Wheel", price: 500, countInStock: 20 },
         { size: "Set of 4", price: 1800, countInStock: 20 },
