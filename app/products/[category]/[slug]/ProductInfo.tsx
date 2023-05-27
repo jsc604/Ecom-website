@@ -8,7 +8,7 @@ import ProductBreadcrumbs from './ProductBreadcrumbs';
 import ProductCheckoutCard from './ProductCheckoutCard';
 
 interface ProductInfoProps {
-  products: {
+  product: {
     name: string;
     slug: string;
     category: string;
@@ -23,8 +23,8 @@ interface ProductInfoProps {
   }
 }
 
-export default function ProductInfo({ products }: ProductInfoProps) {
-  const [selectedItem, setSelectedItem] = useState(products.options[0]);
+export default function ProductInfo({ product }: ProductInfoProps) {
+  const [selectedItem, setSelectedItem] = useState(product.options[0]);
   const [quantity, setQuantity] = useState(1);
   const [itemSubtotal, setItemSubtotal] = useState(selectedItem.price);
 
@@ -34,26 +34,26 @@ export default function ProductInfo({ products }: ProductInfoProps) {
 
   return (
     <div className='grid grid-cols-1 space-y-4'>
-      <ProductBreadcrumbs category={products.category} />
+      <ProductBreadcrumbs category={product.category} />
       <div>
-        <Typography variant='h5'>{products.brand}</Typography>
-        <Typography variant='h3'>{products.name}</Typography>
+        <Typography variant='h5'>{product.brand}</Typography>
+        <Typography variant='h3'>{product.name}</Typography>
         <Typography variant='h4'>
-          {products.options.length > 1 ?
-            `$${products.options[0].price} - $${products.options[products.options.length - 1].price}`
+          {product.options.length > 1 ?
+            `$${product.options[0].price} - $${product.options[product.options.length - 1].price}`
             :
-            `$${products.options[0].price}`
+            `$${product.options[0].price}`
           }
         </Typography>
       </div>
       <div className='flex '>
-        <Rating value={products.rating} readOnly />
-        <Typography variant='body1'>({products.numReviews} reviews)</Typography>
+        <Rating value={product.rating} readOnly />
+        <Typography variant='body1'>({product.numReviews} reviews)</Typography>
       </div>
-      <Typography variant='body1'>{products.description}</Typography>
+      <Typography variant='body1'>{product.description}</Typography>
       <Divider />
       <ProductSizes
-        options={products.options}
+        options={product.options}
         setQuantity={setQuantity}
         selectedItem={selectedItem}
         setSelectedItem={setSelectedItem}

@@ -9,7 +9,7 @@ export const metadata = {
 
 async function getData() {
   await db.connect();
-  const products = await Product.find({});
+  const products = await Product.find({}).lean();
   await db.disconnect();
 
   return { products };

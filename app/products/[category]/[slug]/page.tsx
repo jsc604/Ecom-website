@@ -1,26 +1,35 @@
 import NotFound from "@/app/components/NotFound";
-import { data } from "@/utils/data";
 import Image from "next/image";
 import ProductInfo from "./ProductInfo";
 import { Metadata } from "next";
+import Product from "@/models/Product";
+import db from "@/utils/db";
 
 interface PageProps {
   params: { slug: string }
 }
 
+async function getData(slug: string) {
+  await db.connect();
+  const product = await Product.findOne({ slug }).lean();
+  await db.disconnect();
+
+  return product;
+};
+
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const products = data.products.find((item) => item.slug === params.slug);
+  const product = await JSON.parse(JSON.stringify(await getData(params.slug)));
 
   return {
-    title: products?.name,
+    title: product.name,
   };
 }
 
-export default function ProductItemPage({ params: { slug } }: PageProps) {
+export default async function ProductItemPage({ params: { slug } }: PageProps) {
 
-  const products = data.products.find((item) => item.slug === slug);
+  const data = await JSON.parse(JSON.stringify(await getData(slug)));
 
-  if (!products) {
+  if (!data) {
     return (
       <NotFound />
     )
@@ -30,7 +39,7 @@ export default function ProductItemPage({ params: { slug } }: PageProps) {
     <div className="min-h-80vh my-12 w-3/4 mx-auto grid ml:grid-cols-2 gap-6 flex">
       <div className="relative aspect-square">
         <Image
-          src={products.image}
+          src={data.image}
           alt="Product image"
           fill
           loading="lazy"
@@ -39,7 +48,7 @@ export default function ProductItemPage({ params: { slug } }: PageProps) {
         />
       </div>
       <div>
-        <ProductInfo products={products} />
+        <ProductInfo product={data} />
       </div>
     </div>
   )
