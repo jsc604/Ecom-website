@@ -1,19 +1,22 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createEdgeRouter } from "next-connect";
-import db from "@/utils/db";
 import Product from "@/models/Product";
-import { data } from "@/utils/data";
+import db from "@/utils/db";
 
-interface RequestContext {}
+interface RequestContext {
+  params: { id: string };
+}
 
 const handler = createEdgeRouter<NextRequest, RequestContext>();
 
-handler.get(async () => {
+handler.get(async (request, ctx) => {
+  const { params } = ctx;
+  const { id } = params;
   await db.connect();
-  await Product.deleteMany();
-  await Product.insertMany(data.products);
+  const product = await Product.findById(id);
   await db.disconnect();
-  return NextResponse.json({message: 'seeded successfully'});
+  console.log('nextResponse: ', NextResponse.json({ product }));
+  return NextResponse.json(product);
 });
 
 export async function GET(request: NextRequest, ctx: RequestContext) {

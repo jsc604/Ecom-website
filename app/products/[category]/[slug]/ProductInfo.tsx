@@ -1,14 +1,16 @@
 'use client'
 
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { ItemOptions } from '@/app/components/ProductItem';
 import { Divider, Rating, Typography } from '@mui/material';
 import ProductSizes from './ProductSizes';
 import ProductBreadcrumbs from './ProductBreadcrumbs';
 import ProductCheckoutCard from './ProductCheckoutCard';
+import { Store } from '@/utils/StoreProvider';
 
 interface ProductInfoProps {
   product: {
+    _id: string;
     name: string;
     slug: string;
     category: string;
@@ -27,10 +29,46 @@ export default function ProductInfo({ product }: ProductInfoProps) {
   const [selectedItem, setSelectedItem] = useState(product.options[0]);
   const [quantity, setQuantity] = useState(1);
   const [itemSubtotal, setItemSubtotal] = useState(selectedItem.price);
+  const {cart, setCart} = useContext(Store);
 
   useEffect(() => {
     setItemSubtotal(selectedItem.price * quantity);
   }, [selectedItem, quantity]);
+
+  const handleAddToCart = async () => {
+    const res = await fetch(`/api/products/${product._id}`);
+    const data = await res.json();
+  
+    const selectedItemSize = selectedItem.size;
+  
+    const count = data?.options.reduce((acc: number | undefined, option: ItemOptions) => {
+      if (option.size === selectedItemSize) {
+        return option.countInStock;
+      }
+      return acc;
+    }, undefined);
+
+    const existingItem = cart.find((item) => item.optionId === selectedItem.size && item.itemId === product._id);
+    
+    if (count && count >= quantity) {
+      if (existingItem) {
+        const updatedCart = cart.map((item) =>
+          item.optionId === existingItem.optionId && item.itemId === existingItem.itemId
+            ? { ...item, quantity: item.quantity + quantity }
+            : item
+        );
+        setCart(updatedCart);
+      } else {
+        const newItem = {
+          itemId: product._id,
+          optionId: selectedItem.size,
+          quantity: quantity,
+        };
+        setCart([...cart, newItem]);
+      }
+    }
+  };
+  console.log('cart: ', cart);
 
   return (
     <div className='grid grid-cols-1 space-y-4'>
@@ -60,10 +98,10 @@ export default function ProductInfo({ product }: ProductInfoProps) {
       />
       <ProductCheckoutCard
         itemSubtotal={itemSubtotal}
-        setItemSubtotal={setItemSubtotal}
         countInStock={selectedItem.countInStock}
         quantity={quantity}
         setQuantity={setQuantity}
+        handleAddToCart={handleAddToCart}
       />
     </div>
   );

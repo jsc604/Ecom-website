@@ -20,6 +20,7 @@ interface ProductItemProps {
 }
 
 export default function ProductItem({ name, image, options, category, slug, rating }: ProductItemProps) {
+
   return (
     <Card key={name} className="w-full rounded-md shadow-lg hover:shadow-gray-700 rounded-md">
       <Link href={`/products/${category}/${slug}`}>

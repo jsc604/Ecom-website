@@ -11,17 +11,13 @@ import { Paper } from '@mui/material';
 
 interface ProductCheckoutCardProps {
   itemSubtotal: number;
-  setItemSubtotal: Dispatch<SetStateAction<number>>;
   countInStock: number;
   quantity: number;
   setQuantity: Dispatch<SetStateAction<number>>;
+  handleAddToCart: () => {};
 }
 
-export default function ProductCheckoutCard({ itemSubtotal, setItemSubtotal, countInStock, quantity, setQuantity }: ProductCheckoutCardProps) {
-
-  if (countInStock < 1) {
-    setItemSubtotal(0);
-  };
+export default function ProductCheckoutCard({ itemSubtotal, countInStock, quantity, setQuantity, handleAddToCart }: ProductCheckoutCardProps) {
 
   const increase = () => {
     if (countInStock > quantity) {
@@ -56,7 +52,7 @@ export default function ProductCheckoutCard({ itemSubtotal, setItemSubtotal, cou
       </CardContent>
       <Divider />
       <CardActions>
-        <Button color='success' variant='contained' sx={{ width: '100%' }} className='bg-green-600'>Add to Cart</Button>
+        <Button color='success' variant='contained' sx={{ width: '100%' }} className='bg-green-600' onClick={handleAddToCart}>Add to Cart</Button>
       </CardActions>
     </Card>
     </Paper>

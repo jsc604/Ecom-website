@@ -1,3 +1,4 @@
+import StoreProvider from '@/utils/StoreProvider'
 import Footer from './Footer'
 import Nav from './Nav'
 import './globals.css'
@@ -18,9 +19,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Nav />
-        {children}
-        <Footer />
+        <StoreProvider>
+          <Nav />
+          {children}
+          <Footer />
+        </StoreProvider>
       </body>
     </html>
   )

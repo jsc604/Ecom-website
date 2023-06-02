@@ -7,7 +7,7 @@ interface RequestContext {};
 
 const handler = createEdgeRouter<NextRequest, RequestContext>();
 
-handler.get(async (req, res) => {
+handler.get(async () => {
   await db.connect();
   const products = await Product.find({});
   await db.disconnect();

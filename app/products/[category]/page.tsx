@@ -1,8 +1,8 @@
-import NotFound from "@/app/components/NotFound";
 import ProductItem, { ItemOptions } from "@/app/components/ProductItem";
 import Product from "@/models/Product";
 import db from "@/utils/db";
 import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 
 interface PageProps {
   params: { category: string }
@@ -27,9 +27,7 @@ export default async function ProductCategoryPage({ params: { category } }: Page
   const data = await JSON.parse(JSON.stringify(await getData(category)));
 
   if (!data.products.length) {
-    return (
-      <NotFound />
-    )
+    notFound();
   };
 
   type productObject = {
