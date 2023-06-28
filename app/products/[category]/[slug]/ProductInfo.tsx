@@ -29,45 +29,12 @@ export default function ProductInfo({ product }: ProductInfoProps) {
   const [selectedItem, setSelectedItem] = useState(product.options[0]);
   const [quantity, setQuantity] = useState(1);
   const [itemSubtotal, setItemSubtotal] = useState(selectedItem.price);
-  const {cart, setCart} = useContext(Store);
+  const { cart, handleAddToCart } = useContext(Store);
 
   useEffect(() => {
     setItemSubtotal(selectedItem.price * quantity);
   }, [selectedItem, quantity]);
 
-  const handleAddToCart = async () => {
-    const res = await fetch(`/api/products/${product._id}`);
-    const data = await res.json();
-  
-    const selectedItemSize = selectedItem.size;
-  
-    const count = data?.options.reduce((acc: number | undefined, option: ItemOptions) => {
-      if (option.size === selectedItemSize) {
-        return option.countInStock;
-      }
-      return acc;
-    }, undefined);
-
-    const existingItem = cart.find((item) => item.optionId === selectedItem.size && item.itemId === product._id);
-    
-    if (count && count >= quantity) {
-      if (existingItem) {
-        const updatedCart = cart.map((item) =>
-          item.optionId === existingItem.optionId && item.itemId === existingItem.itemId
-            ? { ...item, quantity: item.quantity + quantity }
-            : item
-        );
-        setCart(updatedCart);
-      } else {
-        const newItem = {
-          itemId: product._id,
-          optionId: selectedItem.size,
-          quantity: quantity,
-        };
-        setCart([...cart, newItem]);
-      }
-    }
-  };
   console.log('cart: ', cart);
 
   return (
@@ -101,7 +68,7 @@ export default function ProductInfo({ product }: ProductInfoProps) {
         countInStock={selectedItem.countInStock}
         quantity={quantity}
         setQuantity={setQuantity}
-        handleAddToCart={handleAddToCart}
+        handleAddToCart={() => handleAddToCart(product._id, selectedItem._id, quantity)}
       />
     </div>
   );

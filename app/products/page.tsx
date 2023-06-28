@@ -15,7 +15,7 @@ async function getData() {
   return { products };
 };
 
-type productObject = {
+export type productObject = {
   slug: string;
   name: string;
   image: string;

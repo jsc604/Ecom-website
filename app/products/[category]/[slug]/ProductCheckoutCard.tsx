@@ -14,7 +14,7 @@ interface ProductCheckoutCardProps {
   countInStock: number;
   quantity: number;
   setQuantity: Dispatch<SetStateAction<number>>;
-  handleAddToCart: () => {};
+  handleAddToCart: () => void;
 }
 
 export default function ProductCheckoutCard({ itemSubtotal, countInStock, quantity, setQuantity, handleAddToCart }: ProductCheckoutCardProps) {

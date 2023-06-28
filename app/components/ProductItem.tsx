@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 export interface ItemOptions {
+  _id: string;
   size: string;
   price: number;
   countInStock: number;
