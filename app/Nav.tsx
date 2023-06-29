@@ -8,8 +8,9 @@ import { ShoppingBag, Menu } from '@mui/icons-material';
 import CssBaseline from '@mui/material/CssBaseline';
 import { useScrollTrigger } from '@mui/material';
 import Slide from '@mui/material/Slide';
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement, useContext, useState } from 'react';
 import BackgroundLetterAvatars from './Home/Avatar';
+import { Store } from '@/utils/StoreProvider';
 
 const StyledAppBar = styled(AppBar)({
   backgroundColor: '#27272a',
@@ -42,6 +43,7 @@ const navItems = ['wheels', 'tires', 'accessories'];
 
 export default function Nav() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { cart } = useContext(Store);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -61,7 +63,7 @@ export default function Nav() {
         {navItems.map((text) => (
           <Link href={`/products/${text}`} key={text} >
             <ListItemButton onClick={handleDrawerToggle}>
-              <ListItemText primary={text} className='capitalize'/>
+              <ListItemText primary={text} className='capitalize' />
             </ListItemButton>
           </Link>
         ))}
@@ -96,7 +98,7 @@ export default function Nav() {
                 {navItems.map((text) => (
                   <Link href={`/products/${text}`} key={text}>
                     <ListItemButton>
-                      <ListItemText primary={text} className='capitalize'/>
+                      <ListItemText primary={text} className='capitalize' />
                     </ListItemButton>
                   </Link>
                 ))}
@@ -109,7 +111,7 @@ export default function Nav() {
                 </ListItemButton>
               </Link>
               <IconButton aria-label="cart">
-                <StyledBadge badgeContent={8} >
+                <StyledBadge badgeContent={cart.length > 0 ? cart.length : '0'} >
                   <ShoppingBag className='text-white' />
                 </StyledBadge>
               </IconButton>
