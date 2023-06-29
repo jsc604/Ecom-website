@@ -8,9 +8,9 @@ import { ShoppingBag, Menu } from '@mui/icons-material';
 import CssBaseline from '@mui/material/CssBaseline';
 import { useScrollTrigger } from '@mui/material';
 import Slide from '@mui/material/Slide';
-import React, { ReactElement, useContext, useState } from 'react';
+import React, { ReactElement, useContext, useEffect, useState } from 'react';
 import BackgroundLetterAvatars from './Home/Avatar';
-import { Store } from '@/utils/StoreProvider';
+import { CartItems, Store } from '@/utils/StoreProvider';
 
 const StyledAppBar = styled(AppBar)({
   backgroundColor: '#27272a',
@@ -44,6 +44,11 @@ const navItems = ['wheels', 'tires', 'accessories'];
 export default function Nav() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const { cart } = useContext(Store);
+  const [cartItems, setCartItems] = useState<CartItems[]>([]);
+
+  useEffect(() => {
+    setCartItems(cart);
+  }, [cart]);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -111,7 +116,7 @@ export default function Nav() {
                 </ListItemButton>
               </Link>
               <IconButton aria-label="cart">
-                <StyledBadge badgeContent={cart.length > 0 ? cart.length : '0'} >
+                <StyledBadge badgeContent={cartItems.length > 0 ? cartItems.length : '0'} >
                   <ShoppingBag className='text-white' />
                 </StyledBadge>
               </IconButton>
@@ -151,4 +156,3 @@ export default function Nav() {
     </>
   );
 }
-
