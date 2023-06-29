@@ -1,22 +1,11 @@
-import Product from '@/models/Product';
 import ProductItem from "../components/ProductItem";
 import { productObject } from '../products/page';
-import db from '@/utils/db';
-
-// async function getData() {
-//   await db.connect();
-//   const products = await Product.find({}).lean();
-//   await db.disconnect();
-
-//   return { products };
-// };
 
 interface PageProps {
   products: productObject[];
 }
 
 export default function FeaturedProducts({ products }: PageProps) {
-  // const data = await JSON.parse(JSON.stringify(await getData()));
 
   return (
     <>
