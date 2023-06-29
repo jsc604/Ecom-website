@@ -1,17 +1,22 @@
-// import db from "@/utils/db";
 import FeaturedProducts from "./Home/FeaturedProducts";
+import Product from '@/models/Product';
 
-export default function Home() {
-  // async function fetchData() {
-  //   await db.connect();
-  //   await db.disconnect();
-  // }
+import db from '@/utils/db';
 
-  // fetchData();
+async function getData() {
+  await db.connect();
+  const products = await Product.find({}).lean();
+  await db.disconnect();
+
+  return { products };
+};
+
+export default async function Home() {
+  const data = await JSON.parse(JSON.stringify(await getData()));
 
   return (
     <main className="min-h-80vh">
-      <FeaturedProducts />
+      <FeaturedProducts products={data.products} />
     </main>
   );
 }

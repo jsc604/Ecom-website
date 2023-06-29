@@ -7,6 +7,7 @@ import ProductSizes from './ProductSizes';
 import ProductBreadcrumbs from './ProductBreadcrumbs';
 import ProductCheckoutCard from './ProductCheckoutCard';
 import { Store } from '@/utils/StoreProvider';
+import { getCookie, setCookie } from 'cookies-next';
 
 interface ProductInfoProps {
   product: {
@@ -35,7 +36,10 @@ export default function ProductInfo({ product }: ProductInfoProps) {
     setItemSubtotal(selectedItem.price * quantity);
   }, [selectedItem, quantity]);
 
-  console.log('cart: ', cart);
+  useEffect(() => {
+    setCookie('cartItems', JSON.stringify(cart), { maxAge: 60 * 60 * 12 });
+    console.log('cookie:', getCookie('cartItems'));
+  }, [cart]);
 
   return (
     <div className='grid grid-cols-1 space-y-4'>

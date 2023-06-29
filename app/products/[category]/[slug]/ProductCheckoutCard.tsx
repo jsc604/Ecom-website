@@ -33,28 +33,30 @@ export default function ProductCheckoutCard({ itemSubtotal, countInStock, quanti
 
   return (
     <Paper elevation={2}>
-    <Card  sx={{ minWidth: 275 }}>
-      <CardContent sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <Typography variant='h4'>${itemSubtotal}</Typography>
+      <Card sx={{ minWidth: 275 }}>
+        <CardContent sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Typography variant='h4'>${itemSubtotal}</Typography>
+          <CardActions>
+            <ButtonGroup size="small" aria-label="quantity selection button group" variant='outlined'>
+              <Button onClick={decrease} color='info' disabled={quantity <= 1} >
+                <Typography variant="h5">-</Typography>
+              </Button>
+              <Box component="span" sx={{ padding: '6px 16px', border: '1px solid #4fc3f7' }}>
+                <Typography>{countInStock < 1 ? 0 : quantity}</Typography>
+              </Box>
+              <Button onClick={increase} color='info' disabled={quantity >= countInStock} >
+                <Typography variant="h5">+</Typography>
+              </Button>
+            </ButtonGroup>
+          </CardActions>
+        </CardContent>
+        <Divider />
         <CardActions>
-          <ButtonGroup size="small" aria-label="quantity selection button group" variant='outlined'>
-            <Button onClick={decrease} color='info' disabled={quantity <= 1} >
-              <Typography variant="h5">-</Typography>
-            </Button>
-            <Box component="span" sx={{ padding: '6px 16px', border: '1px solid #4fc3f7' }}>
-              <Typography>{countInStock < 1 ? 0 : quantity}</Typography>
-            </Box>
-            <Button onClick={increase} color='info' disabled={quantity >= countInStock} >
-              <Typography variant="h5">+</Typography>
-            </Button>
-          </ButtonGroup>
+          {/* <form method='POST'> */}
+            <Button type='submit' color='success' variant='contained' sx={{ width: '100%' }} className='bg-green-600' onClick={handleAddToCart}>Add to Cart</Button>
+          {/* </form> */}
         </CardActions>
-      </CardContent>
-      <Divider />
-      <CardActions>
-        <Button color='success' variant='contained' sx={{ width: '100%' }} className='bg-green-600' onClick={handleAddToCart}>Add to Cart</Button>
-      </CardActions>
-    </Card>
+      </Card>
     </Paper>
   )
 }

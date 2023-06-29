@@ -1,9 +1,10 @@
 'use client'
 
 import { ItemOptions } from "@/app/components/ProductItem";
+import { getCookie } from "cookies-next";
 import { createContext, useState } from "react";
 
-interface CartItems {
+export interface CartItems {
   itemId: string;
   optionId: string;
   quantity: number;
@@ -17,7 +18,13 @@ export const Store = createContext({
 });
 
 export default function StoreProvider(props: React.PropsWithChildren<{}>) {
-  const [cart, setCart] = useState<CartItems[]>(initialCart);
+  const [cart, setCart] = useState<CartItems[]>(() => {
+    const cartItemsCookie = getCookie('cartItems');
+    if (typeof cartItemsCookie === 'string') {
+      return JSON.parse(cartItemsCookie);
+    }
+    return initialCart;
+  });
 
   const handleAddToCart = async (itemId: string, optionId: string, quantity: number) => {
     const res = await fetch(`/api/products/${itemId}`);
@@ -32,21 +39,26 @@ export default function StoreProvider(props: React.PropsWithChildren<{}>) {
       return acc;
     }, undefined);
 
-    console.log('stock: ', stock);
     const existingItem = cart.find((item) => item.optionId === optionId && item.itemId === itemId);
 
     if (stock && stock >= quantity) {
       if (existingItem) {
-        if (existingItem.quantity + quantity <= stock){
+        if (existingItem.quantity + quantity <= stock) {
           const updatedCart = cart.map((item) =>
-          item.optionId === existingItem.optionId && item.itemId === existingItem.itemId
-          ? { ...item, quantity: item.quantity + quantity }
-          : item
+            item.optionId === existingItem.optionId && item.itemId === existingItem.itemId
+              ? { ...item, quantity: item.quantity + quantity }
+              : item
           );
           setCart(updatedCart);
+          // await fetch(`/api/products/${itemId}`, {
+          //   method: 'POST',
+          //   body: JSON.stringify({cart: updatedCart}),
+          //   headers: {
+          //     'Content-Type': 'application/json',
+          //   },
+          // });
         } else {
-          console.log('not enough stock')
-          return;
+          window.alert('not enough stock');
         }
       } else {
         const newItem = {
@@ -55,6 +67,13 @@ export default function StoreProvider(props: React.PropsWithChildren<{}>) {
           quantity: quantity,
         };
         setCart([...cart, newItem]);
+        // await fetch(`/api/products/${itemId}`, {
+        //   method: 'POST',
+        //   body: JSON.stringify({cart: [...cart, newItem]}),
+        //   headers: {
+        //     'Content-Type': 'application/json',
+        //   },
+        // });
       }
     }
   };
