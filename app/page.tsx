@@ -1,4 +1,4 @@
-import FeaturedProducts from "./Home/FeaturedProducts";
+import FeaturedProducts from "./home/FeaturedProducts";
 import Product from '@/models/Product';
 
 import db from '@/utils/db';

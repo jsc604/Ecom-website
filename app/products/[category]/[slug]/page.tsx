@@ -33,7 +33,7 @@ export default async function ProductItemPage({ params: { slug } }: PageProps) {
   const data = await JSON.parse(JSON.stringify(await getData(slug)));
   
   return (
-    <div className="min-h-80vh my-12 w-3/4 mx-auto grid ml:grid-cols-2 gap-6 flex">
+    <div className="min-h-80vh my-12 w-4/5 mx-auto grid ml:grid-cols-2 gap-6 flex">
       <div className="relative aspect-square">
         <Image
           src={data.image}

@@ -9,7 +9,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { useScrollTrigger } from '@mui/material';
 import Slide from '@mui/material/Slide';
 import React, { ReactElement, useContext, useEffect, useState } from 'react';
-import BackgroundLetterAvatars from './Home/Avatar';
+import BackgroundLetterAvatars from './home/Avatar';
 import { CartItems, Store } from '@/utils/StoreProvider';
 
 const StyledAppBar = styled(AppBar)({
@@ -115,11 +115,13 @@ export default function Nav() {
                   <BackgroundLetterAvatars />
                 </ListItemButton>
               </Link>
-              <IconButton aria-label="cart">
-                <StyledBadge badgeContent={cartItems.length > 0 ? cartItems.length : '0'} >
-                  <ShoppingBag className='text-white' />
-                </StyledBadge>
-              </IconButton>
+              <Link href={'/cart'}>
+                <IconButton aria-label="cart">
+                  <StyledBadge badgeContent={cartItems.length > 0 ? cartItems.length : '0'} >
+                    <ShoppingBag className='text-white' />
+                  </StyledBadge>
+                </IconButton>
+              </Link>
               <IconButton
                 color="inherit"
                 aria-label="open drawer"
