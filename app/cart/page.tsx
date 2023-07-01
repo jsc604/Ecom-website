@@ -20,7 +20,7 @@ export default function Cart() {
       {cartItems === undefined || cartItems.length < 1 ? (
         <EmptyBag />
       ) : (
-        <div className="grid lg:grid-cols-4 gap-4 w-4/5 mx-auto">
+        <div className="grid lg:grid-cols-4 gap-8 w-4/5 mx-auto">
           <div className="col-span-3">
             <CartItems />
           </div>

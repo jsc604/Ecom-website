@@ -9,10 +9,13 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import { useContext, useEffect, useState } from "react";
 import { Store } from "@/utils/StoreProvider";
 import { getCookie, setCookie } from "cookies-next";
+import Link from "next/link";
 
 interface PageProps {
   image: string;
   id: string;
+  slug: string;
+  category: string;
   name: string;
   size: string;
   price: number;
@@ -21,10 +24,10 @@ interface PageProps {
   countInStock: number;
 }
 
-export default function CartItem({ image, id, name, size, price, subtotal, quantity, countInStock }: PageProps) {
+export default function CartItem({ image, id, category, slug, name, size, price, subtotal, quantity, countInStock }: PageProps) {
   const [newQuantity, setnewQuantity] = useState(quantity);
   const [newSubtotal, setNewSubtotal] = useState(subtotal);
-  const {cart, handleAddToCart} = useContext(Store);
+  const { cart, handleAddToCart } = useContext(Store);
 
   const increase = () => {
     if (countInStock > newQuantity) {
@@ -42,7 +45,7 @@ export default function CartItem({ image, id, name, size, price, subtotal, quant
 
   useEffect(() => {
     setNewSubtotal(price * newQuantity);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [newQuantity]);
 
   useEffect(() => {
@@ -53,17 +56,21 @@ export default function CartItem({ image, id, name, size, price, subtotal, quant
   return (
     <div className='grid grid-cols-12 gap-4 my-4'>
       <div className="relative aspect-square col-span-2 rounded-md">
-        <Image
-          src={image}
-          alt={name}
-          fill
-          loading="lazy"
-          className="object-cover rounded-md"
-          sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
-        />
+        <Link href={`/products/${category}/${slug}`}>
+          <Image
+            src={image}
+            alt={name}
+            fill
+            loading="lazy"
+            className="object-cover rounded-md"
+            sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
+          />
+        </Link>
       </div>
       <div className='col-span-4'>
-        <div className='text-xl font-bold'>{name}</div>
+        <Link href={`/products/${category}/${slug}`}>
+          <div className='text-xl font-bold hover:underline'>{name}</div>
+        </Link>
         <div>{size}</div>
       </div>
       <div className='col-span-2 text-center'>
@@ -93,6 +100,6 @@ export default function CartItem({ image, id, name, size, price, subtotal, quant
         <div className='mb-2'>Subtotal</div>
         <div>${newSubtotal.toFixed(2)}</div>
       </div>
-    </div>
+    </div >
   )
 }

@@ -43,6 +43,8 @@ export default function CartItems() {
             <CartItem
               image={item.product.image}
               id={item.product._id}
+              slug={item.product.slug}
+              category={item.product.category}
               name={item.product.name}
               size={item.product.options[item.optionIndex].size}
               price={item.product.options[item.optionIndex].price}
