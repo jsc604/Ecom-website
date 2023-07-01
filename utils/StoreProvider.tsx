@@ -15,6 +15,8 @@ const initialCart: CartItems[] = [];
 export const Store = createContext({
   cart: initialCart,
   handleAddToCart: (_itemId: string, _optionId: string, _quantity: number) => { },
+  handleRemoveFromCart: (_itemId: string, _optionId: string, _quantity: number) => { },
+  handleDeleteFromCart: (_itemId: string, _optionId: string, _quantity: number) => { },
 });
 
 export default function StoreProvider(props: React.PropsWithChildren<{}>) {
@@ -50,13 +52,6 @@ export default function StoreProvider(props: React.PropsWithChildren<{}>) {
               : item
           );
           setCart(updatedCart);
-          // await fetch(`/api/products/${itemId}`, {
-          //   method: 'POST',
-          //   body: JSON.stringify({cart: updatedCart}),
-          //   headers: {
-          //     'Content-Type': 'application/json',
-          //   },
-          // });
         } else {
           window.alert('not enough stock');
         }
@@ -67,19 +62,15 @@ export default function StoreProvider(props: React.PropsWithChildren<{}>) {
           quantity: quantity,
         };
         setCart([...cart, newItem]);
-        // await fetch(`/api/products/${itemId}`, {
-        //   method: 'POST',
-        //   body: JSON.stringify({cart: [...cart, newItem]}),
-        //   headers: {
-        //     'Content-Type': 'application/json',
-        //   },
-        // });
       }
     }
   };
 
+  const handleRemoveFromCart = async () => {}
+  const handleDeleteFromCart = async () => {}
+
   return (
-    <Store.Provider value={{ cart, handleAddToCart }}>
+    <Store.Provider value={{ cart, handleAddToCart, handleDeleteFromCart, handleRemoveFromCart }}>
       {props.children}
     </Store.Provider>
   );

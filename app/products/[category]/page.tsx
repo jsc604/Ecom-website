@@ -1,8 +1,9 @@
-import ProductItem, { ItemOptions } from "@/app/components/ProductItem";
+import ProductItem from "@/app/components/ProductItem";
 import Product from "@/models/Product";
 import db from "@/utils/db";
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import { productObject } from "../page";
 
 interface PageProps {
   params: { category: string }
@@ -29,15 +30,6 @@ export default async function ProductCategoryPage({ params: { category } }: Page
   if (!data.products.length) {
     notFound();
   };
-
-  type productObject = {
-    name: string;
-    image: string;
-    options: ItemOptions[];
-    category: string;
-    slug: string;
-    rating: number;
-  }
 
   return (
     <div className="min-h-80vh">
