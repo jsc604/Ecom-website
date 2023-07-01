@@ -27,19 +27,19 @@ interface PageProps {
 export default function CartItem({ image, id, category, slug, name, size, price, subtotal, quantity, countInStock }: PageProps) {
   const [newQuantity, setnewQuantity] = useState(quantity);
   const [newSubtotal, setNewSubtotal] = useState(subtotal);
-  const { cart, handleAddToCart } = useContext(Store);
+  const { cart, handleAddToCart, handleDeleteFromCart } = useContext(Store);
 
   const increase = () => {
     if (countInStock > newQuantity) {
       setnewQuantity(newQuantity + 1);
-      handleAddToCart(id, size, newQuantity);
+      handleAddToCart(id, size, 1);
     }
   };
 
   const decrease = () => {
     if (newQuantity > 1) {
       setnewQuantity(newQuantity - 1);
-      // handleAddToCart(id, size, newQuantity);
+      handleAddToCart(id, size, -1);
     }
   };
 
@@ -92,7 +92,7 @@ export default function CartItem({ image, id, category, slug, name, size, price,
             </Button>
           </ButtonGroup>
         </div>
-        <Button className='w-fit mx-auto'>
+        <Button className='w-fit mx-auto' onClick={() => handleDeleteFromCart(size)}>
           <DeleteIcon sx={{ color: red[500] }} />
         </Button>
       </div>

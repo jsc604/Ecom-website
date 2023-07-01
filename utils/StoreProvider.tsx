@@ -1,8 +1,8 @@
 'use client'
 
 import { ItemOptions } from "@/app/components/ProductItem";
-import { getCookie } from "cookies-next";
-import { createContext, useState } from "react";
+import { getCookie, setCookie } from "cookies-next";
+import { createContext, useEffect, useState } from "react";
 
 export interface CartItems {
   itemId: string;
@@ -15,8 +15,7 @@ const initialCart: CartItems[] = [];
 export const Store = createContext({
   cart: initialCart,
   handleAddToCart: (_itemId: string, _optionId: string, _quantity: number) => { },
-  handleRemoveFromCart: (_itemId: string, _optionId: string, _quantity: number) => { },
-  handleDeleteFromCart: (_itemId: string, _optionId: string, _quantity: number) => { },
+  handleDeleteFromCart: (_optionId: string) => { },
 });
 
 export default function StoreProvider(props: React.PropsWithChildren<{}>) {
@@ -27,6 +26,11 @@ export default function StoreProvider(props: React.PropsWithChildren<{}>) {
     }
     return initialCart;
   });
+
+  useEffect(() => {
+    setCookie('cartItems', JSON.stringify(cart), { maxAge: 60 * 60 * 12 });
+    console.log('cookie:', getCookie('cartItems'));
+  }, [cart]);
 
   const handleAddToCart = async (itemId: string, optionId: string, quantity: number) => {
     const res = await fetch(`/api/products/${itemId}`);
@@ -66,11 +70,13 @@ export default function StoreProvider(props: React.PropsWithChildren<{}>) {
     }
   };
 
-  const handleRemoveFromCart = async () => {}
-  const handleDeleteFromCart = async () => {}
+  const handleDeleteFromCart = async (optionId: string) => {
+    const updatedCart = cart.filter((item) => item.optionId !== optionId);
+    setCart(updatedCart);
+  }
 
   return (
-    <Store.Provider value={{ cart, handleAddToCart, handleDeleteFromCart, handleRemoveFromCart }}>
+    <Store.Provider value={{ cart, handleAddToCart, handleDeleteFromCart }}>
       {props.children}
     </Store.Provider>
   );
