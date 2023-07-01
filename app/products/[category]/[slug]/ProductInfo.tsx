@@ -72,7 +72,7 @@ export default function ProductInfo({ product }: ProductInfoProps) {
         countInStock={selectedItem.countInStock}
         quantity={quantity}
         setQuantity={setQuantity}
-        handleAddToCart={() => handleAddToCart(product._id, selectedItem._id, quantity)}
+        handleAddToCart={() => handleAddToCart(product._id, selectedItem.size, quantity)}
       />
     </div>
   );

@@ -1,3 +1,4 @@
+import { ItemOptions } from "@/app/components/ProductItem";
 import Product from "@/models/Product";
 import { CartItems } from "@/utils/StoreProvider";
 import db from "@/utils/db";
@@ -12,14 +13,19 @@ export async function GET() {
   await db.connect();
 
   const productPromises = cartItems.map(async (cartItem: CartItems) => {
-    const { itemId } = cartItem;
+    const { itemId, optionId, quantity } = cartItem;
     const product = await Product.findById(itemId);
 
     if (!product) {
       return null;
     }
+    console.log('option: ', optionId);
+    console.log('item: ', itemId);
+    const optionIndex = product.options.findIndex(
+      (option: ItemOptions) => option.size === optionId
+    );
 
-    return product;
+    return { product, optionIndex, quantity };
   });
 
   const products = await Promise.all(productPromises);
