@@ -1,19 +1,15 @@
-import { NextRequest, NextResponse } from "next/server";
-import { createEdgeRouter } from "next-connect";
+import { NextResponse } from "next/server";
 import Product from "@/models/Product";
 import db from "@/utils/db";
 
-interface RequestContext {};
-
-const handler = createEdgeRouter<NextRequest, RequestContext>();
-
-handler.get(async () => {
+export async function GET() {
   await db.connect();
   const products = await Product.find({});
   await db.disconnect();
-  return NextResponse.json({products});
-});
 
-export async function GET(request: NextRequest, ctx: RequestContext) {
-  return handler.run(request, ctx);
-}
+  if (!products) {
+    throw new Error("Products not found");
+  }
+
+  return NextResponse.json(products);
+};

@@ -2,9 +2,9 @@
 
 import { CartItems, Store } from '@/utils/StoreProvider';
 import { useContext, useEffect, useState } from 'react'
-import { productObject } from '../products/page';
 import { Divider } from '@mui/material';
 import CartItem from './CartItem';
+import { productObject } from '../products/AllProducts';
 
 interface ItemInfo {
   product: productObject;

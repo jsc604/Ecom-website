@@ -19,8 +19,7 @@ export async function GET() {
     if (!product) {
       return null;
     }
-    console.log('option: ', optionId);
-    console.log('item: ', itemId);
+    
     const optionIndex = product.options.findIndex(
       (option: ItemOptions) => option.size === optionId
     );

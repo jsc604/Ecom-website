@@ -1,9 +1,5 @@
-import ProductItem from "@/app/components/ProductItem";
-import Product from "@/models/Product";
-import db from "@/utils/db";
 import { Metadata } from 'next';
-import { notFound } from 'next/navigation';
-import { productObject } from "../page";
+import CategoryProducts from "./CategoryProducts";
 
 interface PageProps {
   params: { category: string }
@@ -15,38 +11,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
-async function getData(category: string) {
-  await db.connect();
-  const products = await Product.find({ category }).lean();
-  await db.disconnect();
-
-  return { products };
-};
-
 export default async function ProductCategoryPage({ params: { category } }: PageProps) {
-
-  const data = await JSON.parse(JSON.stringify(await getData(category)));
-
-  if (!data.products.length) {
-    notFound();
-  };
 
   return (
     <div className="min-h-80vh">
       <h1 className="text-center font-semibold my-8 text-3xl capitalize">{category}</h1>
-      <div className="mx-auto w-4/5 grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-        {data.products.map((item: productObject) => (
-          <ProductItem
-            key={item.slug}
-            name={item.name}
-            image={item.image}
-            options={item.options}
-            category={item.category}
-            slug={item.slug}
-            rating={item.rating}
-          />
-        ))}
-      </div>
+      <CategoryProducts category={category} />
     </div>
   )
 }

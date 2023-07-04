@@ -13,9 +13,8 @@ export default function Cart() {
   const token = cookieStore.get("cartItems");
   const cartItems = token && JSON.parse(token.value);
 
-  console.log(cartItems)
   return (
-    <div className="min-h-[80vh]">
+    <div className="min-h-[80vh] w-4/5 mx-auto">
       <h1 className="text-center font-semibold my-8 text-3xl">Shopping Bag</h1>
       {cartItems === undefined || cartItems.length < 1 ? (
         <EmptyBag />

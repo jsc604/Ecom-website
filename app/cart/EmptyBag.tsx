@@ -20,22 +20,24 @@ export default function EmptyBag() {
   }
 
   return (
-    <div className="text-center text-3xl w-fit mx-auto">
+    <div className="text-center text-xl sm:text-3xl w-fit mx-auto">
       Your shopping bag is empty!
       <br />
-      Give your bag some love
-      <br />
-      <Link href={'/products'}>
-        <Button
-          variant="contained"
-          color="success"
-          size='large'
-          sx={{ marginY: 4, fontSize: 'large' }}
-          className='bg-green-600'
-        >
-          Shop Now
-        </Button>
-      </Link>
+      <div className="my-4">
+        Give your bag some love...
+        <br />
+        <Link href={'/products'}>
+          <Button
+            variant="contained"
+            color="success"
+            size='large'
+            sx={{ fontSize: 'large' }}
+            className='bg-green-600 mt-2'
+          >
+            Shop Now
+          </Button>
+        </Link>
+      </div>
     </div>
   )
 }

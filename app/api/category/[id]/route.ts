@@ -5,7 +5,7 @@ import db from "@/utils/db";
 
 interface RequestContext {
   params: { id: string };
-};
+}
 
 const handler = createEdgeRouter<NextRequest, RequestContext>();
 
@@ -13,16 +13,16 @@ handler.get(async (_request, ctx) => {
   const { params } = ctx;
   const { id } = params;
   await db.connect();
-  const product = await Product.findById(id);
+  const products = await Product.find({ category: id });
   await db.disconnect();
 
-  if (!product) {
-    throw new Error("Product not found");
+  if (products.length === 0) {
+    throw new Error("Category does not exist");
   }
 
-  return NextResponse.json(product);
+  return NextResponse.json(products);
 });
 
 export async function GET(request: NextRequest, ctx: RequestContext) {
   return handler.run(request, ctx);
-};
+}
