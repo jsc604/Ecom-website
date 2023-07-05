@@ -52,9 +52,7 @@ export default function ProductCheckoutCard({ itemSubtotal, countInStock, quanti
         </CardContent>
         <Divider />
         <CardActions>
-          {/* <form method='POST'> */}
-            <Button type='submit' color='success' variant='contained' sx={{ width: '100%' }} className='bg-green-600' onClick={handleAddToCart}>Add to Cart</Button>
-          {/* </form> */}
+          <Button color='success' variant='contained' sx={{ width: '100%' }} className='bg-green-600' onClick={handleAddToCart}>Add to Cart</Button>
         </CardActions>
       </Card>
     </Paper>

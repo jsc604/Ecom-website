@@ -4,16 +4,16 @@ import Product from "@/models/Product";
 import db from "@/utils/db";
 
 interface RequestContext {
-  params: { id: string };
+  params: { category: string };
 }
 
 const handler = createEdgeRouter<NextRequest, RequestContext>();
 
 handler.get(async (_request, ctx) => {
   const { params } = ctx;
-  const { id } = params;
+  const { category } = params;
   await db.connect();
-  const products = await Product.find({ category: id });
+  const products = await Product.find({ category });
   await db.disconnect();
 
   if (products.length === 0) {

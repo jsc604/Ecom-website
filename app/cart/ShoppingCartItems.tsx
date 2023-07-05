@@ -1,37 +1,13 @@
 'use client'
-
-import { CartItems, Store } from '@/utils/StoreProvider';
-import { useContext, useEffect, useState } from 'react'
 import { Divider } from '@mui/material';
-import CartItem from './CartItem';
-import { productObject } from '../products/AllProducts';
+import { ItemInfo } from './CartContainer';
+import ShoppingCartItem from './ShoppingCartItem';
 
-interface ItemInfo {
-  product: productObject;
-  optionIndex: number;
-  quantity: number;
+interface PageProps {
+  cartItemsInfo: ItemInfo[];
 }
 
-export default function CartItems() {
-  const { cart } = useContext(Store);
-  const [cartItems, setCartItems] = useState<CartItems[]>([]);
-  const [cartItemsInfo, setCartItemsInfo] = useState<ItemInfo[]>([]);
-
-  useEffect(() => {
-    setCartItems(cart);
-  }, [cart]);
-
-  useEffect(() => {
-    async function fetchData() {
-      if (cartItems.length > 0) {
-        const res = await fetch('/api/cart');
-
-        setCartItemsInfo(await res.json());
-      }
-    }
-
-    fetchData();
-  }, [cartItems]);
+export default function ShoppingCartItems({ cartItemsInfo }: PageProps) {
 
   return (
     <div>
@@ -40,7 +16,7 @@ export default function CartItems() {
         return (
           <>
             <Divider />
-            <CartItem
+            <ShoppingCartItem
               image={item.product.image}
               id={item.product._id}
               slug={item.product.slug}

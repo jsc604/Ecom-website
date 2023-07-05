@@ -7,7 +7,7 @@ import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import { useContext, useEffect, useState } from "react";
 import { Store } from "@/utils/StoreProvider";
-import { getCookie, setCookie } from "cookies-next";
+import { setCookie } from "cookies-next";
 import Link from "next/link";
 
 interface PageProps {
@@ -23,7 +23,7 @@ interface PageProps {
   countInStock: number;
 }
 
-export default function CartItem({ image, id, category, slug, name, size, price, subtotal, quantity, countInStock }: PageProps) {
+export default function ShoppingCartItem({ image, id, category, slug, name, size, price, subtotal, quantity, countInStock }: PageProps) {
   const [newQuantity, setnewQuantity] = useState(quantity);
   const [newSubtotal, setNewSubtotal] = useState(subtotal);
   const { cart, handleAddToCart, handleDeleteFromCart } = useContext(Store);
@@ -49,7 +49,6 @@ export default function CartItem({ image, id, category, slug, name, size, price,
 
   useEffect(() => {
     setCookie('cartItems', JSON.stringify(cart), { maxAge: 60 * 60 * 12 });
-    console.log('cookie:', getCookie('cartItems'));
   }, [cart]);
 
   return (

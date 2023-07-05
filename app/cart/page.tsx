@@ -1,6 +1,6 @@
 import EmptyBag from "./EmptyBag";
-import CartItems from "./CartItems";
 import { cookies } from "next/headers";
+import CartContainer from "./CartContainer";
 
 export async function generateMetadata() {
   return {
@@ -8,7 +8,7 @@ export async function generateMetadata() {
   };
 }
 
-export default function Cart() {
+export default async function Cart() {
   const cookieStore = cookies();
   const token = cookieStore.get("cartItems");
   const cartItems = token && JSON.parse(token.value);
@@ -19,11 +19,7 @@ export default function Cart() {
       {cartItems === undefined || cartItems.length < 1 ? (
         <EmptyBag />
       ) : (
-        <div className="grid lg:grid-cols-4 gap-8 w-4/5 mx-auto">
-          <div className="col-span-3">
-            <CartItems />
-          </div>
-        </div>
+        <CartContainer />
       )}
     </div>
   )
