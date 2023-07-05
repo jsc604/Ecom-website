@@ -8,7 +8,7 @@ export async function generateMetadata() {
   };
 }
 
-export default async function Cart() {
+export default function Cart() {
   const cookieStore = cookies();
   const token = cookieStore.get("cartItems");
   const cartItems = token && JSON.parse(token.value);

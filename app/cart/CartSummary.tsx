@@ -26,7 +26,7 @@ export default function CartSummary({ cartItemsInfo }: PageProps) {
       <div className='space-y-4'>
         <div className='flex justify-between items-start'>
           <div>Subtotal</div>
-          <div>${subtotal}</div>
+          <div>${subtotal.toFixed(2)}</div>
         </div>
         <div className='flex justify-between items-start'>
           <div>Shipping</div>
@@ -35,7 +35,7 @@ export default function CartSummary({ cartItemsInfo }: PageProps) {
         <Divider />
         <div className='flex justify-between items-start'>
           <div>Total</div>
-          <div>${subtotal > 200 ? subtotal : subtotal + shippingPrice}</div>
+          <div>${subtotal > 200 ? subtotal.toFixed(2) : (subtotal + shippingPrice).toFixed(2)}</div>
         </div>
         <div className='my-2 mx-auto text-center'>
           <Button color='success' variant='contained' sx={{ width: '100%' }} className='bg-green-600'>

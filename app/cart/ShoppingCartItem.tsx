@@ -7,7 +7,6 @@ import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import { useContext, useEffect, useState } from "react";
 import { Store } from "@/utils/StoreProvider";
-import { setCookie } from "cookies-next";
 import Link from "next/link";
 
 interface PageProps {
@@ -26,7 +25,7 @@ interface PageProps {
 export default function ShoppingCartItem({ image, id, category, slug, name, size, price, subtotal, quantity, countInStock }: PageProps) {
   const [newQuantity, setnewQuantity] = useState(quantity);
   const [newSubtotal, setNewSubtotal] = useState(subtotal);
-  const { cart, handleAddToCart, handleDeleteFromCart } = useContext(Store);
+  const { handleAddToCart, handleDeleteFromCart } = useContext(Store);
 
   const increase = () => {
     if (countInStock > newQuantity) {
@@ -46,10 +45,6 @@ export default function ShoppingCartItem({ image, id, category, slug, name, size
     setNewSubtotal(price * newQuantity);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [newQuantity]);
-
-  useEffect(() => {
-    setCookie('cartItems', JSON.stringify(cart), { maxAge: 60 * 60 * 12 });
-  }, [cart]);
 
   return (
     <div className='grid grid-cols-12 gap-4 my-4'>
