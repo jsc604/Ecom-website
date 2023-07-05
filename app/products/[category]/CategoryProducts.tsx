@@ -15,7 +15,7 @@ export default function CategoryProducts({ category }: PageProps) {
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await fetch(`/api/category/${category}`);
+        const res = await fetch(`/api/products/category/${category}`);
         if (!res.ok) {
           throw new Error('Failed to fetch category products');
         }

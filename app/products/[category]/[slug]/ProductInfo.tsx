@@ -1,5 +1,4 @@
 'use client'
-
 import { useContext, useEffect, useState } from 'react';
 import { ItemOptions } from '@/app/components/ProductItem';
 import { Divider, Rating, Typography } from '@mui/material';
@@ -8,7 +7,7 @@ import ProductBreadcrumbs from './ProductBreadcrumbs';
 import ProductCheckoutCard from './ProductCheckoutCard';
 import { Store } from '@/utils/StoreProvider';
 
-interface ProductInfoProps {
+interface PageProps {
   product: {
     _id: string;
     name: string;
@@ -25,7 +24,7 @@ interface ProductInfoProps {
   }
 }
 
-export default function ProductInfo({ product }: ProductInfoProps) {
+export default function ProductInfo({ product }: PageProps) {
   const [selectedItem, setSelectedItem] = useState(product.options[0]);
   const [quantity, setQuantity] = useState(1);
   const [itemSubtotal, setItemSubtotal] = useState(selectedItem.price);
