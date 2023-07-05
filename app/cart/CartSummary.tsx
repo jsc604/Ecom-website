@@ -21,8 +21,8 @@ export default function CartSummary({ cartItemsInfo }: PageProps) {
   const subtotal = getSubtotal();
 
   return (
-    <div className=''>
-      <h1 className="text-center font-semibold my-4 text-2xl">Order Summary</h1>
+    <div className='w-full'>
+      <h1 className="text-center font-semibold mb-4 max-lg:mt-4 text-2xl">Order Summary</h1>
       <div className='space-y-4'>
         <div className='flex justify-between items-start'>
           <div>Subtotal</div>

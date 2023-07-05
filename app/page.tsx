@@ -15,7 +15,7 @@ export default async function Home() {
   const data = await JSON.parse(JSON.stringify(await getData()));
 
   return (
-    <main className="min-h-80vh">
+    <main className="min-h-80vh w-11/12 max-w-[1350px] mx-auto">
       <FeaturedProducts products={data.products} />
     </main>
   );

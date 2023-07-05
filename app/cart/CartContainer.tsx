@@ -33,7 +33,7 @@ export default function CartContainer() {
   }, [cartItems]);
 
   return (
-    <div className="grid lg:grid-cols-4 gap-8 w-4/5 mx-auto">
+    <div className="grid grid-cols-1 lg:grid-cols-4 lg:gap-16">
       <div className="col-span-3">
         <ShoppingCartItems cartItemsInfo={cartItemsInfo} />
       </div>

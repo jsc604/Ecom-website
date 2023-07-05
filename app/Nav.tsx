@@ -81,7 +81,7 @@ export default function Nav() {
       <CssBaseline />
       <HideOnScroll >
         <StyledAppBar>
-          <Toolbar className='flex justify-between'>
+          <Toolbar className='flex justify-between w-11/12 max-w-[1350px] mx-auto'>
             <Box component='div' sx={{ display: { xs: 'block', sm: 'none' }, alignItems: 'center' }}>
               <Link href='/'>
                 <ListItemButton>

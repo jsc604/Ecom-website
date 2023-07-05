@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: PageProps) {
 export default async function ProductItemPage({ params: { slug, category } }: PageProps) {
 
   return (
-    <div className="min-h-[80vh]">
+    <div className="min-h-[80vh] w-11/12 max-w-[1350px] mx-auto">
       <ProductContainer category={category} slug={slug} />
     </div>
   )

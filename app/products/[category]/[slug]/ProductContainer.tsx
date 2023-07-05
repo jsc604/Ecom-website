@@ -53,7 +53,7 @@ export default function ProductContainer({ category, slug }: PageProps) {
   return (
     <div>
       {productData !== undefined ? (
-        <div className="min-h-80vh my-12 w-4/5 mx-auto grid ml:grid-cols-2 gap-6 flex">
+        <div className="min-h-80vh my-12 grid ml:grid-cols-2 gap-6 flex">
           <div className="relative aspect-square">
             <Image
               src={productData.image}
