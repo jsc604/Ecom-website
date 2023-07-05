@@ -53,8 +53,9 @@ export default function CartItem({ image, id, category, slug, name, size, price,
   }, [cart]);
 
   return (
-    <div className='grid grid-cols-12 gap-4 my-4 max-md:grid-rows-2'>
-      <div className="relative aspect-square col-span-2 max-md:col-span-4 rounded-md max-md:row-span-2">
+    <div className='grid grid-cols-12 gap-4 my-4'>
+
+      <div className="relative aspect-square col-span-2 max-md:col-span-4 rounded-md">
         <Link href={`/products/${category}/${slug}`}>
           <Image
             src={image}
@@ -66,20 +67,28 @@ export default function CartItem({ image, id, category, slug, name, size, price,
           />
         </Link>
       </div>
-      <div className='col-span-4 '>
-        <Link href={`/products/${category}/${slug}`}>
-          <div className='text-xl font-bold hover:underline'>{name}</div>
-        </Link>
+
+      <div className='col-span-4 max-md:col-span-8'>
+        <Box component='span' sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start' }}>
+          <Link href={`/products/${category}/${slug}`}>
+            <div className='text-xl font-bold hover:underline'>{name}</div>
+          </Link>
+          <Button className='md:hidden' onClick={() => handleDeleteFromCart(size)}>
+            <DeleteIcon sx={{ color: red[500] }} />
+          </Button>
+        </Box>
         <div>{size}</div>
       </div>
-      <div className='col-span-2 max-md:row-start-2 text-center'>
+
+      <div className='col-span-2 text-center max-md:col-span-4'>
         <div className='mb-2'>Item Price</div>
         <div>${(price).toFixed(2)}</div>
       </div>
-      <div className='md:col-span-2 max-md:row-start-2 text-center flex flex-col justify-between'>
+
+      <div className='col-span-2 text-center flex flex-col justify-between max-md:col-span-4'>
         <div>
           <div className='mb-2'>Quantity</div>
-          <ButtonGroup size="small" aria-label="quantity selection button group" variant='outlined' sx={{display: 'flex', justifyContent: 'center'}}>
+          <ButtonGroup size="small" aria-label="quantity selection button group" variant='outlined' sx={{ display: 'flex', justifyContent: 'center' }}>
             <Button onClick={decrease} sx={{ color: grey[700], border: '1px solid #9e9e9e' }} disabled={newQuantity <= 1} >
               <RemoveIcon />
             </Button>
@@ -95,10 +104,12 @@ export default function CartItem({ image, id, category, slug, name, size, price,
           <DeleteIcon sx={{ color: red[500] }} />
         </Button>
       </div>
-      <div className='col-span-2 max-md:row-start-2 text-center'>
+
+      <div className='col-span-2 text-center max-md:col-span-4'>
         <div className='mb-2'>Subtotal</div>
         <div>${newSubtotal.toFixed(2)}</div>
       </div>
+
     </div >
   )
 }
