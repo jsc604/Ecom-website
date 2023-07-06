@@ -17,12 +17,12 @@ export default function LoginCard() {
 
         <List>
           <ListItemButton onClick={handleClick}>
-            <Typography><Typography component="span" sx={{ fontWeight: 'bold', textDecoration: 'underline' }}>Log in</Typography> to checkout faster</Typography>
+            <Typography><Typography component="span" sx={{ fontWeight: 600, textDecoration: 'underline' }}>Log in</Typography> to checkout faster</Typography>
             {open ? <ExpandLess /> : <ExpandMore />}
           </ListItemButton>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <form>
-              <div className="w-full flex flex-col sm:flex-row justify-between gap-4">
+              <div className="w-full flex flex-col sm:flex-row justify-between gap-4 my-2">
                 <TextField
                   className="w-full"
                   required
@@ -39,7 +39,7 @@ export default function LoginCard() {
                   autoComplete="current-password"
                 />
               </div>
-              <Button color='success' variant='contained' sx={{ width: '100%', marginTop: 2 }} className='bg-green-600'>Sign In</Button>
+              <Button color='success' variant='contained' sx={{ width: '100%', marginTop: 1 }} className='bg-green-600'>Sign In</Button>
             </form>
           </Collapse>
         </List>
