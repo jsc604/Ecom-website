@@ -15,7 +15,7 @@ export default async function ProductCategoryPage({ params: { category } }: Page
 
   return (
     <div className="min-h-80vh w-11/12 max-w-[1350px] mx-auto">
-      <h1 className="text-center font-semibold my-8 text-3xl capitalize">{category}</h1>
+      <h1 className="text-center font-semibold my-8 text-4xl capitalize">{category}</h1>
       <CategoryProducts category={category} />
     </div>
   )

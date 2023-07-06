@@ -19,7 +19,7 @@ export default function EmptyBag() {
   }
 
   return (
-    <div className="text-center text-xl sm:text-3xl w-fit mx-auto">
+    <div className="text-center text-xl sm:text-4xl w-fit mx-auto">
       Your shopping bag is empty!
       <br />
       <div className="my-4">

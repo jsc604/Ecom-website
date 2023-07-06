@@ -20,7 +20,7 @@ module.exports = {
         'info-dark': '#0288d1',
       },
       screens: {
-        'ml': '992px',
+        'ml': '900px',
       },
     },
   },

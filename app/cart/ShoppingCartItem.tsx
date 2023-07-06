@@ -65,7 +65,7 @@ export default function ShoppingCartItem({ image, id, category, slug, name, size
       <div className='col-span-4 max-md:col-span-8'>
         <Box component='span' sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start' }}>
           <Link href={`/products/${category}/${slug}`}>
-            <div className='text-xl font-bold hover:underline'>{name}</div>
+            <div className='text-xl font-semibold hover:underline'>{name}</div>
           </Link>
           <Button className='md:hidden' onClick={() => handleDeleteFromCart(size)}>
             <DeleteIcon sx={{ color: red[500] }} />
