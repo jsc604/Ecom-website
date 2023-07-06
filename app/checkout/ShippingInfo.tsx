@@ -1,6 +1,7 @@
 'use client'
 import { Card, FormControl, MenuItem, TextField, Typography } from "@mui/material";
 import { useState } from "react";
+import ShippingOptions from "./ShippingOptions";
 
 export default function ShippingInfo() {
   const [firstName, setFirstName] = useState('');
@@ -79,7 +80,7 @@ export default function ShippingInfo() {
           />
         </FormControl>
 
-        <div className="flex gap-4">
+        <div className="flex flex-col sm:flex-row gap-4">
           <FormControl sx={{ width: '100%' }}>
             <TextField
               required
@@ -120,6 +121,8 @@ export default function ShippingInfo() {
           </FormControl>
         </div>
       </Card>
+
+      <ShippingOptions />
     </form>
   )
 }

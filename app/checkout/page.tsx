@@ -1,4 +1,5 @@
 import LoginCard from "./LoginCard";
+import OrderSummary from "./OrderSummary";
 import ShippingInfo from "./ShippingInfo";
 
 export default function Checkout() {
@@ -9,6 +10,9 @@ export default function Checkout() {
         <div className="col-span-12 ml:col-span-8 lg:col-span-6 lg:col-start-2">
           <LoginCard />
           <ShippingInfo />
+        </div>
+        <div className="col-span-12 ml:col-span-4 ld:col-span-3">
+          <OrderSummary />
         </div>
       </div>
     </div>
