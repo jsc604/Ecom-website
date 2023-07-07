@@ -33,7 +33,7 @@ export default function CartSummary({ cartItemsInfo }: PageProps) {
         </div>
         <div className='flex justify-between items-start'>
           <div>Shipping</div>
-          <div>{subtotal > 200 ? 'Free Shipping' : `$${shippingPrice.toFixed(2)}`}</div>
+          <div>{subtotal > 200 ? 'Free' : `$${shippingPrice.toFixed(2)}`}</div>
         </div>
         <Divider />
         <div className='flex justify-between items-start'>

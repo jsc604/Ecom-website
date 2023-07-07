@@ -1,7 +1,8 @@
 'use client'
 import { Card, FormControl, MenuItem, TextField, Typography } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ShippingOptions from "./ShippingOptions";
+import { getCookie, setCookie } from "cookies-next";
 
 export default function ShippingInfo() {
   const [firstName, setFirstName] = useState('');
@@ -11,6 +12,16 @@ export default function ShippingInfo() {
   const [city, setCity] = useState('');
   const [province, setProvince] = useState('');
   const [postalCode, setPostalCode] = useState('');
+
+  useEffect(() => {
+    setCookie(
+      'shippingInfo',
+      JSON.stringify({ firstName, lastName, email, address, city, province, postalCode }),
+      { maxAge: 60 * 60 * 12 }
+    );
+    console.log('shipping-cookie:', getCookie('shippingInfo'));
+  }, [firstName, lastName, email, address, city, province, postalCode]);
+
 
   const provinces = [
     { value: 'Alberta', label: 'Alberta' },

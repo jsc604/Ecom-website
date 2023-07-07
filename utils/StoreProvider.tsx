@@ -1,5 +1,4 @@
 'use client'
-
 import { ItemOptions } from "@/app/components/ProductItem";
 import { getCookie, setCookie } from "cookies-next";
 import { createContext, useEffect, useState } from "react";
@@ -29,7 +28,7 @@ export default function StoreProvider(props: React.PropsWithChildren<{}>) {
 
   useEffect(() => {
     setCookie('cartItems', JSON.stringify(cart), { maxAge: 60 * 60 * 12 });
-    console.log('cookie:', getCookie('cartItems'));
+    console.log('cart-cookie:', getCookie('cartItems'));
   }, [cart]);
 
   const handleAddToCart = async (itemId: string, optionId: string, quantity: number) => {

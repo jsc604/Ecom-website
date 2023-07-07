@@ -1,6 +1,7 @@
 'use client'
 import { CartItems, Store } from "@/utils/StoreProvider"
-import { Button } from "@mui/material"
+import { Button, ButtonProps, styled } from "@mui/material"
+import { purple } from "@mui/material/colors";
 import Link from "next/link";
 
 import { useContext, useEffect, useState } from "react"
@@ -18,6 +19,14 @@ export default function EmptyBag() {
     return <></>;
   }
 
+  const ColorButton = styled(Button)<ButtonProps>(({ theme }) => ({
+    color: theme.palette.getContrastText(purple[500]),
+    backgroundColor: `${purple[500]} !important`,
+    '&:hover': {
+      backgroundColor: `${purple[700]} !important`,
+    },
+  }));
+  
   return (
     <div className="text-center text-xl sm:text-4xl w-fit mx-auto">
       Your shopping bag is empty!
@@ -26,15 +35,13 @@ export default function EmptyBag() {
         Give your bag some love...
         <br />
         <Link href={'/products'}>
-          <Button
+          <ColorButton
             variant="contained"
-            color="success"
             size='large'
-            sx={{ fontSize: 'large' }}
-            className='bg-green-600 mt-2'
+            sx={{ fontSize: 'large', marginTop: 2 }}
           >
             Shop Now
-          </Button>
+          </ColorButton>
         </Link>
       </div>
     </div>

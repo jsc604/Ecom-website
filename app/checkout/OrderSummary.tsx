@@ -47,14 +47,14 @@ export default function OrderSummary() {
       <h1 className="text-center font-semibold mb-4 max-lg:mt-4 text-3xl">Order Summary</h1>
       <ItemScroll cartItemsInfo={cartItemsInfo} />
       <Divider />
-      <div className='space-y-4 mt-2'>
+      <div className='space-y-4'>
         <div className='flex justify-between items-start'>
           <div>Subtotal</div>
           <div>${subtotal.toFixed(2)}</div>
         </div>
         <div className='flex justify-between items-start'>
           <div>Shipping</div>
-          <div>{subtotal > 200 ? 'Free Shipping' : `$${shippingPrice.toFixed(2)}`}</div>
+          <div>{subtotal > 200 ? 'Free' : `$${shippingPrice.toFixed(2)}`}</div>
         </div>
         <Divider />
         <div className='flex justify-between items-start'>
@@ -63,7 +63,7 @@ export default function OrderSummary() {
         </div>
         <div className='my-2 mx-auto text-center'>
           <Button onClick={() => router.push('/checkout')} color='success' variant='contained' sx={{ width: '100%' }} className='bg-green-600'>
-            Checkout
+            Payment
           </Button>
         </div>
       </div>
