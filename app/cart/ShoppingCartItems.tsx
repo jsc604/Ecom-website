@@ -14,10 +14,9 @@ export default function ShoppingCartItems({ cartItemsInfo }: PageProps) {
       {cartItemsInfo && cartItemsInfo.map((item, index: number) => {
         const isLastItem = index === cartItemsInfo.length - 1;
         return (
-          <>
+          <div key={index}>
             <Divider />
             <ShoppingCartItem
-              key={index}
               image={item.product.image}
               id={item.product._id}
               slug={item.product.slug}
@@ -30,7 +29,7 @@ export default function ShoppingCartItems({ cartItemsInfo }: PageProps) {
               countInStock={item.product.options[item.optionIndex].countInStock}
             />
             {isLastItem && <Divider />}
-          </>
+          </div>
         )
       })}
     </div>

@@ -31,8 +31,8 @@ export default function ItemScroll({ cartItemsInfo }: PageProps) {
           {cartItemsInfo.map((item, index) => {
             const isLastItem = index === cartItemsInfo.length - 1;
             return (
-              <>
-                <ListItem key={index}>
+              <div key={index}>
+                <ListItem>
                   <Box sx={{ position: 'relative', aspectRatio: 1 / 1, width: 1 / 4, minWidth: '60px', borderRadius: 6, marginBottom: 'auto' }}>
                     <Image
                       src={item.product.image}
@@ -52,7 +52,7 @@ export default function ItemScroll({ cartItemsInfo }: PageProps) {
                   </Box>
                 </ListItem>
                 {!isLastItem && <Divider />}
-              </>
+              </div>
             )
           })}
         </List>
