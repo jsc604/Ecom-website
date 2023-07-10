@@ -1,5 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
-import { createEdgeRouter } from "next-connect";
+import { NextResponse } from "next/server";
 import Product from "@/models/Product";
 import db from "@/utils/db";
 
@@ -7,10 +6,7 @@ interface RequestContext {
   params: { slug: string };
 }
 
-const handler = createEdgeRouter<NextRequest, RequestContext>();
-
-handler.get(async (_request, ctx) => {
-  const { params } = ctx;
+export async function GET(_req: Request, { params }: RequestContext) {
   const { slug } = params;
   await db.connect();
   const product = await Product.findOne({ slug }).lean();
@@ -21,8 +17,4 @@ handler.get(async (_request, ctx) => {
   }
 
   return NextResponse.json(product);
-});
-
-export async function GET(request: NextRequest, ctx: RequestContext) {
-  return handler.run(request, ctx);
 }
