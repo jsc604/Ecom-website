@@ -1,4 +1,4 @@
-import EmptyBag from "./EmptyBag";
+import EmptyBag from "../components/EmptyBag";
 import { cookies } from "next/headers";
 import CartContainer from "./CartContainer";
 

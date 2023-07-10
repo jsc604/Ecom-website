@@ -1,4 +1,4 @@
-import EmptyBag from "../cart/EmptyBag";
+import EmptyBag from "../components/EmptyBag";
 import LoginCard from "./LoginCard";
 import OrderSummary from "./OrderSummary";
 import ShippingInfo from "./ShippingInfo";
@@ -21,7 +21,7 @@ export default function Checkout() {
               <LoginCard />
               <ShippingInfo />
             </div>
-            <div className="col-span-12 ml:col-span-4 ld:col-span-3">
+            <div className="col-span-12 ml:col-span-4 lg:col-span-3">
               <OrderSummary />
             </div>
           </div>

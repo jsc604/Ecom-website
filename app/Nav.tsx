@@ -109,7 +109,7 @@ export default function Nav() {
               </List>
             </Box>
             <div className='flex items-center'>
-              <Link href='/'>
+              <Link href='/account'>
                 <ListItemButton className='text-white'>
                   <BackgroundLetterAvatars />
                 </ListItemButton>

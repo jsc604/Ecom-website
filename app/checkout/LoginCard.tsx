@@ -1,7 +1,8 @@
 'use client'
 import { ExpandLess, ExpandMore } from "@mui/icons-material"
-import { Button, Card, Collapse, List, ListItemButton, TextField, Typography } from "@mui/material"
+import { Card, Collapse, List, ListItemButton, Typography } from "@mui/material"
 import { useState } from "react";
+import LoginForm from "../components/LoginForm";
 
 export default function LoginCard() {
   const [open, setOpen] = useState(false);
@@ -20,26 +21,7 @@ export default function LoginCard() {
           {open ? <ExpandLess /> : <ExpandMore />}
         </ListItemButton>
         <Collapse in={open} timeout="auto" unmountOnExit>
-          <form>
-            <div className="w-full flex flex-col sm:flex-row justify-between gap-4 my-2">
-              <TextField
-                sx={{width: '100%'}}
-                required
-                id="email"
-                label="Email"
-                type="email"
-              />
-              <TextField
-                sx={{width: '100%'}}
-                required
-                id="password"
-                label="Password"
-                type="password"
-                autoComplete="current-password"
-              />
-            </div>
-            <Button color='success' variant='contained' sx={{ width: '100%', marginTop: 1 }} className='bg-green-600'>Sign In</Button>
-          </form>
+          <LoginForm />
         </Collapse>
       </List>
 
