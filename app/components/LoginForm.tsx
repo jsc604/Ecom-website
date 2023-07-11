@@ -1,28 +1,34 @@
 'use client'
+import { Store } from "@/utils/StoreProvider";
 import { TextField, Button } from "@mui/material"
 import { getCookie, setCookie } from "cookies-next";
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 export default function LoginForm() {
+  const { setUserInfo } = useContext(Store);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const submitHandler = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
-    try {
-      const res = await fetch('/api/users/login', {
-        method: 'POST',
-        body: JSON.stringify({ email, password }),
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-      const data = await Promise.resolve(res.json());
-      setCookie('userInfo', data, { maxAge: 60 * 60 * 12 });
-      console.log('cookie: ', JSON.parse(getCookie('userInfo') as string));
-    } catch (error) {
-      // console.log('error: ', error);
+
+    const res = await fetch('/api/users/login', {
+      method: 'POST',
+      body: JSON.stringify({ email, password }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    const data = await Promise.resolve(res.json());
+
+    if (!res.ok) {
+      throw new Error(data.message);
     }
+
+    setCookie('userInfo', data, { maxAge: 60 * 60 * 12 });
+    setUserInfo(data);
+    console.log('user-cookie: ', JSON.parse(getCookie('userInfo') as string));
   }
 
   return (

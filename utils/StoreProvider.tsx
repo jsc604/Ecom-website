@@ -9,15 +9,41 @@ export interface CartItems {
   quantity: number;
 }
 
+interface UserInfo {
+  token: string;
+  _id: string;
+  name: string;
+  email: string;
+  isAdmin: boolean;
+}
+
 const initialCart: CartItems[] = [];
+const initialUserInfo: UserInfo = {
+  token: "",
+  _id: "",
+  name: "",
+  email: "",
+  isAdmin: false
+};
 
 export const Store = createContext({
   cart: initialCart,
   handleAddToCart: (_itemId: string, _optionId: string, _quantity: number) => { },
   handleDeleteFromCart: (_optionId: string) => { },
+  userInfo: initialUserInfo,
+  setUserInfo: (userInfo: UserInfo) => { },
 });
 
 export default function StoreProvider(props: React.PropsWithChildren<{}>) {
+  const [userInfo, setUserInfo] = useState<UserInfo>(() => {
+    const userInfoCookie = getCookie('userInfo');
+    if (typeof userInfoCookie === 'string') {
+      return JSON.parse(userInfoCookie);
+    }
+    return null;
+  });
+  console.log('userInfo: ', userInfo);
+
   const [cart, setCart] = useState<CartItems[]>(() => {
     const cartItemsCookie = getCookie('cartItems');
     if (typeof cartItemsCookie === 'string') {
@@ -75,7 +101,7 @@ export default function StoreProvider(props: React.PropsWithChildren<{}>) {
   }
 
   return (
-    <Store.Provider value={{ cart, handleAddToCart, handleDeleteFromCart }}>
+    <Store.Provider value={{ cart, handleAddToCart, handleDeleteFromCart, userInfo, setUserInfo }}>
       {props.children}
     </Store.Provider>
   );
