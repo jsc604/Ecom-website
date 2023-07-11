@@ -1,7 +1,8 @@
 'use client'
-
 import Avatar from '@mui/material/Avatar';
 import { Person } from '@mui/icons-material';
+import { useContext } from 'react';
+import { Store } from '@/utils/StoreProvider';
 
 function stringToColor(string: string) {
   let hash = 0;
@@ -32,20 +33,18 @@ function stringAvatar(name: string) {
   };
 }
 
-interface AvatarProps {
-  name?: string;
-}
+export default function BackgroundLetterAvatars() {
+  const { userInfo } = useContext(Store);
 
-export default function BackgroundLetterAvatars({ name }: AvatarProps) {
-  if (!name) {
+  if (userInfo === null || userInfo._id === '') {
     return (
-      <Avatar sx={{ width: 24, height: 24 }}>
+      <Avatar sx={{ width: 28, height: 28 }}>
         <Person />
       </Avatar>
     );
   }
 
   return (
-    <Avatar {...stringAvatar(name)} />
+    <Avatar {...stringAvatar(userInfo.name)} sx={{ width: 28, height: 28 }} />
   );
 }

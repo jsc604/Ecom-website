@@ -67,7 +67,7 @@ export default function Nav() {
         {navItems.map((text) => (
           <Link href={`/products/${text}`} key={text} >
             <ListItemButton onClick={handleDrawerToggle}>
-              <ListItemText primary={text} className='capitalize' />
+              <ListItemText primary={text} sx={{ textTransform: 'capitalize' }} />
             </ListItemButton>
           </Link>
         ))}
@@ -80,7 +80,7 @@ export default function Nav() {
       <CssBaseline />
       <HideOnScroll >
         <StyledAppBar>
-          <Toolbar className='flex justify-between w-11/12 max-w-[1350px] mx-auto'>
+          <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', width: 11 / 12, maxWidth: 1350, marginX: 'auto' }}>
             <Box component='div' sx={{ display: { xs: 'block', sm: 'none' }, alignItems: 'center' }}>
               <Link href='/'>
                 <ListItemButton>
@@ -102,22 +102,22 @@ export default function Nav() {
                 {navItems.map((text) => (
                   <Link href={`/products/${text}`} key={text}>
                     <ListItemButton>
-                      <ListItemText primary={text} className='capitalize' />
+                      <ListItemText primary={text} sx={{ textTransform: 'capitalize' }} />
                     </ListItemButton>
                   </Link>
                 ))}
               </List>
             </Box>
-            <div className='flex items-center'>
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
               <Link href='/account'>
-                <ListItemButton className='text-white'>
+                <ListItemButton sx={{ color: 'white' }}>
                   <BackgroundLetterAvatars />
                 </ListItemButton>
               </Link>
               <Link href={'/cart'}>
                 <IconButton aria-label="cart">
                   <StyledBadge badgeContent={cartItems.length > 0 ? cartItems.length : '0'} >
-                    <ShoppingBag className='text-white' />
+                    <ShoppingBag sx={{ width: 28, height: 28, color: 'white' }} />
                   </StyledBadge>
                 </IconButton>
               </Link>
@@ -133,7 +133,7 @@ export default function Nav() {
               >
                 <Menu />
               </IconButton>
-            </div>
+            </Box>
           </Toolbar>
         </StyledAppBar>
       </HideOnScroll>
