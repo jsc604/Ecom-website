@@ -17,7 +17,7 @@ export default function LoginForm() {
   const submitHandler: SubmitHandler<FieldValues> = async ({ email, password }) => {
     const res = await fetch('/api/account/login', {
       method: 'POST',
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({ email: email.toLowerCase(), password }),
       headers: {
         'Content-Type': 'application/json'
       }
@@ -26,16 +26,17 @@ export default function LoginForm() {
     const data = await Promise.resolve(res.json());
 
     if (!res.ok) {
-      toast.error(`'🦄 Wow so easy!'`, {
+      toast.error(`${data.message}`, {
         position: "top-center",
-        autoClose: 5000,
+        autoClose: 8000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: "light",
+        theme: "colored",
       });
+      return;
     }
 
     setCookie('userInfo', data, { maxAge: 60 * 60 * 12 });
@@ -43,6 +44,16 @@ export default function LoginForm() {
     if (pathname !== '/checkout') {
       router.push('/');
     }
+    toast.success(`🦄 Welcome back ${data.name}!'`, {
+      position: "top-center",
+      autoClose: 8000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
     console.log('user-cookie: ', JSON.parse(getCookie('userInfo') as string));
   }
 
@@ -55,11 +66,12 @@ export default function LoginForm() {
           defaultValue=''
           rules={{
             required: true,
-            pattern: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
+            pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i,
           }}
           render={({ field }) => (
             <TextField
               sx={{ width: '100%' }}
+              required
               id="email"
               label="Email"
               error={Boolean(errors.email)}
@@ -85,6 +97,7 @@ export default function LoginForm() {
           render={({ field }) => (
             <TextField
               sx={{ width: '100%' }}
+              required
               id="password"
               label="Password"
               type="password"

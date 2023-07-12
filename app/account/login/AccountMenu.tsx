@@ -6,11 +6,12 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
-import BackgroundLetterAvatars from './Avatar';
+import BackgroundLetterAvatars from '../../home/Avatar';
 import { Store } from '@/utils/StoreProvider';
 import { deleteCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
 import { AccountCircleOutlined, AdminPanelSettingsOutlined, HistoryOutlined, LoginOutlined, LogoutOutlined } from '@mui/icons-material';
+import { toast } from 'react-toastify';
 
 export default function AccountMenu() {
   const router = useRouter();
@@ -40,6 +41,16 @@ export default function AccountMenu() {
     deleteCookie('shippingInfo');
     handleUserLogout();
     router.push('/');
+    toast.info('You have been logged out successfully. Goodbye!', {
+      position: "top-center",
+      autoClose: 8000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
   };
 
   return (

@@ -5,6 +5,7 @@ import { setCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
 import { useContext } from "react";
 import { Controller, FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
 export default function RegisterForm() {
   const { handleSubmit, control, formState: { errors } } = useForm();
@@ -13,11 +14,29 @@ export default function RegisterForm() {
 
   const submitHandler: SubmitHandler<FieldValues> = async ({ firstName, lastName, email, confirmEmail, password, confirmPassword }) => {
     if (email.toLowerCase() !== confirmEmail.toLowerCase()) {
-      alert('emails dont match');
+      toast.error('Emails do not match!', {
+        position: "top-center",
+        autoClose: 8000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
       return;
     }
     if (password !== confirmPassword) {
-      alert('passwords dont match');
+      toast.error('Passwords do not match', {
+        position: "top-center",
+        autoClose: 8000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
       return;
     }
     const res = await fetch('/api/account/register', {
@@ -31,12 +50,32 @@ export default function RegisterForm() {
     const data = await Promise.resolve(res.json());
 
     if (!res.ok) {
-      throw new Error(data.message);
+      toast.error(`${data.message}`, {
+        position: "top-center",
+        autoClose: 8000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+      return;
     }
 
     setCookie('userInfo', data, { maxAge: 60 * 60 * 12 });
     setUserInfo(data);
     router.push('/');
+    toast.success(`🎉 You have successfully registered. Welcome ${data.name}!`, {
+      position: "top-center",
+      autoClose: 8000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
   }
 
   return (
@@ -57,10 +96,10 @@ export default function RegisterForm() {
               id="firstName"
               label="First Name"
               type="text"
-              error={Boolean(errors.email)}
+              error={Boolean(errors.firstName)}
               helperText={
-                errors.email
-                  ? errors.email.type === 'minLength'
+                errors.firstName
+                  ? errors.firstName.type === 'minLength'
                     ? 'First Name has to be 2 or more characters in length'
                     : 'Please fill out this field'
                   : ''
@@ -84,10 +123,10 @@ export default function RegisterForm() {
               id="lastName"
               label="Last Name"
               type="text"
-              error={Boolean(errors.email)}
+              error={Boolean(errors.lastName)}
               helperText={
-                errors.email
-                  ? errors.email.type === 'minLength'
+                errors.lastName
+                  ? errors.lastName.type === 'minLength'
                     ? 'Last Name has to be 2 or more characters in length'
                     : 'Please fill out this field'
                   : ''
@@ -102,11 +141,12 @@ export default function RegisterForm() {
           defaultValue=''
           rules={{
             required: true,
-            pattern: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
+            pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i,
           }}
           render={({ field }) => (
             <TextField
               sx={{ width: '100%' }}
+              required
               id="email"
               label="Email"
               error={Boolean(errors.email)}
@@ -127,19 +167,20 @@ export default function RegisterForm() {
           defaultValue=''
           rules={{
             required: true,
-            pattern: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
+            pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i,
           }}
           render={({ field }) => (
             <TextField
               sx={{ width: '100%' }}
+              required
               id="confirmEmail"
               label="Confirm Email"
-              error={Boolean(errors.email)}
+              error={Boolean(errors.confirmEmail)}
               helperText={
-                errors.email
-                  ? errors.email.type === 'pattern'
+                errors.confirmEmail
+                  ? errors.confirmEmail.type === 'pattern'
                     ? 'Email is not valid'
-                    : 'Please fill out this field'
+                    : 'Emails do not match'
                   : ''
               }
               {...field}
@@ -157,6 +198,7 @@ export default function RegisterForm() {
           render={({ field }) => (
             <TextField
               sx={{ width: '100%' }}
+              required
               id="password"
               label="Password"
               type="password"
@@ -184,16 +226,17 @@ export default function RegisterForm() {
           render={({ field }) => (
             <TextField
               sx={{ width: '100%' }}
+              required
               id="confirmPassword"
               label="Confirm Password"
               type="password"
               autoComplete="current-password"
-              error={Boolean(errors.password)}
+              error={Boolean(errors.confirmPassword)}
               helperText={
-                errors.password
-                  ? errors.password.type === 'minLength'
+                errors.confirmPassword
+                  ? errors.confirmPassword.type === 'minLength'
                     ? 'Password is required to be at least 6 characters in length'
-                    : 'Please fill out this field'
+                    : 'Passwords do not match'
                   : ''
               }
               {...field}
