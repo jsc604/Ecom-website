@@ -3,19 +3,17 @@ import { Store } from "@/utils/StoreProvider";
 import { TextField, Button } from "@mui/material"
 import { getCookie, setCookie } from "cookies-next";
 import { usePathname, useRouter } from "next/navigation";
-import { useContext, useState } from "react";
+import { useContext } from "react";
+import { Controller, FieldValues, SubmitHandler, useForm } from "react-hook-form";
 
 export default function LoginForm() {
+  const { handleSubmit, control, formState: { errors } } = useForm();
   const { setUserInfo } = useContext(Store);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
 
   const pathname = usePathname();
   const router = useRouter();
 
-  const submitHandler = async (e: { preventDefault: () => void; }) => {
-    e.preventDefault();
-
+  const submitHandler: SubmitHandler<FieldValues> = async ({ email, password }) => {
     const res = await fetch('/api/account/login', {
       method: 'POST',
       body: JSON.stringify({ email, password }),
@@ -39,24 +37,59 @@ export default function LoginForm() {
   }
 
   return (
-    <form onSubmit={submitHandler} method="POST">
+    <form onSubmit={handleSubmit(submitHandler)} method="POST">
       <div className="w-full flex flex-col sm:flex-row justify-between gap-4 my-2">
-        <TextField
-          sx={{ width: '100%' }}
-          required
-          id="email"
-          label="Email"
-          type="email"
-          onChange={(e) => setEmail(e.target.value)}
+        <Controller
+          name="email"
+          control={control}
+          defaultValue=''
+          rules={{
+            required: true,
+            pattern: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
+          }}
+          render={({ field }) => (
+            <TextField
+              sx={{ width: '100%' }}
+              id="email"
+              label="Email"
+              error={Boolean(errors.email)}
+              helperText={
+                errors.email
+                  ? errors.email.type === 'pattern'
+                    ? 'Email is not valid'
+                    : 'Email is required'
+                  : ''
+              }
+              {...field}
+            />
+          )}
         />
-        <TextField
-          sx={{ width: '100%' }}
-          required
-          id="password"
-          label="Password"
-          type="password"
-          autoComplete="current-password"
-          onChange={(e) => setPassword(e.target.value)}
+        <Controller
+          name="password"
+          control={control}
+          defaultValue=""
+          rules={{
+            required: true,
+            minLength: 6,
+          }}
+          render={({ field }) => (
+            <TextField
+              sx={{ width: '100%' }}
+              id="password"
+              label="Password"
+              type="password"
+              autoComplete="current-password"
+              error={Boolean(errors.password)}
+              helperText={
+                errors.password
+                  ? errors.password.type === 'minLength'
+                    ? 'Password is required to be at least 6 characters in length'
+                    : 'Password is required'
+                  : ''
+              }
+              {...field}
+            />
+          )}
         />
       </div>
       <Button type='submit' color='success' variant='contained' sx={{ width: '100%', marginTop: 1 }} className='bg-green-600'>Log In</Button>
