@@ -63,7 +63,7 @@ export default function OrderSummary() {
         </div>
         <div className='my-2 mx-auto text-center'>
           <Button onClick={() => router.push('/checkout')} color='success' variant='contained' sx={{ width: '100%' }} className='bg-green-600'>
-            Payment
+            Continue to Payment
           </Button>
         </div>
       </div>

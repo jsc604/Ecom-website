@@ -2,12 +2,16 @@
 import { Store } from "@/utils/StoreProvider";
 import { TextField, Button } from "@mui/material"
 import { getCookie, setCookie } from "cookies-next";
+import { usePathname, useRouter } from "next/navigation";
 import { useContext, useState } from "react";
 
 export default function LoginForm() {
   const { setUserInfo } = useContext(Store);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const pathname = usePathname();
+  const router = useRouter();
 
   const submitHandler = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
@@ -28,6 +32,9 @@ export default function LoginForm() {
 
     setCookie('userInfo', data, { maxAge: 60 * 60 * 12 });
     setUserInfo(data);
+    if (pathname !== '/checkout') {
+      router.push('/');
+    }
     console.log('user-cookie: ', JSON.parse(getCookie('userInfo') as string));
   }
 

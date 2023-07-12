@@ -1,5 +1,4 @@
 import { redirect } from "next/navigation";
-import EmptyBag from "../components/EmptyBag";
 import LoginCard from "./LoginCard";
 import OrderSummary from "./OrderSummary";
 import ShippingInfo from "./ShippingInfo";
