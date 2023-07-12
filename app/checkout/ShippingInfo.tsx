@@ -1,13 +1,15 @@
 'use client'
 import { Card, FormControl, MenuItem, TextField, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import ShippingOptions from "./ShippingOptions";
 import { getCookie, setCookie } from "cookies-next";
+import { Store } from "@/utils/StoreProvider";
 
 export default function ShippingInfo() {
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
+  const { userInfo } = useContext(Store);
+  const [firstName, setFirstName] = useState(userInfo !== null ? userInfo.name.split(' ')[0] : '');
+  const [lastName, setLastName] = useState(userInfo !== null ? userInfo.name.split(' ')[1] : '');
+  const [email, setEmail] = useState(userInfo !== null ? userInfo.email : '');
   const [address, setAddress] = useState('');
   const [city, setCity] = useState('');
   const [province, setProvince] = useState('');
@@ -19,7 +21,7 @@ export default function ShippingInfo() {
       JSON.stringify({ firstName, lastName, email, address, city, province, postalCode }),
       { maxAge: 60 * 60 * 12 }
     );
-    console.log('shipping-cookie:', getCookie('shippingInfo'));
+    console.log('shipping-cookie:', JSON.parse(getCookie('shippingInfo') as string));
   }, [firstName, lastName, email, address, city, province, postalCode]);
 
 

@@ -16,7 +16,7 @@ export default function LoginForm() {
   const submitHandler = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
 
-    const res = await fetch('/api/users/login', {
+    const res = await fetch('/api/account/login', {
       method: 'POST',
       body: JSON.stringify({ email, password }),
       headers: {
