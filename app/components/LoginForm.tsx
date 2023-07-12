@@ -5,6 +5,7 @@ import { getCookie, setCookie } from "cookies-next";
 import { usePathname, useRouter } from "next/navigation";
 import { useContext } from "react";
 import { Controller, FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
 export default function LoginForm() {
   const { handleSubmit, control, formState: { errors } } = useForm();
@@ -25,7 +26,16 @@ export default function LoginForm() {
     const data = await Promise.resolve(res.json());
 
     if (!res.ok) {
-      throw new Error(data.message);
+      toast.error(`'🦄 Wow so easy!'`, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
 
     setCookie('userInfo', data, { maxAge: 60 * 60 * 12 });
@@ -57,7 +67,7 @@ export default function LoginForm() {
                 errors.email
                   ? errors.email.type === 'pattern'
                     ? 'Email is not valid'
-                    : 'Email is required'
+                    : 'Please fill out this field'
                   : ''
               }
               {...field}
@@ -84,7 +94,7 @@ export default function LoginForm() {
                 errors.password
                   ? errors.password.type === 'minLength'
                     ? 'Password is required to be at least 6 characters in length'
-                    : 'Password is required'
+                    : 'Please fill out this field'
                   : ''
               }
               {...field}
