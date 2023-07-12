@@ -44,7 +44,7 @@ export default function LoginForm() {
     if (pathname !== '/checkout') {
       router.push('/');
     }
-    toast.success(`🦄 Welcome back ${data.name}!'`, {
+    toast.success(`Welcome back ${data.name.split(' ')[0]}! 🦄`, {
       position: "top-center",
       autoClose: 8000,
       hideProgressBar: false,

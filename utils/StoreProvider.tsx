@@ -82,7 +82,7 @@ export default function StoreProvider(props: React.PropsWithChildren<{}>) {
           );
           setCart(updatedCart);
           if (path !== '/cart') {
-            toast.success(`🎉 Item has been added to your cart!`, {
+            toast.success(`Item has been added to your cart!`, {
               position: "top-center",
               autoClose: 8000,
               hideProgressBar: false,
@@ -113,7 +113,7 @@ export default function StoreProvider(props: React.PropsWithChildren<{}>) {
         };
         setCart([...cart, newItem]);
         if (path !== '/cart') {
-          toast.success(`🎉 Item has been added to your cart!`, {
+          toast.success(`Item has been added to your cart!`, {
             position: "top-center",
             autoClose: 8000,
             hideProgressBar: false,

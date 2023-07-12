@@ -66,7 +66,7 @@ export default function RegisterForm() {
     setCookie('userInfo', data, { maxAge: 60 * 60 * 12 });
     setUserInfo(data);
     router.push('/');
-    toast.success(`🎉 You have successfully registered. Welcome ${data.name}!`, {
+    toast.success(`Welcome ${data.name.split(' ')[0]}! You have successfully registered. 🦄`, {
       position: "top-center",
       autoClose: 8000,
       hideProgressBar: false,
