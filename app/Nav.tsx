@@ -8,8 +8,8 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { useScrollTrigger } from '@mui/material';
 import Slide from '@mui/material/Slide';
 import React, { ReactElement, useContext, useEffect, useState } from 'react';
-import BackgroundLetterAvatars from './home/Avatar';
 import { CartItems, Store } from '@/utils/StoreProvider';
+import AccountMenu from './home/AccountMenu';
 
 const StyledAppBar = styled(AppBar)({
   backgroundColor: '#27272a',
@@ -109,11 +109,7 @@ export default function Nav() {
               </List>
             </Box>
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <Link href='/account'>
-                <ListItemButton sx={{ color: 'white' }}>
-                  <BackgroundLetterAvatars />
-                </ListItemButton>
-              </Link>
+              <AccountMenu />
               <Link href={'/cart'}>
                 <IconButton aria-label="cart">
                   <StyledBadge badgeContent={cartItems.length > 0 ? cartItems.length : '0'} >

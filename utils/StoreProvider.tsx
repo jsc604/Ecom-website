@@ -18,30 +18,27 @@ interface UserInfo {
 }
 
 const initialCart: CartItems[] = [];
-const initialUserInfo: UserInfo = {
-  token: "",
-  _id: "",
-  name: "",
-  email: "",
-  isAdmin: false
-};
 
 export const Store = createContext({
   cart: initialCart,
   handleAddToCart: (_itemId: string, _optionId: string, _quantity: number) => { },
   handleDeleteFromCart: (_optionId: string) => { },
-  userInfo: initialUserInfo,
+  userInfo: null as UserInfo | null,
   setUserInfo: (userInfo: UserInfo) => { },
+  handleUserLogout: () => { },
 });
 
 export default function StoreProvider(props: React.PropsWithChildren<{}>) {
-  const [userInfo, setUserInfo] = useState<UserInfo>(() => {
+  const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
+
+  useEffect(() => {
     const userInfoCookie = getCookie('userInfo');
     if (typeof userInfoCookie === 'string') {
-      return JSON.parse(userInfoCookie);
+      setUserInfo(JSON.parse(userInfoCookie));
+    } else {
+      setUserInfo(null);
     }
-    return null;
-  });
+  }, []);
   console.log('userInfo: ', userInfo);
 
   const [cart, setCart] = useState<CartItems[]>(() => {
@@ -100,8 +97,13 @@ export default function StoreProvider(props: React.PropsWithChildren<{}>) {
     setCart(updatedCart);
   }
 
+  const handleUserLogout = () => {
+    setUserInfo(null);
+    setCart([]);
+  }
+
   return (
-    <Store.Provider value={{ cart, handleAddToCart, handleDeleteFromCart, userInfo, setUserInfo }}>
+    <Store.Provider value={{ cart, handleAddToCart, handleDeleteFromCart, userInfo, setUserInfo, handleUserLogout }}>
       {props.children}
     </Store.Provider>
   );

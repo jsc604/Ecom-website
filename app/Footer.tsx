@@ -4,22 +4,22 @@ import Link from "next/link"
 import { Key, useEffect, useState } from "react";
 
 export default function Footer() {
-  const [data, setData] = useState<any[]>();
+  // const [data, setData] = useState<any[]>();
 
-  useEffect(() => {
-    async function fetchData() {
-      const res = await fetch('/api/products');
-      setData(await res.json());
-    }
-    fetchData();
-  }, [])
+  // useEffect(() => {
+  //   async function fetchData() {
+  //     const res = await fetch('/api/products');
+  //     setData(await res.json());
+  //   }
+  //   fetchData();
+  // }, [])
 
-  const categories = data?.reduce((accumulator, product) => {
-    if (product.category && !accumulator.includes(product.category)) {
-      accumulator.push(product.category);
-    }
-    return accumulator;
-  }, []);
+  // const categories = data?.reduce((accumulator, product) => {
+  //   if (product.category && !accumulator.includes(product.category)) {
+  //     accumulator.push(product.category);
+  //   }
+  //   return accumulator;
+  // }, []);
 
   return (
     <footer className="flex flex-col items-center bg-[#27272a] text-white mt-16 p-8 font-extralight">
@@ -43,9 +43,9 @@ export default function Footer() {
           <div className="flex flex-col space-y-1">
             <div className="font-semibold mb-2">Shop</div>
             <Link className="hover:underline" href={'/products'}>All Products</Link>
-            {categories?.map((category: string, index: Key) => (
+            {/* {categories?.map((category: string, index: Key) => (
               <Link key={index} href={`/products/${category}`} className="hover:underline" >{category}</Link>
-            ))}
+            ))} */}
           </div>
 
           <div className="flex flex-col space-y-1">
@@ -65,9 +65,9 @@ export default function Footer() {
         <div className="flex flex-col space-y-1 max-sm:hidden">
           <div className="font-semibold mb-2">Shop</div>
           <Link className="hover:underline" href={'/products'}>All Products</Link>
-          {categories?.map((category: string, index: Key) => (
+          {/* {categories?.map((category: string, index: Key) => (
             <Link key={index} href={`/products/${category}`} className="hover:underline" >{category}</Link>
-          ))}
+          ))} */}
         </div>
 
         <div className="flex flex-col space-y-1 max-sm:hidden">

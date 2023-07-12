@@ -1,7 +1,7 @@
 'use client'
 import Image from 'next/image'
 import { useState } from 'react'
-import LoginForm from '../components/LoginForm';
+import LoginForm from '../../components/LoginForm';
 import RegisterForm from './RegisterForm';
 import { Box, Card, Tab, Tabs } from '@mui/material';
 
