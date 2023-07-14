@@ -14,6 +14,7 @@ interface PageProps {
   id: string;
   slug: string;
   category: string;
+  brand: string;
   name: string;
   size: string;
   price: number;
@@ -22,7 +23,7 @@ interface PageProps {
   countInStock: number;
 }
 
-export default function ShoppingCartItem({ image, id, category, slug, name, size, price, subtotal, quantity, countInStock }: PageProps) {
+export default function ShoppingCartItem({ image, id, category, brand, slug, name, size, price, subtotal, quantity, countInStock }: PageProps) {
   const [newQuantity, setnewQuantity] = useState(quantity);
   const [newSubtotal, setNewSubtotal] = useState(subtotal);
   const { handleAddToCart, handleDeleteFromCart } = useContext(Store);
@@ -71,6 +72,7 @@ export default function ShoppingCartItem({ image, id, category, slug, name, size
             <DeleteIcon sx={{ color: red[500] }} />
           </Button>
         </Box>
+        <div>{brand}</div>
         <div>{size}</div>
       </div>
 

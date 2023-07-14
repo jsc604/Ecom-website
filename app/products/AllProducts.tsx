@@ -4,6 +4,7 @@ import ProductItem, { ItemOptions } from '../components/ProductItem';
 import { notFound } from 'next/navigation';
 
 export type productObject = {
+  brand: any;
   _id: string;
   slug: string;
   name: string;

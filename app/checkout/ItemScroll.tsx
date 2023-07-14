@@ -44,6 +44,7 @@ export default function ItemScroll({ cartItemsInfo }: PageProps) {
                   </Box>
                   <Box sx={{ width: 3 / 4, marginLeft: 2, marginBottom: 'auto' }}>
                     <Typography sx={{ fontWeight: 600 }}>{item.product.name}</Typography>
+                    <Typography>{item.product.brand}</Typography>
                     <Typography>{item.product.options[item.optionIndex].size}</Typography>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                       <Typography>x{item.quantity}</Typography>
