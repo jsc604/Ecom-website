@@ -11,6 +11,17 @@ export interface CartItems {
   quantity: number;
 }
 
+interface ShippingInfo {
+  firstName: string;
+  lastName: string;
+  email: string;
+  address: string;
+  city: string;
+  province: string;
+  postalCode: string;
+  shippingOption: string;
+}
+
 interface UserInfo {
   token: string;
   _id: string;
@@ -28,22 +39,40 @@ export const Store = createContext({
   userInfo: null as UserInfo | null,
   setUserInfo: (userInfo: UserInfo) => { },
   handleUserLogout: () => { },
+  shippingInfo: null as ShippingInfo | null,
+  setShippingInfo: (shippingInfo: ShippingInfo) => { },
 });
 
 export default function StoreProvider(props: React.PropsWithChildren<{}>) {
   const path = usePathname();
-  const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
 
+  //Setting Shipping State
+  const [shippingInfo, setShippingInfo] = useState<ShippingInfo | null>(null);
   useEffect(() => {
-    const userInfoCookie = getCookie('userInfo');
-    if (typeof userInfoCookie === 'string') {
-      setUserInfo(JSON.parse(userInfoCookie));
-    } else {
-      setUserInfo(null);
+    if (typeof window !== 'undefined') {
+      const shippingInfoCookie = getCookie('shippingInfo');
+      if (typeof shippingInfoCookie === 'string') {
+        setShippingInfo(JSON.parse(shippingInfoCookie));
+      } else {
+        setShippingInfo(null);
+      }
     }
   }, []);
-  console.log('userInfo: ', userInfo);
 
+  // Setting User State
+  const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const userInfoCookie = getCookie('userInfo');
+      if (typeof userInfoCookie === 'string') {
+        setUserInfo(JSON.parse(userInfoCookie));
+      } else {
+        setUserInfo(null);
+      }
+    }
+  }, []);
+
+  //Setting Cart State
   const [cart, setCart] = useState<CartItems[]>(() => {
     const cartItemsCookie = getCookie('cartItems');
     if (typeof cartItemsCookie === 'string') {
@@ -56,6 +85,7 @@ export default function StoreProvider(props: React.PropsWithChildren<{}>) {
     setCookie('cartItems', JSON.stringify(cart), { maxAge: 60 * 60 * 12 });
     console.log('cart-cookie:', getCookie('cartItems'));
   }, [cart]);
+
 
   const handleAddToCart = async (itemId: string, optionId: string, quantity: number) => {
     const res = await fetch(`/api/products/${itemId}`);
@@ -135,11 +165,12 @@ export default function StoreProvider(props: React.PropsWithChildren<{}>) {
 
   const handleUserLogout = () => {
     setUserInfo(null);
-    setCart([]);
+    setCart(initialCart);
+    setShippingInfo(null);
   }
 
   return (
-    <Store.Provider value={{ cart, handleAddToCart, handleDeleteFromCart, userInfo, setUserInfo, handleUserLogout }}>
+    <Store.Provider value={{ cart, handleAddToCart, handleDeleteFromCart, userInfo, setUserInfo, handleUserLogout, shippingInfo, setShippingInfo }}>
       {props.children}
     </Store.Provider>
   );

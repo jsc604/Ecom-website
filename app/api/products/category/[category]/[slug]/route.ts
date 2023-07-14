@@ -13,7 +13,7 @@ export async function GET(_req: Request, { params }: RequestContext) {
   await db.disconnect();
 
   if (!product) {
-    throw new Error("Category does not exist");
+    throw new Error("Product does not exist");
   }
 
   return NextResponse.json(product);

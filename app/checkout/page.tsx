@@ -1,8 +1,6 @@
 import { redirect } from "next/navigation";
-import LoginCard from "./LoginCard";
-import OrderSummary from "./OrderSummary";
-import ShippingInfo from "./ShippingInfo";
 import { cookies } from "next/headers";
+import Shipping from "./Shipping";
 
 export default function Checkout() {
   const cookieStore = cookies();
@@ -15,17 +13,7 @@ export default function Checkout() {
       {cartItems === undefined || cartItems.length < 1 ? (
         redirect('/cart')
       ) : (
-        <>
-          <div className="grid grid-cols-12 ml:gap-16">
-            <div className="col-span-12 ml:col-span-8 xl:col-span-6 xl:col-start-2">
-              <LoginCard />
-              <ShippingInfo />
-            </div>
-            <div className="col-span-12 ml:col-span-4 xl:col-span-3">
-              <OrderSummary />
-            </div>
-          </div>
-        </>
+        <Shipping />
       )}
     </div>
   )

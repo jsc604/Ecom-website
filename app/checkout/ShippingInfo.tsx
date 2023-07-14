@@ -6,14 +6,14 @@ import { getCookie, setCookie } from "cookies-next";
 import { Store } from "@/utils/StoreProvider";
 
 export default function ShippingInfo() {
-  const { userInfo } = useContext(Store);
+  const { userInfo, shippingInfo, setShippingInfo } = useContext(Store);
   const [firstName, setFirstName] = useState(userInfo !== null ? userInfo.name.split(' ')[0] : '');
   const [lastName, setLastName] = useState(userInfo !== null ? userInfo.name.split(' ')[1] : '');
   const [email, setEmail] = useState(userInfo !== null ? userInfo.email : '');
-  const [address, setAddress] = useState('');
-  const [city, setCity] = useState('');
-  const [province, setProvince] = useState('');
-  const [postalCode, setPostalCode] = useState('');
+  const [address, setAddress] = useState(shippingInfo !== null && shippingInfo.address ? shippingInfo.address : '');
+  const [city, setCity] = useState(shippingInfo !== null && shippingInfo.city ? shippingInfo.city :'');
+  const [province, setProvince] = useState(shippingInfo !== null && shippingInfo.province ? shippingInfo.province :'');
+  const [postalCode, setPostalCode] = useState(shippingInfo !== null && shippingInfo.postalCode ? shippingInfo.postalCode :'');
 
   useEffect(() => {
     setCookie(
@@ -21,9 +21,11 @@ export default function ShippingInfo() {
       JSON.stringify({ firstName, lastName, email, address, city, province, postalCode }),
       { maxAge: 60 * 60 * 12 }
     );
+    setShippingInfo({ firstName, lastName, email, address, city, province, postalCode });
+    console.log('shippingInfo: ', shippingInfo);
     console.log('shipping-cookie:', JSON.parse(getCookie('shippingInfo') as string));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [firstName, lastName, email, address, city, province, postalCode]);
-
 
   const provinces = [
     { value: 'Alberta', label: 'Alberta' },
@@ -55,6 +57,8 @@ export default function ShippingInfo() {
               label="First Name"
               type="text"
               onChange={(event) => setFirstName(event.target.value)}
+              error={firstName.length < 2}
+              helperText="First name has to be at least 2 characters in length"
             />
           </FormControl>
 
