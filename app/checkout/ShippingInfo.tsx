@@ -1,7 +1,7 @@
 'use client'
 import { useContext, useEffect, useState } from 'react';
 import LoginCard from './LoginCard'
-import { CartItems, Store } from '@/utils/StoreProvider';
+import { Store } from '@/utils/StoreProvider';
 import { Card, Typography, TextField, MenuItem, FormControlLabel, Radio, RadioGroup, Button, Divider } from '@mui/material';
 import { useForm, SubmitHandler, FieldValues, Controller } from 'react-hook-form';
 import router from 'next/router';
@@ -24,9 +24,9 @@ const provinces = [
   { value: 'Yukon', label: 'Yukon' },
 ];
 
-export default function Shipping() {
+export default function ShippingInfo() {
   const { handleSubmit, control, setValue, formState: { errors } } = useForm();
-  const { userInfo, shippingInfo, setShippingInfo } = useContext(Store);
+  const { cart, userInfo, shippingInfo, setShippingInfo } = useContext(Store);
 
   useEffect(() => {
     if (userInfo) {
@@ -44,17 +44,11 @@ export default function Shipping() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userInfo, shippingInfo]);
 
-  const { cart } = useContext(Store);
-  const [cartItems, setCartItems] = useState<CartItems[]>([]);
   const [cartItemsInfo, setCartItemsInfo] = useState<ItemInfo[]>([]);
 
   useEffect(() => {
-    setCartItems(cart);
-  }, [cart]);
-
-  useEffect(() => {
     async function fetchData() {
-      if (cartItems.length > 0) {
+      if (cart.length > 0) {
         const res = await fetch('/api/cart');
 
         setCartItemsInfo(await res.json());
@@ -62,7 +56,7 @@ export default function Shipping() {
     }
 
     fetchData();
-  }, [cartItems]);
+  }, [cart]);
 
   const shippingPrice = 20;
 

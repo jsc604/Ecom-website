@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
-import Shipping from "./Shipping";
+import ShippingInfo from "./ShippingInfo";
 
 export default function Checkout() {
   const cookieStore = cookies();
@@ -13,7 +13,7 @@ export default function Checkout() {
       {cartItems === undefined || cartItems.length < 1 ? (
         redirect('/cart')
       ) : (
-        <Shipping />
+        <ShippingInfo />
       )}
     </div>
   )
