@@ -2,7 +2,7 @@
 import { useContext, useEffect, useState } from 'react';
 import LoginCard from './LoginCard'
 import { CartItems, Store } from '@/utils/StoreProvider';
-import { Card, Typography, TextField, MenuItem, FormControl, FormControlLabel, Radio, RadioGroup, Button, Divider } from '@mui/material';
+import { Card, Typography, TextField, MenuItem, FormControlLabel, Radio, RadioGroup, Button, Divider } from '@mui/material';
 import { useForm, SubmitHandler, FieldValues, Controller } from 'react-hook-form';
 import router from 'next/router';
 import ItemScroll from './ItemScroll';
@@ -95,7 +95,6 @@ export default function Shipping() {
               control={control}
               defaultValue=''
               rules={{
-                required: true,
                 minLength: 2,
               }}
               render={({ field }) => (
@@ -105,6 +104,10 @@ export default function Shipping() {
                   id="first name"
                   label="First Name"
                   type="text"
+                  error={Boolean(errors.firstName)}
+                  helperText={
+                    errors.firstName?.type === 'minLength' ? 'First Name has to be 2 or more characters in length.' : ''
+                  }
                   {...field}
                 />
               )}
@@ -115,7 +118,6 @@ export default function Shipping() {
               control={control}
               defaultValue=''
               rules={{
-                required: true,
                 minLength: 2,
               }}
               render={({ field }) => (
@@ -125,6 +127,10 @@ export default function Shipping() {
                   id="last name"
                   label="Last Name"
                   type="text"
+                  error={Boolean(errors.lastName)}
+                  helperText={
+                    errors.lastName?.type === 'minLength' ? 'Last Name has to be 2 or more characters in length.' : ''
+                  }
                   {...field}
                 />
               )}
@@ -136,7 +142,6 @@ export default function Shipping() {
             control={control}
             defaultValue=''
             rules={{
-              required: true,
               pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i,
             }}
             render={({ field }) => (
@@ -146,6 +151,10 @@ export default function Shipping() {
                 id="email"
                 label="Email"
                 type="email"
+                error={Boolean(errors.email)}
+                helperText={
+                  errors.email?.type === 'pattern' ? 'Please enter a valid email' : ''
+                }
                 {...field}
               />
             )}
@@ -156,8 +165,7 @@ export default function Shipping() {
             control={control}
             defaultValue=''
             rules={{
-              required: true,
-              minLength: 2,
+              minLength: 5,
             }}
             render={({ field }) => (
               <TextField
@@ -167,6 +175,10 @@ export default function Shipping() {
                 label="Address"
                 type="text"
                 placeholder="Include apt, suite, or floor number here"
+                error={Boolean(errors.address)}
+                helperText={
+                  errors.address?.type === 'minLength' ? 'Please enter a valid address.' : ''
+                }
                 {...field}
               />
             )}
@@ -178,7 +190,6 @@ export default function Shipping() {
               control={control}
               defaultValue=''
               rules={{
-                required: true,
                 minLength: 2,
               }}
               render={({ field }) => (
@@ -188,6 +199,10 @@ export default function Shipping() {
                   id="city"
                   label="City"
                   type="text"
+                  error={Boolean(errors.city)}
+                  helperText={
+                    errors.city?.type === 'minLength' ? 'City has to be 2 or more characters in length.' : ''
+                  }
                   {...field}
                 />
               )}
@@ -220,8 +235,6 @@ export default function Shipping() {
               control={control}
               defaultValue=''
               rules={{
-                required: true,
-                minLength: 2,
                 pattern: /^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$/,
               }}
               render={({ field }) => (
@@ -231,6 +244,10 @@ export default function Shipping() {
                   id="postal code"
                   label="Postal Code"
                   type="text"
+                  error={Boolean(errors.postalCode)}
+                  helperText={
+                    errors.postalCode?.type === 'pattern' ? 'Please enter a valid postal code' : ''
+                  }
                   {...field}
                 />
               )}
