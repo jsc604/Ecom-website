@@ -1,7 +1,6 @@
 import EmptyBag from "./EmptyBag";
 import { cookies } from "next/headers";
-import CartSummary from "./CartSummary";
-import ShoppingCartItems from "./ShoppingCartItems";
+import CartContainer from "./CartContainer";
 
 export async function generateMetadata() {
   return {
@@ -20,14 +19,7 @@ export default function Cart() {
       {cartItems === undefined || cartItems.length < 1 ? (
         <EmptyBag />
       ) : (
-        <div className="grid grid-cols-1 lg:grid-cols-3 lg:gap-16">
-          <div className="col-span-2">
-            <ShoppingCartItems />
-          </div>
-          <div className="lg:col-span-1">
-            <CartSummary />
-          </div>
-        </div>
+        <CartContainer />
       )}
     </div>
   )

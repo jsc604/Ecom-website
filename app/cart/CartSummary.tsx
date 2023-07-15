@@ -1,27 +1,21 @@
 'use client'
 import { Button, Divider } from '@mui/material'
+import { ItemInfo } from './CartContainer';
 import { useRouter } from 'next/navigation';
-import { useContext, useEffect, useState } from 'react';
-import { CartItems, Store } from '@/utils/StoreProvider';
 
-export default function CartSummary() {
+interface PageProps {
+  cartItemsInfo: ItemInfo[];
+}
+
+export default function CartSummary({ cartItemsInfo }: PageProps) {
   const router = useRouter();
-  const { cart } = useContext(Store);
-  const [cartInfo, setCartInfo] = useState<CartItems[]>();
-
-  useEffect(() => {
-    if (cart) {
-      setCartInfo(cart);
-    }
-  }, [cart])
 
   const shippingPrice = 20;
 
   const getSubtotal = (() => {
     let subtotal = 0;
-    cartInfo && cartInfo.map((item) => {
-      const optionIndex = item.cartItem.options.findIndex((option) => option.size === item.optionId);
-      const itemSubtotal = item.cartItem.options[optionIndex].price * item.quantity;
+    cartItemsInfo.map((item) => {
+      const itemSubtotal = item.product.options[item.optionIndex].price * item.quantity;
       subtotal += itemSubtotal;
     })
     return subtotal;

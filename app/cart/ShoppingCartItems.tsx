@@ -1,30 +1,33 @@
 'use client'
 import { Divider } from '@mui/material';
+import { ItemInfo } from './CartContainer';
 import ShoppingCartItem from './ShoppingCartItem';
-import { useContext, useEffect, useState } from 'react';
-import { CartItems, Store } from '@/utils/StoreProvider';
 
-export default function ShoppingCartItems() {
-  const { cart } = useContext(Store);
-  const [cartInfo, setCartInfo] = useState<CartItems[]>();
+interface PageProps {
+  cartItemsInfo: ItemInfo[];
+}
 
-  useEffect(() => {
-    if (cart) {
-      setCartInfo(cart);
-    }
-  }, [cart])
+export default function ShoppingCartItems({ cartItemsInfo }: PageProps) {
 
   return (
     <div>
-      {cartInfo && cartInfo.map((item, index: number) => {
-        const isLastItem = index === cartInfo.length - 1;
-        const optionIndex = item.cartItem.options.findIndex((option) => option.size === item.optionId)
+      {cartItemsInfo && cartItemsInfo.map((item, index: number) => {
+        const isLastItem = index === cartItemsInfo.length - 1;
         return (
           <div key={index}>
             <Divider />
             <ShoppingCartItem
-              item={item}
-              optionIndex={optionIndex}
+              image={item.product.image}
+              id={item.product._id}
+              slug={item.product.slug}
+              category={item.product.category}
+              brand={item.product.brand}
+              name={item.product.name}
+              size={item.product.options[item.optionIndex].size}
+              price={item.product.options[item.optionIndex].price}
+              subtotal={item.product.options[item.optionIndex].price * item.quantity}
+              quantity={item.quantity}
+              countInStock={item.product.options[item.optionIndex].countInStock}
             />
             {isLastItem && <Divider />}
           </div>

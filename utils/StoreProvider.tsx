@@ -1,13 +1,12 @@
 'use client'
 import { ItemOptions } from "@/app/components/ProductItem";
-import { ProductInfoProps } from "@/app/products/[category]/[slug]/ProductContainer";
 import { getCookie, setCookie } from "cookies-next";
 import { usePathname } from "next/navigation";
 import { createContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 export interface CartItems {
-  cartItem: ProductInfoProps;
+  itemId: string;
   optionId: string;
   quantity: number;
 }
@@ -35,7 +34,7 @@ const initialCart: CartItems[] = [];
 
 export const Store = createContext({
   cart: initialCart,
-  handleAddToCart: (newItem: ProductInfoProps, optionId: string, quantity: number) => { },
+  handleAddToCart: (_itemId: string, _optionId: string, _quantity: number) => { },
   handleDeleteFromCart: (_optionId: string) => { },
   userInfo: null as UserInfo | null,
   setUserInfo: (userInfo: UserInfo) => { },
@@ -88,8 +87,8 @@ export default function StoreProvider(props: React.PropsWithChildren<{}>) {
   }, [cart]);
 
 
-  const handleAddToCart = async (newItem: ProductInfoProps, optionId: string, quantity: number) => {
-    const res = await fetch(`/api/products/${newItem.category}/${newItem.slug}`);
+  const handleAddToCart = async (itemId: string, optionId: string, quantity: number) => {
+    const res = await fetch(`/api/products/${itemId}`);
     const data = await res.json();
 
     const selectedSize = optionId;
@@ -101,13 +100,13 @@ export default function StoreProvider(props: React.PropsWithChildren<{}>) {
       return acc;
     }, undefined);
 
-    const existingItem = cart.find((item) => item.optionId === optionId && item.cartItem._id === newItem._id);
+    const existingItem = cart.find((item) => item.optionId === optionId && item.itemId === itemId);
 
     if (stock && stock >= quantity) {
       if (existingItem) {
         if (existingItem.quantity + quantity <= stock) {
           const updatedCart = cart.map((item) =>
-            item.optionId === existingItem.optionId && item.cartItem._id === existingItem.cartItem._id
+            item.optionId === existingItem.optionId && item.itemId === existingItem.itemId
               ? { ...item, quantity: item.quantity + quantity }
               : item
           );
@@ -137,12 +136,12 @@ export default function StoreProvider(props: React.PropsWithChildren<{}>) {
           });
         }
       } else {
-        const newCartItem = {
-          cartItem: newItem,
+        const newItem = {
+          itemId,
           optionId,
           quantity: quantity,
         };
-        setCart([...cart, newCartItem]);
+        setCart([...cart, newItem]);
         if (path !== '/cart') {
           toast.success(`Item has been added to your cart!`, {
             position: "top-center",
