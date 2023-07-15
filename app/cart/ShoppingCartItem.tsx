@@ -6,44 +6,35 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import { useContext, useEffect, useState } from "react";
-import { Store } from "@/utils/StoreProvider";
+import { CartItems, Store } from "@/utils/StoreProvider";
 import Link from "next/link";
 
 interface PageProps {
-  image: string;
-  id: string;
-  slug: string;
-  category: string;
-  brand: string;
-  name: string;
-  size: string;
-  price: number;
-  subtotal: number;
-  quantity: number;
-  countInStock: number;
+  item: CartItems;
+  optionIndex: number;
 }
 
-export default function ShoppingCartItem({ image, id, category, brand, slug, name, size, price, subtotal, quantity, countInStock }: PageProps) {
-  const [newQuantity, setnewQuantity] = useState(quantity);
-  const [newSubtotal, setNewSubtotal] = useState(subtotal);
+export default function ShoppingCartItem({ item, optionIndex }: PageProps) {
+  const [newQuantity, setnewQuantity] = useState(item.quantity);
+  const [newSubtotal, setNewSubtotal] = useState(item.cartItem.options[optionIndex].price * item.quantity);
   const { handleAddToCart, handleDeleteFromCart } = useContext(Store);
 
   const increase = () => {
-    if (countInStock > newQuantity) {
+    if (item.cartItem.options[optionIndex].countInStock > newQuantity) {
       setnewQuantity(newQuantity + 1);
-      handleAddToCart(id, size, 1);
+      handleAddToCart(item.cartItem, item.optionId, 1);
     }
   };
 
   const decrease = () => {
     if (newQuantity > 1) {
       setnewQuantity(newQuantity - 1);
-      handleAddToCart(id, size, -1);
+      handleAddToCart(item.cartItem, item.optionId, -1);
     }
   };
 
   useEffect(() => {
-    setNewSubtotal(price * newQuantity);
+    setNewSubtotal(item.cartItem.options[optionIndex].price * newQuantity);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [newQuantity]);
 
@@ -51,10 +42,10 @@ export default function ShoppingCartItem({ image, id, category, brand, slug, nam
     <div className='grid grid-cols-12 gap-4 my-4'>
 
       <div className="relative aspect-square col-span-2 max-md:col-span-4 rounded-md">
-        <Link href={`/products/${category}/${slug}`}>
+        <Link href={`/products/${item.cartItem.category}/${item.cartItem.slug}`}>
           <Image
-            src={image}
-            alt={name}
+            src={item.cartItem.image}
+            alt={item.cartItem.name}
             fill
             loading="lazy"
             className="object-cover rounded-md"
@@ -65,20 +56,20 @@ export default function ShoppingCartItem({ image, id, category, brand, slug, nam
 
       <div className='col-span-4 max-md:col-span-8'>
         <Box component='span' sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start' }}>
-          <Link href={`/products/${category}/${slug}`}>
-            <div className='text-xl font-semibold hover:underline'>{name}</div>
+          <Link href={`/products/${item.cartItem.category}/${item.cartItem.slug}`}>
+            <div className='text-xl font-semibold hover:underline'>{item.cartItem.name}</div>
           </Link>
-          <Button className='md:hidden' onClick={() => handleDeleteFromCart(size)}>
+          <Button className='md:hidden' onClick={() => handleDeleteFromCart(item.optionId)}>
             <DeleteIcon sx={{ color: red[500] }} />
           </Button>
         </Box>
-        <div>{brand}</div>
-        <div>{size}</div>
+        <div>{item.cartItem.brand}</div>
+        <div>{item.optionId}</div>
       </div>
 
       <div className='col-span-2 text-center max-md:col-span-4'>
         <div className='mb-2'>Item Price</div>
-        <div>${(price).toFixed(2)}</div>
+        <div>${(item.cartItem.options[optionIndex].price)?.toFixed(2)}</div>
       </div>
 
       <div className='col-span-2 text-center flex flex-col justify-between max-md:col-span-4'>
@@ -91,12 +82,12 @@ export default function ShoppingCartItem({ image, id, category, brand, slug, nam
             <Box component="span" sx={{ padding: '6px 16px', border: '1px solid #9e9e9e' }}>
               <Typography>{newQuantity < 1 ? 0 : newQuantity}</Typography>
             </Box>
-            <Button onClick={increase} sx={{ color: grey[700], border: '1px solid #9e9e9e' }} disabled={newQuantity >= countInStock} >
+            <Button onClick={increase} sx={{ color: grey[700], border: '1px solid #9e9e9e' }} disabled={newQuantity >= item.cartItem.options[optionIndex].countInStock} >
               <AddIcon />
             </Button>
           </ButtonGroup>
         </div>
-        <Button className='w-fit mx-auto hidden md:block' onClick={() => handleDeleteFromCart(size)}>
+        <Button className='w-fit mx-auto hidden md:block' onClick={() => handleDeleteFromCart(item.optionId)}>
           <DeleteIcon sx={{ color: red[500] }} />
         </Button>
       </div>
