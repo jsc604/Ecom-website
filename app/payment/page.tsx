@@ -2,6 +2,12 @@ import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import CheckoutWizard from "../components/CheckoutWizard";
 
+export async function generateMetadata() {
+  return {
+    title: 'Payment',
+  };
+}
+
 export default function Payment() {
   const cookieStore = cookies();
   const cartToken = cookieStore.get("cartItems");

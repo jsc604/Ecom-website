@@ -4,6 +4,7 @@ import { useContext, useEffect, useState } from 'react'
 import { productObject } from '../products/AllProducts';
 import ShoppingCartItems from './ShoppingCartItems';
 import CartSummary from './CartSummary';
+import CheckoutWizard from '../components/CheckoutWizard';
 
 export interface ItemInfo {
   product: productObject;
@@ -32,14 +33,21 @@ export default function CartContainer() {
     fetchData();
   }, [cartItems]);
 
+  if (cartItems.length < 1) {
+    return <></>;
+  }
+
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 lg:gap-16">
-      <div className="col-span-2">
-        <ShoppingCartItems cartItemsInfo={cartItemsInfo} />
+    <>
+      <CheckoutWizard activeStep={0} />
+      <div className="grid grid-cols-1 lg:grid-cols-3 lg:gap-16">
+        <div className="col-span-2">
+          <ShoppingCartItems cartItemsInfo={cartItemsInfo} />
+        </div>
+        <div className="lg:col-span-1">
+          <CartSummary cartItemsInfo={cartItemsInfo} />
+        </div>
       </div>
-      <div className="lg:col-span-1">
-        <CartSummary cartItemsInfo={cartItemsInfo} />
-      </div>
-    </div>
+    </>
   )
 }

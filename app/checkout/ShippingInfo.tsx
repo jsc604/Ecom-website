@@ -7,7 +7,7 @@ import { useForm, SubmitHandler, FieldValues, Controller } from 'react-hook-form
 import ItemScroll from './ItemScroll';
 import { ItemInfo } from '../cart/CartContainer';
 import { setCookie } from 'cookies-next';
-import { useRouter } from 'next/navigation';
+import { redirect, useRouter } from 'next/navigation';
 
 const provinces = [
   { value: 'Alberta', label: 'Alberta' },
@@ -54,6 +54,8 @@ export default function ShippingInfo() {
         const res = await fetch('/api/cart');
 
         setCartItemsInfo(await res.json());
+      } else {
+        router.push('/cart');
       }
     }
 

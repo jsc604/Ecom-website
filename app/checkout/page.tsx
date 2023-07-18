@@ -1,22 +1,28 @@
-import { redirect } from "next/navigation";
-import { cookies } from "next/headers";
 import ShippingInfo from "./ShippingInfo";
 import CheckoutWizard from "../components/CheckoutWizard";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+
+export async function generateMetadata() {
+  return {
+    title: 'Checkout',
+  };
+}
 
 export default function Checkout() {
   const cookieStore = cookies();
-  const token = cookieStore.get("cartItems");
-  const cartItems = token && JSON.parse(token.value);
+  const cartToken = cookieStore.get("cartItems");
+  const cartItems = cartToken && JSON.parse(cartToken.value);
+
+  if (!cartItems || cartItems.length < 1) {
+    redirect('/cart');
+  }
 
   return (
     <div className="min-h-80vh w-11/12 max-w-[1350px] mx-auto">
       <h1 className="text-center font-semibold my-8 text-4xl">Checkout</h1>
       <CheckoutWizard activeStep={1} />
-      {cartItems === undefined || cartItems.length < 1 ? (
-        redirect('/cart')
-      ) : (
-        <ShippingInfo />
-      )}
+      <ShippingInfo />
     </div>
   )
 }
