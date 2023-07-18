@@ -4,7 +4,6 @@ import LoginCard from './LoginCard'
 import { Store } from '@/utils/StoreProvider';
 import { Card, Typography, TextField, MenuItem, FormControlLabel, Radio, RadioGroup, Button, Divider } from '@mui/material';
 import { useForm, SubmitHandler, FieldValues, Controller } from 'react-hook-form';
-import router from 'next/router';
 import ItemScroll from './ItemScroll';
 import { ItemInfo } from '../cart/CartContainer';
 
@@ -35,7 +34,7 @@ export default function ShippingInfo() {
       setValue('email', userInfo.email);
     }
     if (shippingInfo) {
-      setValue('address', shippingInfo?.address);
+      setValue('address', shippingInfo.address);
       setValue('city', shippingInfo.city);
       setValue('province', shippingInfo.province);
       setValue('postalCode', shippingInfo.postalCode);
@@ -71,131 +70,103 @@ export default function ShippingInfo() {
 
   const subtotal = getSubtotal();
 
-  const submitHandler: SubmitHandler<FieldValues> = async ({ shippingOption }) => {
+  const submitHandler: SubmitHandler<FieldValues> = async ({ firstName, lastName, email, address, city, province, postalCode, shippingOption }) => {
+    console.log('firstName: ', firstName);
+    console.log('lastName: ', lastName);
+    console.log('email: ', email);
+    console.log('address: ', address);
+    console.log('city: ', city);
+    console.log('province: ', province);
+    console.log('postalCode: ', postalCode);
     console.log('shippingOption: ', shippingOption);
   }
 
   return (
-    <form onSubmit={handleSubmit(submitHandler)} method='POST' className="grid grid-cols-12 ml:gap-16">
+    <div className="grid grid-cols-12 ml:gap-16">
       <div className="col-span-12 ml:col-span-8 xl:col-span-6 xl:col-start-2">
         <LoginCard />
 
-        {/* --------SHIPPING INFO INPUT-------- */}
-        <Card sx={{ padding: 2 }} className="my-4 space-y-4">
-          <Typography className="text-3xl font-semibold">Shipping Info</Typography>
-          <div className="flex flex-col sm:flex-row gap-4">
-            <Controller
-              name="firstName"
-              control={control}
-              defaultValue=''
-              rules={{
-                minLength: 2,
-              }}
-              render={({ field }) => (
-                <TextField
-                  sx={{ width: '100%' }}
-                  required
-                  id="first name"
-                  label="First Name"
-                  type="text"
-                  error={Boolean(errors.firstName)}
-                  helperText={
-                    errors.firstName?.type === 'minLength' ? 'First Name has to be 2 or more characters in length.' : ''
-                  }
-                  {...field}
-                />
-              )}
-            />
-
-            <Controller
-              name="lastName"
-              control={control}
-              defaultValue=''
-              rules={{
-                minLength: 2,
-              }}
-              render={({ field }) => (
-                <TextField
-                  sx={{ width: '100%' }}
-                  required
-                  id="last name"
-                  label="Last Name"
-                  type="text"
-                  error={Boolean(errors.lastName)}
-                  helperText={
-                    errors.lastName?.type === 'minLength' ? 'Last Name has to be 2 or more characters in length.' : ''
-                  }
-                  {...field}
-                />
-              )}
-            />
-          </div>
-
-          <Controller
-            name="email"
-            control={control}
-            defaultValue=''
-            rules={{
-              pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i,
-            }}
-            render={({ field }) => (
-              <TextField
-                sx={{ width: '100%' }}
-                required
-                id="email"
-                label="Email"
-                type="email"
-                error={Boolean(errors.email)}
-                helperText={
-                  errors.email?.type === 'pattern' ? 'Please enter a valid email' : ''
-                }
-                {...field}
+        <form>
+          {/* --------SHIPPING INFO INPUT-------- */}
+          <Card sx={{ padding: 2 }} className="my-4 space-y-4">
+            <Typography className="text-3xl font-semibold">Shipping Info</Typography>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Controller
+                name="firstName"
+                control={control}
+                defaultValue=''
+                rules={{
+                  required: true,
+                  minLength: 2,
+                }}
+                render={({ field }) => (
+                  <TextField
+                    sx={{ width: '100%' }}
+                    id="first name"
+                    label="First Name"
+                    type="text"
+                    error={Boolean(errors.firstName)}
+                    helperText={
+                      errors.firstName
+                        ? errors.firstName.type === 'minLength'
+                          ? 'First Name has to be 2 or more characters in length.'
+                          : 'First name is required'
+                        : ''
+                    }
+                    {...field}
+                  />
+                )}
               />
-            )}
-          />
 
-          <Controller
-            name="address"
-            control={control}
-            defaultValue=''
-            rules={{
-              minLength: 5,
-            }}
-            render={({ field }) => (
-              <TextField
-                sx={{ width: '100%' }}
-                required
-                id="address"
-                label="Address"
-                type="text"
-                placeholder="Include apt, suite, or floor number here"
-                error={Boolean(errors.address)}
-                helperText={
-                  errors.address?.type === 'minLength' ? 'Please enter a valid address.' : ''
-                }
-                {...field}
+              <Controller
+                name="lastName"
+                control={control}
+                defaultValue=''
+                rules={{
+                  required: true,
+                  minLength: 2,
+                }}
+                render={({ field }) => (
+                  <TextField
+                    sx={{ width: '100%' }}
+                    id="last name"
+                    label="Last Name"
+                    type="text"
+                    error={Boolean(errors.lastName)}
+                    helperText={
+                      errors.lastName ?
+                        errors.lastName.type === 'minLength'
+                          ? 'Last Name has to be 2 or more characters in length.'
+                          : 'Last Name is required'
+                        : ''
+                    }
+                    {...field}
+                  />
+                )}
               />
-            )}
-          />
+            </div>
 
-          <div className="flex flex-col sm:flex-row gap-4">
             <Controller
-              name="city"
+              name="email"
               control={control}
               defaultValue=''
               rules={{
-                minLength: 2,
+                required: true,
+                pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i,
               }}
               render={({ field }) => (
                 <TextField
                   sx={{ width: '100%' }}
-                  required
-                  id="city"
-                  label="City"
-                  type="text"
-                  error={Boolean(errors.city)}
+                  id="email"
+                  label="Email"
+                  type="email"
+                  error={Boolean(errors.email)}
                   helperText={
-                    errors.city?.type === 'minLength' ? 'City has to be 2 or more characters in length.' : ''
+                    errors.email
+                      ? errors.email.type === 'pattern'
+                        ? 'Please enter a valid email'
+                        : 'Email is required'
+                      : ''
                   }
                   {...field}
                 />
@@ -203,74 +174,139 @@ export default function ShippingInfo() {
             />
 
             <Controller
-              name="province"
+              name="address"
               control={control}
               defaultValue=''
+              rules={{
+                required: true,
+                minLength: 5,
+              }}
               render={({ field }) => (
                 <TextField
                   sx={{ width: '100%' }}
-                  required
-                  id="province"
-                  label="Province"
-                  select
+                  id="address"
+                  label="Address"
+                  type="text"
+                  placeholder="Include apt, suite, or floor number here"
+                  error={Boolean(errors.address)}
+                  helperText={
+                    errors.address
+                      ? errors.address.type === 'minLength'
+                        ? 'Please enter a valid address.'
+                        : 'Address is required'
+                      : ''
+                  }
+                  {...field}
+                />
+              )}
+            />
+
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Controller
+                name="city"
+                control={control}
+                defaultValue=''
+                rules={{
+                  required: true,
+                  minLength: 2,
+                }}
+                render={({ field }) => (
+                  <TextField
+                    sx={{ width: '100%' }}
+                    id="city"
+                    label="City"
+                    type="text"
+                    error={Boolean(errors.city)}
+                    helperText={
+                      errors.city
+                        ? errors.city?.type === 'minLength'
+                          ? 'City has to be 2 or more characters in length.'
+                          : 'City is required'
+                        : ''
+                    }
+                    {...field}
+                  />
+                )}
+              />
+
+              <Controller
+                name="province"
+                control={control}
+                defaultValue=''
+                rules={{
+                  required: true,
+                }}
+                render={({ field }) => (
+                  <TextField
+                    sx={{ width: '100%' }}
+                    id="province"
+                    label="Province"
+                    select
+                    error={Boolean(errors.province)}
+                    helperText={errors.province ? 'Please select your province' : ''}
+                    {...field}
+                  >
+                    {provinces.map((option) => (
+                      <MenuItem key={option.value} value={option.value}>
+                        {option.label}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                )}
+              />
+
+              <Controller
+                name="postalCode"
+                control={control}
+                defaultValue=''
+                rules={{
+                  required: true,
+                  pattern: /^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$/,
+                }}
+                render={({ field }) => (
+                  <TextField
+                    sx={{ width: '100%' }}
+                    id="postal code"
+                    label="Postal Code"
+                    type="text"
+                    error={Boolean(errors.postalCode)}
+                    helperText={
+                      errors.postalCode
+                        ? errors.postalCode.type === 'pattern'
+                          ? 'Please enter a valid postal code'
+                          : 'Postal code is required'
+                        : ''
+                    }
+                    {...field}
+                  />
+                )}
+              />
+            </div>
+          </Card>
+
+          {/* --------SHIPPING OPTIONS-------- */}
+          <Card sx={{ padding: 2 }}>
+            <Typography className="text-3xl font-semibold">Shipping Options</Typography>
+            <Controller
+              name="shippingOption"
+              control={control}
+              defaultValue="Canada Post Xpresspost"
+              render={({ field }) => (
+                <RadioGroup
+                  aria-labelledby="shipping options group"
                   {...field}
                 >
-                  {provinces.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
-                      {option.label}
-                    </MenuItem>
-                  ))}
-                </TextField>
+                  <FormControlLabel value="Canada Post Xpresspost" control={<Radio />} label="Canada Post Xpresspost" />
+                  <FormControlLabel value="FedEx Ground" control={<Radio />} label="FedEx Ground" />
+                </RadioGroup>
               )}
             />
-
-            <Controller
-              name="postalCode"
-              control={control}
-              defaultValue=''
-              rules={{
-                pattern: /^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$/,
-              }}
-              render={({ field }) => (
-                <TextField
-                  sx={{ width: '100%' }}
-                  required
-                  id="postal code"
-                  label="Postal Code"
-                  type="text"
-                  error={Boolean(errors.postalCode)}
-                  helperText={
-                    errors.postalCode?.type === 'pattern' ? 'Please enter a valid postal code' : ''
-                  }
-                  {...field}
-                />
-              )}
-            />
-          </div>
-        </Card>
-
-        {/* --------SHIPPING OPTIONS-------- */}
-        <Card sx={{ padding: 2 }}>
-          <Typography className="text-3xl font-semibold">Shipping Options</Typography>
-          <Controller
-            name="shippingOption"
-            control={control}
-            defaultValue="Canada Post Xpresspost"
-            render={({ field }) => (
-              <RadioGroup
-                aria-labelledby="shipping options group"
-                {...field}
-              >
-                <FormControlLabel value="Canada Post Xpresspost" control={<Radio />} label="Canada Post Xpresspost" />
-                <FormControlLabel value="FedEx Ground" control={<Radio />} label="FedEx Ground" />
-              </RadioGroup>
-            )}
-          />
-        </Card>
+          </Card>
+        </form>
       </div>
 
       {/* --------ORDER SUMMARY-------- */}
-      <div className="col-span-12 ml:col-span-4 xl:col-span-3">
+      <div className="col-span-12 ml:col-span-4">
         <div className='w-full mb-8'>
           <h1 className="text-center font-semibold mb-4 max-lg:mt-4 text-3xl">Order Summary</h1>
           <ItemScroll cartItemsInfo={cartItemsInfo} />
@@ -290,7 +326,7 @@ export default function ShippingInfo() {
               <div>${subtotal > 200 ? subtotal.toFixed(2) : (subtotal + shippingPrice).toFixed(2)}</div>
             </div>
             <div className='my-2 mx-auto text-center'>
-              <Button type='submit' color='success' variant='contained' sx={{ width: '100%' }} className='bg-green-600'>
+              <Button onClick={handleSubmit(submitHandler)} color='success' variant='contained' sx={{ width: '100%' }} className='bg-green-600'>
                 Continue to Payment
               </Button>
             </div>
@@ -298,6 +334,6 @@ export default function ShippingInfo() {
         </div>
       </div>
 
-    </form>
+    </div>
   )
 }
