@@ -1,6 +1,7 @@
 import EmptyBag from "./EmptyBag";
 import { cookies } from "next/headers";
 import CartContainer from "./CartContainer";
+import CheckoutWizard from "../components/CheckoutWizard";
 
 export async function generateMetadata() {
   return {
@@ -15,11 +16,14 @@ export default function Cart() {
 
   return (
     <div className="min-h-[80vh] w-11/12 max-w-[1350px] mx-auto">
-      <h1 className="text-center font-bold my-8 text-4xl">Shopping Bag</h1>
+      <h1 className="text-center font-bold my-8 text-4xl">Cart</h1>
       {cartItems === undefined || cartItems.length < 1 ? (
         <EmptyBag />
       ) : (
-        <CartContainer />
+        <>
+          <CheckoutWizard activeStep={0} />
+          <CartContainer />
+        </>
       )}
     </div>
   )
