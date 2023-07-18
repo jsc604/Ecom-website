@@ -6,6 +6,8 @@ import { Card, Typography, TextField, MenuItem, FormControlLabel, Radio, RadioGr
 import { useForm, SubmitHandler, FieldValues, Controller } from 'react-hook-form';
 import ItemScroll from './ItemScroll';
 import { ItemInfo } from '../cart/CartContainer';
+import { setCookie } from 'cookies-next';
+import { useRouter } from 'next/navigation';
 
 const provinces = [
   { value: 'Alberta', label: 'Alberta' },
@@ -24,6 +26,7 @@ const provinces = [
 ];
 
 export default function ShippingInfo() {
+  const router = useRouter();
   const { handleSubmit, control, setValue, formState: { errors } } = useForm();
   const { cart, userInfo, shippingInfo, setShippingInfo } = useContext(Store);
 
@@ -71,14 +74,9 @@ export default function ShippingInfo() {
   const subtotal = getSubtotal();
 
   const submitHandler: SubmitHandler<FieldValues> = async ({ firstName, lastName, email, address, city, province, postalCode, shippingOption }) => {
-    console.log('firstName: ', firstName);
-    console.log('lastName: ', lastName);
-    console.log('email: ', email);
-    console.log('address: ', address);
-    console.log('city: ', city);
-    console.log('province: ', province);
-    console.log('postalCode: ', postalCode);
-    console.log('shippingOption: ', shippingOption);
+    setShippingInfo({ firstName, lastName, email, address, city, province, postalCode, shippingOption });
+    setCookie('shippingInfo', { firstName, lastName, email, address, city, province, postalCode, shippingOption }, { maxAge: 60 * 60 * 12 });
+    router.push('/payment');
   }
 
   return (
