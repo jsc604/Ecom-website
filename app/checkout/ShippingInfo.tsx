@@ -7,7 +7,7 @@ import { useForm, SubmitHandler, FieldValues, Controller } from 'react-hook-form
 import ItemScroll from './ItemScroll';
 import { ItemInfo } from '../cart/CartContainer';
 import { setCookie } from 'cookies-next';
-import { redirect, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 const provinces = [
   { value: 'Alberta', label: 'Alberta' },
@@ -60,7 +60,7 @@ export default function ShippingInfo() {
     }
 
     fetchData();
-  }, [cart]);
+  }, [cart, router]);
 
   const shippingPrice = 20;
 

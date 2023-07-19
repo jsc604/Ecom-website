@@ -15,24 +15,19 @@ export default function Payment() {
   const shippingToken = cookieStore.get("shippingInfo");
   const shippingInfo = shippingToken && JSON.parse(shippingToken.value);
 
+  if (!cartItems || cartItems.length < 1) {
+    redirect('/cart');
+  }
+
+  if (!shippingInfo) {
+    redirect('/checkout');
+  }
+
   return (
     <div className="min-h-80vh w-11/12 max-w-[1350px] mx-auto">
       <h1 className="text-center font-semibold my-8 text-4xl">Payment</h1>
       <CheckoutWizard activeStep={2} />
-      {
-        !shippingInfo?.firstName
-          || !shippingInfo?.lastName
-          || !shippingInfo?.email
-          || !shippingInfo?.address
-          || !shippingInfo?.city
-          || !shippingInfo?.province
-          || !shippingInfo?.postalCode
-          ? cartItems === undefined || cartItems.length < 1
-            ? redirect('/cart')
-            : redirect('/checkout')
-          : (
-            <></>
-          )}
+      <></>
     </div>
   )
 }

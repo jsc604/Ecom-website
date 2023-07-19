@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { AppBar, Box, Toolbar, IconButton, Divider, Drawer, List, ListItemButton, ListItemText, Typography } from '@mui/material'
 import Badge, { BadgeProps } from '@mui/material/Badge';
 import { styled } from '@mui/material/styles';
-import { ShoppingBag, Menu } from '@mui/icons-material';
+import { ShoppingCart, Menu } from '@mui/icons-material';
 import CssBaseline from '@mui/material/CssBaseline';
 import { useScrollTrigger } from '@mui/material';
 import Slide from '@mui/material/Slide';
@@ -17,9 +17,10 @@ const StyledAppBar = styled(AppBar)({
 
 const StyledBadge = styled(Badge)<BadgeProps>(() => ({
   '& .MuiBadge-badge': {
-    right: '50%',
-    top: '69%',
-    transform: 'translate(50%, -50%)',
+    right: 0,
+    top: 4,
+    padding: '0 4px',
+    color: 'white',
   },
 }));
 
@@ -112,8 +113,8 @@ export default function Nav() {
               <AccountMenu />
               <Link href={'/cart'}>
                 <IconButton aria-label="cart">
-                  <StyledBadge badgeContent={cartItems.length > 0 ? cartItems.length : '0'} >
-                    <ShoppingBag sx={{ width: 28, height: 28, color: 'white' }} />
+                  <StyledBadge badgeContent={cartItems.length > 0 ? cartItems.length : '0'} color='info' >
+                    <ShoppingCart sx={{ width: 28, height: 28, color: 'white' }} />
                   </StyledBadge>
                 </IconButton>
               </Link>
