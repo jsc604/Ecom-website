@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import CheckoutWizard from "../components/CheckoutWizard";
+import PaymentMethod from "./PaymentMethod";
 
 export async function generateMetadata() {
   return {
@@ -27,7 +28,7 @@ export default function Payment() {
     <div className="min-h-80vh w-11/12 max-w-[1350px] mx-auto">
       <h1 className="text-center font-semibold my-8 text-4xl">Payment</h1>
       <CheckoutWizard activeStep={2} />
-      <></>
+      <PaymentMethod />
     </div>
   )
 }
