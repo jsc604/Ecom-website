@@ -1,6 +1,6 @@
 'use client'
 import { ExpandLess, ExpandMore, ShoppingBagOutlined } from "@mui/icons-material";
-import { List, ListItemButton, Typography, Collapse, ListItem, Divider, Box } from "@mui/material";
+import { List, ListItemButton, Typography, Collapse, ListItem, Divider, Box, BadgeProps, Badge, styled } from "@mui/material";
 import { useState } from "react";
 import { ItemInfo } from "../cart/CartContainer";
 import Image from "next/image";
@@ -15,6 +15,15 @@ export default function ItemScroll({ cartItemsInfo }: PageProps) {
   const handleClick = () => {
     setOpen(!open);
   };
+
+  const StyledBadge = styled(Badge)<BadgeProps>(() => ({
+    '& .MuiBadge-badge': {
+      right: 0,
+      top: 4,
+      padding: '0 4px',
+      color: 'white',
+    },
+  }));
 
   return (
     <List>
@@ -33,7 +42,7 @@ export default function ItemScroll({ cartItemsInfo }: PageProps) {
             return (
               <div key={index}>
                 <ListItem>
-                  <Box sx={{ position: 'relative', aspectRatio: 1 / 1, width: 1 / 4, minWidth: '60px', borderRadius: 6, marginBottom: 'auto' }}>
+                  <StyledBadge badgeContent={item.quantity} color='info' sx={{ position: 'relative', aspectRatio: 1 / 1, width: 1 / 5, minWidth: '60px', borderRadius: 6, marginBottom: 'auto' }} >
                     <Image
                       src={item.product.image}
                       alt={item.product.name}
@@ -41,15 +50,14 @@ export default function ItemScroll({ cartItemsInfo }: PageProps) {
                       loading="lazy"
                       className="object-cover rounded-md"
                     />
-                  </Box>
+                  </StyledBadge>
                   <Box sx={{ width: 3 / 4, marginLeft: 2, marginBottom: 'auto' }}>
-                    <Typography sx={{ fontWeight: 600 }}>{item.product.name}</Typography>
-                    <Typography>{item.product.brand}</Typography>
-                    <Typography>{item.product.options[item.optionIndex].size}</Typography>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                      <Typography>x{item.quantity}</Typography>
+                      <Typography sx={{ fontWeight: 600 }}>{item.product.name}</Typography>
                       <Typography>${(item.product.options[item.optionIndex].price * item.quantity).toFixed(2)}</Typography>
                     </Box>
+                    <Typography>{item.product.brand}</Typography>
+                    <Typography>{item.product.options[item.optionIndex].size}</Typography>
                   </Box>
                 </ListItem>
                 {!isLastItem && <Divider />}

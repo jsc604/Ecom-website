@@ -43,10 +43,10 @@ export default function PaymentMethod() {
   const subtotal = getSubtotal();
 
   return (
-    <div className='flex gap-8'>
-      <div className='w-1/2 p-4'>
+    <div className='flex flex-col sm:flex-row gap-4 sm:gap-8'>
+      <div className='w-full sm:w-1/2 p-4'>
         <Typography sx={{ fontSize: 30, fontWeight: 600, textAlign: 'center' }}>Select Payment Method</Typography>
-        <FormControl>
+        <FormControl sx={{width: '100%'}}>
           <RadioGroup value={selectedOption} onChange={handleOptionChange}>
             <FormControlLabel value="eTransfer" control={<Radio />} label="E-Transfer" />
             <FormControlLabel value="creditCard" control={<Radio />} label="Credit Card" />
@@ -67,7 +67,7 @@ export default function PaymentMethod() {
 
       <Divider orientation='vertical' flexItem/>
       
-      <div className='w-1/2 p-4'>
+      <div className='w-full sm:w-1/2 p-4'>
         <Typography sx={{ fontSize: 30, fontWeight: 600, textAlign: 'center' }}>Order Summary</Typography>
         <ItemScroll cartItemsInfo={cartItemsInfo} />
         <Divider />
@@ -87,7 +87,7 @@ export default function PaymentMethod() {
           </div>
           <div className='my-2 mx-auto text-center'>
             <Button color='success' variant='contained' sx={{ width: '100%' }} className='bg-green-600'>
-              Continue to Payment
+              Place Order
             </Button>
           </div>
         </div>
