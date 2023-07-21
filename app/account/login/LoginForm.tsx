@@ -1,20 +1,22 @@
 'use client'
 import { Store } from "@/utils/StoreProvider";
-import { TextField, Button } from "@mui/material"
+import { TextField, Button, CircularProgress } from "@mui/material"
 import { getCookie, setCookie } from "cookies-next";
 import { usePathname, useRouter } from "next/navigation";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { Controller, FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
 export default function LoginForm() {
   const { handleSubmit, control, formState: { errors } } = useForm();
   const { setUserInfo } = useContext(Store);
+  const [loading, setLoading] = useState(false);
 
   const pathname = usePathname();
   const router = useRouter();
 
   const submitHandler: SubmitHandler<FieldValues> = async ({ email, password }) => {
+    setLoading(true);
     const res = await fetch('/api/account/login', {
       method: 'POST',
       body: JSON.stringify({ email: email.toLowerCase(), password }),
@@ -26,6 +28,7 @@ export default function LoginForm() {
     const data = await Promise.resolve(res.json());
 
     if (!res.ok) {
+      setLoading(false);
       toast.error(`${data.message}`, {
         position: "top-center",
         autoClose: 8000,
@@ -41,6 +44,7 @@ export default function LoginForm() {
 
     setCookie('userInfo', data, { maxAge: 60 * 60 * 12 });
     setUserInfo(data);
+    setLoading(false);
     if (pathname !== '/checkout') {
       router.push('/');
     }
@@ -115,7 +119,9 @@ export default function LoginForm() {
           )}
         />
       </div>
-      <Button type='submit' color='success' variant='contained' sx={{ width: '100%', marginTop: 1 }} className='bg-green-600'>Log In</Button>
+      <Button type='submit' disabled={loading} color='success' variant='contained' sx={{ width: '100%', marginTop: 1 }} className='bg-green-600'>
+        {loading ? <CircularProgress /> : 'Log In'}
+      </Button>
     </form>
   )
 }
