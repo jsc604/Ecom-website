@@ -1,50 +1,72 @@
 'use client'
-
-import { Typography, Card } from "@mui/material"
-import { useContext, useState, useEffect } from "react";
+import { Typography, Card, Box, Collapse, Divider, List, ListItem, ListItemButton } from "@mui/material"
+import { useState } from "react";
 import { ItemInfo } from "../cart/CartContainer";
-import { Store } from "@/utils/StoreProvider";
-import ItemsSummary from "./ItemsSummary";
+import { ShoppingBagOutlined, ExpandLess, ExpandMore } from "@mui/icons-material";
+import Image from "next/image";
 
-export default function OrderSummary() {
-  const { cart, userInfo, shippingInfo } = useContext(Store);
-  const [cartItemsInfo, setCartItemsInfo] = useState<ItemInfo[]>([]);
+interface PageProps {
+  cartItemsInfo: ItemInfo[];
+}
 
-  useEffect(() => {
-    async function fetchData() {
-      if (cart.length > 0) {
-        const res = await fetch('/api/cart');
+export default function OrderSummary({ cartItemsInfo }: PageProps) {
+  const [open, setOpen] = useState(true);
 
-        setCartItemsInfo(await res.json());
-      }
-    }
-
-    fetchData();
-  }, [cart]);
-
-  const shippingPrice = 20;
-
-  const getSubtotal = (() => {
-    let subtotal = 0;
-    cartItemsInfo.map((item) => {
-      const itemSubtotal = item.product.options[item.optionIndex].price * item.quantity;
-      subtotal += itemSubtotal;
-    })
-    return subtotal;
-  });
-
-  const subtotal = getSubtotal();
+  const handleClick = () => {
+    setOpen(!open);
+  };
 
   return (
-    <div className='w-full sm:w-1/2 p-4'>
-      <Card>
-        <Typography sx={{ fontSize: 30, fontWeight: 600, textAlign: 'center' }}>Order Summary</Typography>
-        <ItemsSummary cartItemsInfo={cartItemsInfo} />
-      </Card>
-
-      <Card>
-      </Card>
-
-    </div>
+    <Card>
+      <Typography sx={{ fontSize: 30, fontWeight: 600, textAlign: 'center' }}>Order Summary</Typography>
+      <List>
+        <ListItemButton onClick={handleClick}>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <ShoppingBagOutlined />
+            <Typography component='span'>{cartItemsInfo.length} items</Typography>
+            {open ? <ExpandLess /> : <ExpandMore />}
+          </Box>
+        </ListItemButton>
+        <Collapse in={open} timeout="auto" unmountOnExit>
+          <Divider />
+          <List>
+            {cartItemsInfo.map((item, index) => {
+              const isLastItem = index === cartItemsInfo.length - 1;
+              return (
+                <div key={index}>
+                  <ListItem className="grid grid-cols-4" sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start' }}>
+                    <Box className="col-span-2" sx={{ display: 'flex', gap: 2 }}>
+                      <Box className="max-sm:hidden" sx={{ position: 'relative', aspectRatio: 1 / 1, width: 1 / 4, minWidth: '60px', borderRadius: 6, marginBottom: 'auto' }} >
+                        <Image
+                          src={item.product.image}
+                          alt={item.product.name}
+                          fill
+                          loading="lazy"
+                          className="object-cover rounded-md"
+                        />
+                      </Box>
+                      <Box>
+                        <Typography sx={{ fontWeight: 600 }}>{item.product.name}</Typography>
+                        <Typography>{item.product.brand}</Typography>
+                        <Typography>{item.product.options[item.optionIndex].size}</Typography>
+                      </Box>
+                    </Box>
+                    <Box className="col-span-1" sx={{ marginLeft: 'auto', textAlign: 'center' }}>
+                      <Typography sx={{ fontWeight: 600 }}>Quantity</Typography>
+                      <Typography>{item.quantity}</Typography>
+                    </Box>
+                    <Box className="col-span-1" sx={{ marginLeft: 'auto', textAlign: 'center' }}>
+                      <Typography sx={{ fontWeight: 600 }}>Item Price</Typography>
+                      <Typography>${item.product.options[item.optionIndex].price.toFixed(2)}</Typography>
+                    </Box>
+                  </ListItem>
+                  {!isLastItem && <Divider />}
+                </div>
+              )
+            })}
+          </List>
+        </Collapse>
+      </List>
+    </Card>
   )
 }
