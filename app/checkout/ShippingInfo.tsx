@@ -76,8 +76,8 @@ export default function ShippingInfo() {
   const subtotal = getSubtotal();
 
   const submitHandler: SubmitHandler<FieldValues> = async ({ firstName, lastName, email, address, city, province, postalCode, shippingOption }) => {
-    setShippingInfo({ firstName, lastName, email, address, city, province, postalCode, shippingOption });
-    setCookie('shippingInfo', { firstName, lastName, email, address, city, province, postalCode, shippingOption }, { maxAge: 60 * 60 * 12 });
+    setShippingInfo({ name: `${firstName} ${lastName}`, email, address, city, province, postalCode, shippingOption });
+    setCookie('shippingInfo', { name: `${firstName} ${lastName}`, email, address, city, province, postalCode, shippingOption }, { maxAge: 60 * 60 * 12 });
     router.push('/payment');
   }
 

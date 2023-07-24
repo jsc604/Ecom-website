@@ -12,8 +12,7 @@ export interface CartItems {
 }
 
 interface ShippingInfo {
-  firstName: string;
-  lastName: string;
+  name: string;
   email: string;
   address: string;
   city: string;
@@ -22,7 +21,7 @@ interface ShippingInfo {
   shippingOption: string;
 }
 
-interface UserInfo {
+export interface UserInfo {
   token: string;
   _id: string;
   name: string;
@@ -34,6 +33,7 @@ const initialCart: CartItems[] = [];
 
 export const Store = createContext({
   cart: initialCart,
+  setCart: (cart: CartItems[]) => { },
   handleAddToCart: (_itemId: string, _optionId: string, _quantity: number) => { },
   handleDeleteFromCart: (_optionId: string) => { },
   userInfo: null as UserInfo | null,
@@ -170,7 +170,7 @@ export default function StoreProvider(props: React.PropsWithChildren<{}>) {
   }
 
   return (
-    <Store.Provider value={{ cart, handleAddToCart, handleDeleteFromCart, userInfo, setUserInfo, handleUserLogout, shippingInfo, setShippingInfo }}>
+    <Store.Provider value={{ cart, setCart, handleAddToCart, handleDeleteFromCart, userInfo, setUserInfo, handleUserLogout, shippingInfo, setShippingInfo }}>
       {props.children}
     </Store.Provider>
   );
