@@ -7,9 +7,11 @@ import Image from "next/image";
 
 interface PageProps {
   cartItemsInfo: ItemInfo[];
+  subtotal: number;
+  shippingPrice: number;
 }
 
-export default function OrderSummary({ cartItemsInfo }: PageProps) {
+export default function OrderSummary({ cartItemsInfo, subtotal, shippingPrice }: PageProps) {
   const [open, setOpen] = useState(true);
 
   const handleClick = () => {
@@ -66,6 +68,22 @@ export default function OrderSummary({ cartItemsInfo }: PageProps) {
             })}
           </List>
         </Collapse>
+        <div className='space-y-4 p-4'>
+          <Divider />
+          <div className='flex justify-between items-start'>
+            <div className="font-semibold">Subtotal</div>
+            <div>${subtotal.toFixed(2)}</div>
+          </div>
+          <div className='flex justify-between items-start'>
+            <div className="font-semibold">Shipping</div>
+            <div>{subtotal > 200 ? 'Free' : `$${shippingPrice.toFixed(2)}`}</div>
+          </div>
+          <Divider />
+          <div className='flex justify-between items-start'>
+            <div className="font-semibold">Total</div>
+            <div>${subtotal > 200 ? subtotal.toFixed(2) : (subtotal + shippingPrice).toFixed(2)}</div>
+          </div>
+        </div>
       </List>
     </Card>
   )
