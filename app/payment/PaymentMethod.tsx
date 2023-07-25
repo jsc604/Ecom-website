@@ -8,9 +8,13 @@ import OrderSummary from './OrderSummary';
 import ShippingSummary from './ShippingSummary';
 import { Store } from '@/utils/StoreProvider';
 import { ItemInfo } from '../cart/CartContainer';
+import { deleteCookie } from 'cookies-next';
+import { useRouter } from 'next/navigation';
 
 export default function PaymentMethod() {
-  const { cart } = useContext(Store);
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const { cart, setCart, shippingInfo, userInfo } = useContext(Store);
   const [cartItemsInfo, setCartItemsInfo] = useState<ItemInfo[]>([]);
 
   useEffect(() => {
@@ -31,8 +35,6 @@ export default function PaymentMethod() {
     setSelectedOption(event.target.value);
   };
 
-  const shippingPrice = 20;
-
   const getSubtotal = (() => {
     let subtotal = 0;
     cartItemsInfo.map((item) => {
@@ -44,25 +46,65 @@ export default function PaymentMethod() {
 
   const subtotal = getSubtotal();
 
-  const generateOrderNumber = () => {
+  const shippingPrice = subtotal > 200 ? 0 : 20;
+
+  const generateOrderRef = () => {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    let orderNumber = '';
+    let orderRef = '';
 
     for (let i = 0; i < 6; i++) {
       const randomIndex = Math.floor(Math.random() * characters.length);
-      orderNumber += characters.charAt(randomIndex);
+      orderRef += characters.charAt(randomIndex);
     }
 
-    return orderNumber;
+    return orderRef;
   };
 
-  const [orderNumber, setOrderNumber] = useState(generateOrderNumber());
+  const [orderRef, setOrderRef] = useState(generateOrderRef());
+
+  const handlePlaceOrder = async () => {
+    setLoading(true);
+
+    let headers: { 'Content-Type': string, authorization?: string } = {
+      'Content-Type': 'application/json',
+    };
+
+    if (userInfo?.token) {
+      headers.authorization = `Bearer ${userInfo.token}`;
+    }
+
+    const res = await fetch('/api/orders', {
+      method: 'POST',
+      body: JSON.stringify({
+        orderItems: cartItemsInfo,
+        shippingInfo,
+        subtotal,
+        shippingPrice,
+        totalPrice: subtotal + shippingPrice,
+      }),
+      headers,
+    });
+
+    const data = await Promise.resolve(res.json());
+    console.log(data);
+
+    if (!res.ok) {
+      setLoading(false);
+      //insert error message
+      return;
+    }
+
+    setCart([]);
+    deleteCookie('cartItems');
+    setLoading(false);
+    router.push(`/orders/${data._id}`)
+  }
 
   return (
     <div className='flex flex-col lg:flex-row gap-4 sm:gap-8'>
 
       <div className='w-full lg:w-1/2 p-4 space-y-4'>
-        <OrderSummary cartItemsInfo={cartItemsInfo}/>
+        <OrderSummary cartItemsInfo={cartItemsInfo} subtotal={subtotal} shippingPrice={shippingPrice} />
         <ShippingSummary />
       </div>
 
@@ -78,7 +120,7 @@ export default function PaymentMethod() {
           </RadioGroup>
 
           <Collapse in={selectedOption === 'eTransfer'} unmountOnExit>
-            <ETransferPayment subtotal={subtotal} shippingPrice={shippingPrice} orderNumber={orderNumber} />
+            <ETransferPayment subtotal={subtotal} shippingPrice={shippingPrice} orderRef={orderRef} handlePlaceOrder={handlePlaceOrder} />
           </Collapse>
           <Collapse in={selectedOption === 'creditCard'} unmountOnExit>
             <CreditCardPayment />
