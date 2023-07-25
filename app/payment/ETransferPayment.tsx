@@ -1,5 +1,5 @@
 'use client'
-import { Button, Step, StepLabel, Stepper, Typography } from "@mui/material";
+import { Button, CircularProgress, Step, StepLabel, Stepper, Typography } from "@mui/material";
 import { green } from "@mui/material/colors";
 
 interface PageProps {
@@ -7,9 +7,10 @@ interface PageProps {
   shippingPrice: number;
   orderRef: string;
   handlePlaceOrder: () => {};
+  loading: boolean;
 }
 
-export default function ETransferPayment({ subtotal, shippingPrice, orderRef, handlePlaceOrder }: PageProps) {
+export default function ETransferPayment({ subtotal, shippingPrice, orderRef, handlePlaceOrder, loading }: PageProps) {
 
   const total = (subtotal + shippingPrice).toFixed(2);
   const paymentEmail = 'admin@example.com';
@@ -55,7 +56,7 @@ export default function ETransferPayment({ subtotal, shippingPrice, orderRef, ha
       </Stepper>
 
       <Button onClick={handlePlaceOrder} variant="contained" color="success" className="bg-green-600">
-        Place Order
+        {loading ? <CircularProgress /> : 'Place Order'}
       </Button>
     </div>
   )

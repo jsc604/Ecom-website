@@ -10,6 +10,7 @@ import { Store } from '@/utils/StoreProvider';
 import { ItemInfo } from '../cart/CartContainer';
 import { deleteCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
+import { toast } from 'react-toastify';
 
 export default function PaymentMethod() {
   const router = useRouter();
@@ -78,6 +79,7 @@ export default function PaymentMethod() {
       body: JSON.stringify({
         orderItems: cartItemsInfo,
         shippingInfo,
+        paymentMethod: selectedOption,
         subtotal,
         shippingPrice,
         totalPrice: subtotal + shippingPrice,
@@ -90,7 +92,16 @@ export default function PaymentMethod() {
 
     if (!res.ok) {
       setLoading(false);
-      //insert error message
+      toast.error(`Error placing order!`, {
+        position: "top-center",
+        autoClose: 8000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
       return;
     }
 
@@ -98,6 +109,16 @@ export default function PaymentMethod() {
     deleteCookie('cartItems');
     setLoading(false);
     router.push(`/orders/${data._id}`)
+    toast.success(`Success! Your order has been placed!`, {
+      position: "top-center",
+      autoClose: 8000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
   }
 
   return (
@@ -120,7 +141,7 @@ export default function PaymentMethod() {
           </RadioGroup>
 
           <Collapse in={selectedOption === 'eTransfer'} unmountOnExit>
-            <ETransferPayment subtotal={subtotal} shippingPrice={shippingPrice} orderRef={orderRef} handlePlaceOrder={handlePlaceOrder} />
+            <ETransferPayment subtotal={subtotal} shippingPrice={shippingPrice} orderRef={orderRef} handlePlaceOrder={handlePlaceOrder} loading={loading} />
           </Collapse>
           <Collapse in={selectedOption === 'creditCard'} unmountOnExit>
             <CreditCardPayment />
