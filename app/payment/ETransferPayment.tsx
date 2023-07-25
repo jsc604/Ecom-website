@@ -55,7 +55,7 @@ export default function ETransferPayment({ subtotal, shippingPrice, orderRef, ha
         ))}
       </Stepper>
 
-      <Button onClick={handlePlaceOrder} variant="contained" color="success" className="bg-green-600">
+      <Button onClick={handlePlaceOrder} variant="contained" color="success" className="bg-green-600" disabled={loading}>
         {loading ? <CircularProgress /> : 'Place Order'}
       </Button>
     </div>

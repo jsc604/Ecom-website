@@ -77,6 +77,7 @@ export default function PaymentMethod() {
     const res = await fetch('/api/orders', {
       method: 'POST',
       body: JSON.stringify({
+        orderRef,
         orderItems: cartItemsInfo,
         shippingInfo,
         paymentMethod: selectedOption,
