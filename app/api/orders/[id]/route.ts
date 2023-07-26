@@ -1,20 +1,55 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import db from "@/utils/db";
 import Order from "@/models/Order";
 import Product from "@/models/Product";
 import { ItemInfo } from "@/app/cart/CartContainer";
+import { isAuth } from "@/utils/auth";
 
 interface RequestContext {
   params: { id: string };
 }
 
-export async function GET(req: Request, { params }: RequestContext) {
+export async function GET(req: NextRequest, { params }: RequestContext) {
   const { id } = params;
+  let user = null;
+  if (req.headers.get("authorization")) {
+    user = await isAuth(req);
+  }
+
+  if (id.length !== 24 ) {
+    return NextResponse.json(
+      {
+        message: "Invalid order number!",
+      },
+      {
+        status: 400,
+      }
+    );
+  }
+
   await db.connect();
   const order = await Order.findById(id);
 
   if (!order) {
-    throw new Error("Order not found");
+    return NextResponse.json(
+      {
+        message: "Order not found!",
+      },
+      {
+        status: 404,
+      }
+    );
+  }
+  
+  if ((order.user && !user ) || (order.user && user && user._id !== order.user.toString())) {
+    return NextResponse.json(
+      {
+        message: "You do not have access to this order!",
+      },
+      {
+        status: 401,
+      }
+    );
   }
 
   // Fetch all product objects concurrently

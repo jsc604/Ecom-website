@@ -5,6 +5,7 @@ import { ShippingInfo, Store, UserInfo } from "@/utils/StoreProvider";
 import { Divider } from "@mui/material";
 import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
+import Error from "./error";
 
 interface OrderPageProps {
   id: string;
@@ -28,6 +29,7 @@ type OrderDetails = {
 export default function OrdersPage({ id }: OrderPageProps) {
   const [orderDetails, setOrderDetails] = useState<OrderDetails>();
   const { userInfo } = useContext(Store);
+  const [errorMessage, setErrorMessage] = useState();
 
   useEffect(() => {
     const getOrderDetails = async () => {
@@ -47,7 +49,7 @@ export default function OrdersPage({ id }: OrderPageProps) {
       const data = await Promise.resolve(res.json());
 
       if (!res.ok) {
-        alert('error')
+        setErrorMessage(data.message);
         return;
       }
 
@@ -55,8 +57,6 @@ export default function OrdersPage({ id }: OrderPageProps) {
     }
     getOrderDetails();
   }, [id, userInfo])
-
-  console.log(orderDetails);
 
   const date = orderDetails && new Date(orderDetails?.createdAt);
 
@@ -67,7 +67,9 @@ export default function OrdersPage({ id }: OrderPageProps) {
           <div className="space-y-4 w-full ml:w-1/2">
             <div className="text-center">
               <div className="font-semibold text-3xl">Thanks for your order!</div>
-              {userInfo && `An order confirmation has been sent to ${orderDetails.shippingInfo.email}`}
+              {userInfo && userInfo.email === orderDetails.shippingInfo.email &&
+                `An order confirmation has been sent to ${orderDetails.shippingInfo.email}`
+              }
             </div>
             <Divider />
             <div className="text-xl font-semibold">Order #{orderDetails._id}</div>
@@ -95,7 +97,7 @@ export default function OrdersPage({ id }: OrderPageProps) {
           </div>
         </div>
       )}
-
+      {!orderDetails && errorMessage && <Error message={errorMessage} />}
     </div>
   )
 }
