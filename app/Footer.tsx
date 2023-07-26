@@ -22,7 +22,7 @@ export default function Footer() {
   // }, []);
 
   return (
-    <footer className="flex flex-col items-center bg-[#27272a] text-white mt-16 p-8 font-extralight">
+    <footer className="flex flex-col items-center bg-[#27272a] text-white mt-8 p-8 font-extralight">
       <div className="flex max-sm:flex-col max-sm:space-y-8 justify-evenly w-full max-w-[1350px] mb-8">
         <div className="max-sm:mx-auto">
           <div className="relative aspect-video max-w-[200px] mx-auto">

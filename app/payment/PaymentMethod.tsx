@@ -89,7 +89,6 @@ export default function PaymentMethod() {
     });
 
     const data = await Promise.resolve(res.json());
-    console.log(data);
 
     if (!res.ok) {
       setLoading(false);

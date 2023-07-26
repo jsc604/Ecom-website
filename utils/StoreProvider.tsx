@@ -11,7 +11,7 @@ export interface CartItems {
   quantity: number;
 }
 
-interface ShippingInfo {
+export interface ShippingInfo {
   name: string;
   email: string;
   address: string;
