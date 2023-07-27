@@ -54,9 +54,12 @@ export default function ItemScroll({ cartItemsInfo }: PageProps) {
                   <Box sx={{ width: 3 / 4, marginLeft: 2, marginBottom: 'auto' }}>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                       <Typography sx={{ fontWeight: 600 }}>{item.product.name}</Typography>
+                      <Typography sx={{ fontWeight: 600 }}>Subtotal</Typography>
+                    </Box>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                      <Typography>{item.product.brand}</Typography>
                       <Typography>${(item.product.options[item.optionIndex].price * item.quantity).toFixed(2)}</Typography>
                     </Box>
-                    <Typography>{item.product.brand}</Typography>
                     <Typography>{item.product.options[item.optionIndex].size}</Typography>
                   </Box>
                 </ListItem>

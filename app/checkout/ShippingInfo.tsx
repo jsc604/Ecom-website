@@ -313,16 +313,16 @@ export default function ShippingInfo() {
           <Divider />
           <div className='space-y-4'>
             <div className='flex justify-between items-start'>
-              <div>Subtotal</div>
+              <div className='font-semibold'>Subtotal</div>
               <div>${subtotal.toFixed(2)}</div>
             </div>
             <div className='flex justify-between items-start'>
-              <div>Shipping</div>
+              <div className='font-semibold'>Shipping</div>
               <div>{subtotal > 200 ? 'Free' : `$${shippingPrice.toFixed(2)}`}</div>
             </div>
             <Divider />
             <div className='flex justify-between items-start'>
-              <div>Total</div>
+              <div className='font-semibold'>Total</div>
               <div>${subtotal > 200 ? subtotal.toFixed(2) : (subtotal + shippingPrice).toFixed(2)}</div>
             </div>
             <div className='my-2 mx-auto text-center'>

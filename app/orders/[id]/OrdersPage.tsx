@@ -1,7 +1,7 @@
 'use client'
 import { ItemInfo } from "@/app/cart/CartContainer";
 import OrderSummary from "@/app/payment/OrderSummary";
-import { ShippingInfo, Store, UserInfo } from "@/utils/StoreProvider";
+import { ShippingInfo, Store } from "@/utils/StoreProvider";
 import { Divider } from "@mui/material";
 import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
@@ -13,7 +13,7 @@ interface OrderPageProps {
 
 type OrderDetails = {
   _id: string;
-  user: UserInfo | null;
+  user: string | null;
   orderRef: string;
   orderItems: ItemInfo[];
   shippingInfo: ShippingInfo;
@@ -59,7 +59,7 @@ export default function OrdersPage({ id }: OrderPageProps) {
   }, [id, userInfo])
 
   const date = orderDetails && new Date(orderDetails?.createdAt);
-
+  console.log(orderDetails);
   return (
     <div className="mt-8">
       {orderDetails && (
@@ -67,7 +67,7 @@ export default function OrdersPage({ id }: OrderPageProps) {
           <div className="space-y-4 w-full ml:w-1/2">
             <div className="text-center">
               <div className="font-semibold text-3xl">Thanks for your order!</div>
-              {userInfo && userInfo.email === orderDetails.shippingInfo.email &&
+              {userInfo && userInfo._id === orderDetails.user &&
                 `An order confirmation has been sent to ${orderDetails.shippingInfo.email}`
               }
             </div>
@@ -87,8 +87,17 @@ export default function OrdersPage({ id }: OrderPageProps) {
             <Divider />
             <div>
               <div className="font-semibold">Shipping Method</div>
+              {!userInfo || (userInfo && userInfo._id !== orderDetails.user) ? <></> :
+                <>
+                  <div>{orderDetails.shippingInfo.name}</div>
+                  <div>{orderDetails.shippingInfo.address}</div>
+                  <div>{orderDetails.shippingInfo.city}, {orderDetails.shippingInfo.province}, Canada, {orderDetails.shippingInfo.postalCode}</div>
+                </>
+              }
               <div>{orderDetails.shippingInfo.shippingOption}</div>
-              <Link href={'/'} className="uppercase font-semibold underline">Track order</Link>
+              {!userInfo || (userInfo && userInfo._id !== orderDetails.user) ? <></> :
+                <Link href={'/'} className="uppercase font-semibold underline">Track order</Link>
+              }
             </div>
           </div>
 

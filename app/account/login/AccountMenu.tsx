@@ -113,12 +113,14 @@ export default function AccountMenu() {
           </MenuItem>
         ) : (
           <div>
-            <MenuItem onClick={() => handleMenuItemClick('/account/admin')}>
-              <ListItemIcon>
-                <AdminPanelSettingsOutlined />
-              </ListItemIcon>
-              Admin
-            </MenuItem>
+            {userInfo.isAdmin &&
+              <MenuItem onClick={() => handleMenuItemClick('/account/admin')}>
+                <ListItemIcon>
+                  <AdminPanelSettingsOutlined />
+                </ListItemIcon>
+                Admin
+              </MenuItem>
+            }
             <MenuItem onClick={() => handleMenuItemClick('/account/profile')}>
               <ListItemIcon>
                 <AccountCircleOutlined />

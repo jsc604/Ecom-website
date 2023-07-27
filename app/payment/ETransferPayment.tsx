@@ -1,6 +1,5 @@
 'use client'
 import { Button, CircularProgress, Step, StepLabel, Stepper, Typography } from "@mui/material";
-import { green } from "@mui/material/colors";
 
 interface PageProps {
   subtotal: number;
@@ -50,7 +49,7 @@ export default function ETransferPayment({ subtotal, shippingPrice, orderRef, ha
       <Stepper orientation="vertical">
         {instructions.map((step, i) => (
           <Step key={i} active>
-            <StepLabel sx={{ color: green[600] }}>{step}</StepLabel>
+            <StepLabel>{step}</StepLabel>
           </Step>
         ))}
       </Stepper>
