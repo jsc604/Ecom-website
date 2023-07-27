@@ -48,7 +48,7 @@ export default function LoginContainer() {
   };
 
   return (
-    <div className="grid grid-cols-12 ml:gap-16 mt-16">
+    <div className="grid grid-cols-12 ml:gap-16 mt-8">
       <Card className='col-span-12 lg:col-span-10 lg:col-start-2 flex rounded-3xl' elevation={8}>
 
         <div className="w-full ml:w-1/2 relative aspect-square max-ml:hidden">

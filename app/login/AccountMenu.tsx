@@ -6,7 +6,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
-import BackgroundLetterAvatars from '../../home/Avatar';
+import BackgroundLetterAvatars from '../home/Avatar';
 import { Store } from '@/utils/StoreProvider';
 import { deleteCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
@@ -105,7 +105,7 @@ export default function AccountMenu() {
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
         {userInfo === null ? (
-          <MenuItem onClick={() => handleMenuItemClick('/account/login')}>
+          <MenuItem onClick={() => handleMenuItemClick('/login')}>
             <ListItemIcon>
               <LoginOutlined />
             </ListItemIcon>
@@ -127,7 +127,7 @@ export default function AccountMenu() {
               </ListItemIcon>
               Profile
             </MenuItem>
-            <MenuItem onClick={() => handleMenuItemClick('/account/orders')}>
+            <MenuItem onClick={() => handleMenuItemClick('/account/order-history')}>
               <ListItemIcon>
                 <HistoryOutlined />
               </ListItemIcon>
