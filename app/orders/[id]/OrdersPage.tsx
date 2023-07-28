@@ -59,7 +59,7 @@ export default function OrdersPage({ id }: OrderPageProps) {
   }, [id, userInfo])
 
   const date = orderDetails && new Date(orderDetails?.createdAt);
-  console.log(orderDetails);
+  
   return (
     <div className="mt-8">
       {orderDetails && (

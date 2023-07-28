@@ -17,6 +17,6 @@ export async function POST(req: NextRequest) {
   });
   const order = await newOrder.save();
   await db.disconnect();
-  console.log(order);
+  
   return NextResponse.json(order, { status: 201 });
 }

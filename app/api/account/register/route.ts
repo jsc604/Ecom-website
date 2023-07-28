@@ -7,7 +7,6 @@ import { signToken } from "@/utils/auth";
 export async function POST(req: NextRequest) {
   const data = await req.json();
   const { firstName, lastName, email, password } = data;
-  console.log(data);
 
   await db.connect();
 

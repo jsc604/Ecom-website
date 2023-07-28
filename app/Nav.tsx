@@ -9,7 +9,7 @@ import { useScrollTrigger } from '@mui/material';
 import Slide from '@mui/material/Slide';
 import React, { ReactElement, useContext, useEffect, useState } from 'react';
 import { CartItems, Store } from '@/utils/StoreProvider';
-import AccountMenu from './account/login/AccountMenu';
+import AccountMenu from './login/AccountMenu';
 
 const StyledAppBar = styled(AppBar)({
   backgroundColor: '#27272a',

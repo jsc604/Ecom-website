@@ -46,7 +46,7 @@ export default function LoginForm() {
     setUserInfo(data);
     setLoading(false);
     if (pathname !== '/checkout') {
-      router.push('/');
+      router.back();
     }
     toast.success(`Welcome back ${data.name.split(' ')[0]}! 🦄`, {
       position: "top-center",
@@ -58,7 +58,6 @@ export default function LoginForm() {
       progress: undefined,
       theme: "colored",
     });
-    console.log('user-cookie: ', JSON.parse(getCookie('userInfo') as string));
   }
 
   return (

@@ -83,7 +83,6 @@ export default function StoreProvider(props: React.PropsWithChildren<{}>) {
 
   useEffect(() => {
     setCookie('cartItems', JSON.stringify(cart), { maxAge: 60 * 60 * 12 });
-    console.log('cart-cookie:', getCookie('cartItems'));
   }, [cart]);
 
 

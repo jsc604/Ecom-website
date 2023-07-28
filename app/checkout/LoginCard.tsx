@@ -2,7 +2,7 @@
 import { ExpandLess, ExpandMore } from "@mui/icons-material"
 import { Card, Collapse, List, ListItemButton, Typography } from "@mui/material"
 import { useContext, useState } from "react";
-import LoginForm from "../account/login/LoginForm";
+import LoginForm from "../login/LoginForm";
 import { Store } from "@/utils/StoreProvider";
 
 export default function LoginCard() {
