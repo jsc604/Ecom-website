@@ -23,7 +23,7 @@ export default function ProductSizes({ options, setQuantity, selectedItem, setSe
 
   return (
     <Box sx={{ width: '100%' }}>
-      <List component="nav" aria-label="product sizes" sx={{ display: 'flex', gap: 1,  flexWrap: 'wrap'  }}>
+      <List component="nav" aria-label="product sizes" sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
         {options.map((item, index) => (
           <Button
             key={index}
@@ -31,7 +31,7 @@ export default function ProductSizes({ options, setQuantity, selectedItem, setSe
             color='info'
             onClick={() => handleClick(item)}
             className={selectedItem === item ? 'bg-info-dark' : 'inhertit'}
-            sx={{minWidth: 'fit-content'}}
+            sx={{ minWidth: 'fit-content' }}
           >
             {item.size}
           </Button>

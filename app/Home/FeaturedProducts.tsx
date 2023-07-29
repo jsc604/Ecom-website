@@ -1,5 +1,5 @@
 import ProductItem from "../components/ProductItem";
-import { productObject } from "../products/AllProducts";
+import { productObject } from "../products/page";
 
 interface PageProps {
   products: productObject[];

@@ -1,10 +1,10 @@
 'use client'
 import { CartItems, Store } from '@/utils/StoreProvider';
 import { useContext, useEffect, useState } from 'react'
-import { productObject } from '../products/AllProducts';
 import ShoppingCartItems from './ShoppingCartItems';
 import CartSummary from './CartSummary';
 import CheckoutWizard from '../components/CheckoutWizard';
+import { productObject } from '../products/page';
 
 export interface ItemInfo {
   product: productObject;

@@ -1,19 +1,21 @@
 'use client'
 import { Store } from "@/utils/StoreProvider";
 import { TextField, Button, CircularProgress } from "@mui/material"
-import { getCookie, setCookie } from "cookies-next";
+import { setCookie } from "cookies-next";
 import { usePathname, useRouter } from "next/navigation";
 import { useContext, useState } from "react";
 import { Controller, FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
-export default function LoginForm() {
+export default function LoginForm(props: any) {
   const { handleSubmit, control, formState: { errors } } = useForm();
   const { setUserInfo } = useContext(Store);
   const [loading, setLoading] = useState(false);
 
   const pathname = usePathname();
   const router = useRouter();
+
+  console.log(props)
 
   const submitHandler: SubmitHandler<FieldValues> = async ({ email, password }) => {
     setLoading(true);
