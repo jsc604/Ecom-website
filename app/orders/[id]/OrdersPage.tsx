@@ -1,11 +1,11 @@
 'use client'
-import { ItemInfo } from "@/app/cart/CartContainer";
 import OrderSummary from "@/app/payment/OrderSummary";
 import { ShippingInfo, Store } from "@/utils/StoreProvider";
 import { Divider } from "@mui/material";
 import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
 import Error from "./error";
+import { ItemInfo } from "@/app/cart/page";
 
 interface OrderPageProps {
   id: string;

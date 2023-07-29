@@ -7,10 +7,10 @@ import PaypalPayment from './PaypalPayment';
 import OrderSummary from './OrderSummary';
 import ShippingSummary from './ShippingSummary';
 import { Store } from '@/utils/StoreProvider';
-import { ItemInfo } from '../cart/CartContainer';
 import { deleteCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
+import { ItemInfo } from '../cart/page';
 
 export default function PaymentMethod() {
   const router = useRouter();

@@ -1,7 +1,6 @@
-'use client'
 import { Button, Divider } from '@mui/material'
-import { ItemInfo } from './CartContainer';
 import { useRouter } from 'next/navigation';
+import { ItemInfo } from './page';
 
 interface PageProps {
   cartItemsInfo: ItemInfo[];

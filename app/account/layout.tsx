@@ -1,4 +1,3 @@
-'use client'
 import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
 import AccountNav from "./AccountNav";
@@ -21,7 +20,7 @@ export default function AccountLayout({
   }
 
   return (
-    <section className="w-11/12 max-w-[1350px] mx-auto">
+    <section className="min-h-[50vh] w-11/12 max-w-[1350px] mx-auto">
       <div className="grid grid-cols-4 gap-4 my-8">
         <div className="col-span-1">
           <AccountNav />

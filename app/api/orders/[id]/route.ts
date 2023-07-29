@@ -2,8 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import db from "@/utils/db";
 import Order from "@/models/Order";
 import Product from "@/models/Product";
-import { ItemInfo } from "@/app/cart/CartContainer";
 import { isAuth } from "@/utils/auth";
+import { ItemInfo } from "@/app/cart/page";
 
 interface RequestContext {
   params: { id: string };

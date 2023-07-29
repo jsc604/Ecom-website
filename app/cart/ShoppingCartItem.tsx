@@ -1,4 +1,3 @@
-'use client'
 import { ButtonGroup, Button, Box, Typography } from "@mui/material";
 import { grey, red } from "@mui/material/colors";
 import Image from "next/image";

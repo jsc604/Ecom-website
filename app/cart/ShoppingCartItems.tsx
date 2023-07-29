@@ -1,7 +1,6 @@
-'use client'
 import { Divider } from '@mui/material';
-import { ItemInfo } from './CartContainer';
 import ShoppingCartItem from './ShoppingCartItem';
+import { ItemInfo } from './page';
 
 interface PageProps {
   cartItemsInfo: ItemInfo[];
