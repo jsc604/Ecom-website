@@ -1,4 +1,3 @@
-import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { productObject } from '../page';
 import ProductItem from '@/app/components/ProductItem';
@@ -11,7 +10,7 @@ export function capitalizeWord(word: string) {
   return word.charAt(0).toUpperCase() + word.slice(1);
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: PageProps) {
   return {
     title: `${capitalizeWord(params.category)} - Ecom MN`,
   };
