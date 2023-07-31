@@ -30,7 +30,7 @@ export default async function page() {
   const data = await getData();
 
   return (
-    <div className="w-11/12 max-w-[1350px] mx-auto">
+    <>
       <h1 className="text-center font-semibold my-8 text-4xl">All Products</h1>
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
         {data.map((item: productObject) => (
@@ -45,6 +45,6 @@ export default async function page() {
           />
         ))}
       </div>
-    </div>
+    </>
   )
 }

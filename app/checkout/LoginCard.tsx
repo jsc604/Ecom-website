@@ -1,4 +1,3 @@
-'use client'
 import { ExpandLess, ExpandMore } from "@mui/icons-material"
 import { Card, Collapse, List, ListItemButton, Typography } from "@mui/material"
 import { useContext, useState } from "react";

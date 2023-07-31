@@ -1,4 +1,3 @@
-'use client'
 import { Button, CircularProgress, Step, StepLabel, Stepper, Typography } from "@mui/material";
 
 interface PageProps {

@@ -1,8 +1,6 @@
-export async function generateMetadata() {
-  return {
-    title: 'Cart',
-  };
-}
+export const metadata = {
+  title: 'Cart - Ecom MN',
+};
 
 export default function CartLayout({
   children,
@@ -11,7 +9,7 @@ export default function CartLayout({
 }) {
 
   return (
-    <section className="min-h-[60vh] w-11/12 max-w-[1350px] mx-auto">
+    <section>
       <h1 className="text-center font-bold my-8 text-4xl">Cart</h1>
       {children}
     </section>

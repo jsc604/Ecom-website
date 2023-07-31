@@ -7,15 +7,13 @@ import { useContext, useState } from "react";
 import { Controller, FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
-export default function LoginForm(props: any) {
+export default function LoginForm() {
   const { handleSubmit, control, formState: { errors } } = useForm();
   const { setUserInfo } = useContext(Store);
   const [loading, setLoading] = useState(false);
 
   const pathname = usePathname();
   const router = useRouter();
-
-  console.log(props)
 
   const submitHandler: SubmitHandler<FieldValues> = async ({ email, password }) => {
     setLoading(true);

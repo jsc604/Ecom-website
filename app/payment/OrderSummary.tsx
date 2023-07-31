@@ -1,4 +1,3 @@
-'use client'
 import { Typography, Card, Box, Collapse, Divider, List, ListItem, ListItemButton } from "@mui/material"
 import { useState } from "react";
 import { ShoppingBagOutlined, ExpandLess, ExpandMore } from "@mui/icons-material";

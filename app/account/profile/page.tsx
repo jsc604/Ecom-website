@@ -11,8 +11,8 @@ export async function generateMetadata() {
 
 export default function page() {
   return (
-    <div>
+    <>
       profile page
-    </div>
+    </>
   )
 }

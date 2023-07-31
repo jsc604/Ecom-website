@@ -15,8 +15,8 @@ export default async function Home() {
   const data = await getData();
 
   return (
-    <main className="min-h-80vh w-11/12 max-w-[1350px] mx-auto">
+    <>
       <FeaturedProducts products={data} />
-    </main>
+    </>
   );
 }

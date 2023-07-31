@@ -1,4 +1,3 @@
-'use client'
 import { Typography, Card } from "@mui/material"
 import { useContext } from "react";
 import { Store } from "@/utils/StoreProvider";
@@ -17,4 +16,5 @@ export default function ShippingSummary() {
       <Typography><LocalShipping /> {shippingInfo?.shippingOption}</Typography>
     </Card>
   )
+
 }

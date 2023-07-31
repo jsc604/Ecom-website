@@ -20,7 +20,7 @@ export default function AccountLayout({
   }
 
   return (
-    <section className="min-h-[50vh] w-11/12 max-w-[1350px] mx-auto">
+    <section>
       <div className="grid grid-cols-4 gap-4 my-8">
         <div className="col-span-1">
           <AccountNav />

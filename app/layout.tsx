@@ -24,7 +24,9 @@ export default function RootLayout({
         <StoreProvider>
           <Nav />
           <ToastContainer />
-          {children}
+          <main className="min-h-[70vh] w-11/12 max-w-[1350px] mx-auto">
+            {children}
+          </main>
           <Footer />
         </StoreProvider>
       </body>

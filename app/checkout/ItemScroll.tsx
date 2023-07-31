@@ -1,9 +1,9 @@
-'use client'
 import { ExpandLess, ExpandMore, ShoppingBagOutlined } from "@mui/icons-material";
 import { List, ListItemButton, Typography, Collapse, ListItem, Divider, Box, BadgeProps, Badge, styled } from "@mui/material";
 import { useState } from "react";
-import { ItemInfo } from "../cart/CartContainer";
+
 import Image from "next/image";
+import { ItemInfo } from "../cart/page";
 
 interface PageProps {
   cartItemsInfo: ItemInfo[];

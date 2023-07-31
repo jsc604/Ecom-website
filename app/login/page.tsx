@@ -8,12 +8,12 @@ export default function LoginPortal() {
   const userInfo = token && JSON.parse(token.value);
 
   return (
-    <div className="w-11/12 max-w-[1350px] mx-auto">
+    <>
       {!userInfo ? (
         <LoginContainer />
       ) : (
         redirect('/account/profile')
       )}
-    </div>
+    </>
   )
 }
