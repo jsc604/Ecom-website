@@ -18,6 +18,7 @@ export default function OrderHistory() {
   useEffect(() => {
     if (userInfo) {
       const fetchOrderHistory = async () => {
+        setErrorMessage('');
         setLoading(true);
         const res = await fetch(`/api/orders`, {
           method: 'GET',
@@ -31,6 +32,7 @@ export default function OrderHistory() {
 
         if (!res.ok) {
           setErrorMessage(data.message);
+          setLoading(false);
           return;
         }
 
@@ -63,16 +65,20 @@ export default function OrderHistory() {
         </TableHead>
         <TableBody>
           {errorMessage === "Please log in to view your order history!" &&
-            <>
-              {errorMessage}
-              <ColorButton onClick={() => router.push('/login')}>Log in</ColorButton>
-            </>
+            <TableRow>
+              <TableCell colSpan={5}>
+                <div className="text-2xl mb-4">{errorMessage}</div>
+                <ColorButton onClick={() => router.push('/login')}>Log in</ColorButton>
+              </TableCell>
+            </TableRow>
           }
           {errorMessage === "Sorry, no orders found!" &&
-            <>
-              {errorMessage}
-              <ColorButton onClick={() => router.push('/products')}>Log in</ColorButton>
-            </>
+            <TableRow>
+              <TableCell colSpan={5}>
+                <div className="text-2xl mb-4">{errorMessage}</div>
+                <ColorButton onClick={() => router.push('/products')}>Shop now</ColorButton>
+              </TableCell>
+            </TableRow>
           }
           {loading ? (
             <>
