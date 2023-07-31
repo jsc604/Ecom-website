@@ -16,7 +16,7 @@ export async function GET(req: NextRequest, { params }: RequestContext) {
     user = await isAuth(req);
   }
 
-  if (id.length !== 24 ) {
+  if (id.length !== 24) {
     return NextResponse.json(
       {
         message: "Invalid order number!",
@@ -40,8 +40,11 @@ export async function GET(req: NextRequest, { params }: RequestContext) {
       }
     );
   }
-  
-  if ((order.user && !user ) || (order.user && user && user._id !== order.user.toString())) {
+
+  if (
+    (order.user && !user) ||
+    (order.user && user && user._id !== order.user.toString())
+  ) {
     return NextResponse.json(
       {
         message: "You do not have access to this order!",

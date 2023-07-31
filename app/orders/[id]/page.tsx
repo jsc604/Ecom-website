@@ -11,7 +11,7 @@ interface PageProps {
   params: { id: string };
 }
 
-type OrderDetails = {
+export type OrderDetails = {
   _id: string;
   user: string | null;
   orderRef: string;

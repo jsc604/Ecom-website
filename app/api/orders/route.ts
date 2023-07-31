@@ -17,6 +17,41 @@ export async function POST(req: NextRequest) {
   });
   const order = await newOrder.save();
   await db.disconnect();
-  
+
   return NextResponse.json(order, { status: 201 });
+}
+
+export async function GET(req: NextRequest) {
+  let user = null;
+  if (req.headers.get("authorization")) {
+    user = await isAuth(req);
+  }
+
+  if (user === null) {
+    return NextResponse.json(
+      {
+        message: "Please log in to view your order history!",
+      },
+      {
+        status: 401,
+      }
+    );
+  }
+
+  await db.connect();
+  const orders = await Order.find({ user: user._id });
+  await db.disconnect();
+
+  if (orders.length < 1) {
+    return NextResponse.json(
+      {
+        message: "Sorry, no orders found!",
+      },
+      {
+        status: 404,
+      }
+    );
+  }
+
+  return NextResponse.json(orders);
 }

@@ -8,7 +8,7 @@ export default function AccountNav() {
   const pathname = usePathname();
 
   return (
-    <List>
+    <List className="flex lg:block">
       <Link href={'/account/profile'}>
         <ListItemButton sx={{ backgroundColor: pathname === '/account/profile' ? grey[100] : 'transparent' }}>
           <ListItemText primary="Profile" />

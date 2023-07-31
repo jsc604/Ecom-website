@@ -10,7 +10,7 @@ export default function EmptyBag() {
       backgroundColor: `${purple[700]} !important`,
     },
   }));
-  
+
   return (
     <div className="text-center text-xl sm:text-4xl w-fit mx-auto">
       Your shopping bag is empty!
