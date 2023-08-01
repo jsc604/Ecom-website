@@ -1,5 +1,5 @@
 import { Button, ButtonProps, styled } from "@mui/material"
-import { purple } from "@mui/material/colors";
+import { grey, purple } from "@mui/material/colors";
 import Link from "next/link";
 
 export const ColorButton = styled(Button)<ButtonProps>(({ theme }) => ({
@@ -7,6 +7,9 @@ export const ColorButton = styled(Button)<ButtonProps>(({ theme }) => ({
   backgroundColor: `${purple[500]} !important`,
   '&:hover': {
     backgroundColor: `${purple[700]} !important`,
+  },
+  '&.Mui-disabled': {
+    backgroundColor: grey[300],
   },
 }));
 

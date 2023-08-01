@@ -1,18 +1,20 @@
 'use client'
 import { ColorButton } from '@/app/cart/EmptyBag';
 import { Store } from '@/utils/StoreProvider';
-import { TextField, Typography } from '@mui/material';
+import { CircularProgress, TextField, Typography } from '@mui/material';
 import { setCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Controller, FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 
 export default function Profile() {
   const { userInfo, setUserInfo } = useContext(Store);
+  const [loading, setLoading] = useState(false);
   const {
     handleSubmit,
     control,
+    reset,
     formState: { errors },
     setValue,
   } = useForm();
@@ -25,7 +27,7 @@ export default function Profile() {
     }
     setValue('name', userInfo.name);
     setValue('email', userInfo.email);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userInfo]);
 
   const submitHandler: SubmitHandler<FieldValues> = async ({ name, email, password, confirmPassword }) => {
@@ -43,6 +45,8 @@ export default function Profile() {
       return;
     }
 
+    setLoading(true);
+
     const res = await fetch(`/api/account/profile`, {
       method: 'PUT',
       body: JSON.stringify({ name, email: email.toLowerCase(), password }),
@@ -52,7 +56,7 @@ export default function Profile() {
       },
     });
 
-    const data = await Promise.resolve(res.json());
+    const data = await res.json();
 
     if (!res.ok) {
       toast.error(`${data.message}`, {
@@ -65,11 +69,14 @@ export default function Profile() {
         progress: undefined,
         theme: "colored",
       });
+      setLoading(false);
       return;
     }
 
     setCookie('userInfo', data, { maxAge: 60 * 60 * 12 });
     setUserInfo(data);
+    reset({ password: '', confirmPassword: '' });
+    setLoading(false);
     toast.success(`Profile updated successfully! 🦄`, {
       position: "top-center",
       autoClose: 8000,
@@ -97,6 +104,7 @@ export default function Profile() {
           render={({ field }) => (
             <TextField className='col-span-4'
               sx={{ marginTop: 2 }}
+              required
               id="name"
               label="Name"
               inputProps={{ type: 'name' }}
@@ -124,6 +132,7 @@ export default function Profile() {
           render={({ field }) => (
             <TextField
               sx={{ marginTop: 2 }}
+              required
               id="email"
               label="Email"
               inputProps={{ type: 'email' }}
@@ -148,18 +157,18 @@ export default function Profile() {
             validate: (value) =>
               value === '' ||
               value.length > 5 ||
-              'Password length has to be more than 5',
+              'Password length has to be more than 5 characters',
           }}
           render={({ field }) => (
             <TextField
               sx={{ marginTop: 2 }}
               id="password"
-              label="Password"
+              label="New Password"
               inputProps={{ type: 'password' }}
               error={Boolean(errors.password)}
               helperText={
                 errors.password
-                  ? 'Password length has to be more than 5'
+                  ? 'Password length has to be more than 5 characters'
                   : ''
               }
               {...field}
@@ -175,18 +184,18 @@ export default function Profile() {
             validate: (value) =>
               value === '' ||
               value.length > 5 ||
-              'Confirm Password length has to be more than 5',
+              'Confirm Password length has to be more than 5 characters',
           }}
           render={({ field }) => (
             <TextField
               sx={{ marginTop: 2 }}
               id="confirmPassword"
-              label="Confirm Password"
+              label="Confirm New Password"
               inputProps={{ type: 'password' }}
               error={Boolean(errors.confirmPassword)}
               helperText={
                 errors.password
-                  ? 'Confirm Password length has to be more than 5'
+                  ? 'Confirm Password length has to be more than 5 characters'
                   : ''
               }
               {...field}
@@ -199,8 +208,9 @@ export default function Profile() {
           type="submit"
           sx={{ marginTop: 2 }}
           color="secondary"
+          disabled={loading}
         >
-          Update
+          {loading ? <CircularProgress /> : 'Update'}
         </ColorButton>
 
       </form>
