@@ -31,7 +31,7 @@ export default function AccountLayout({
         <div className="col-span-4 lg:col-span-1">
           <AccountNav />
         </div>
-        <div className="col-span-4 lg:col-span-3">
+        <div className="col-span-4 lg:col-span-3 w-full">
           {children}
         </div>
       </div>
