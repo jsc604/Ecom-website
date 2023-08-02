@@ -20,11 +20,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={`${inter.className} min-h-[100vh] flex flex-col`}>
         <StoreProvider>
           <Nav />
           <ToastContainer />
-          <main className="min-h-[70vh] w-11/12 max-w-[1350px] mx-auto">
+          <main className="w-11/12 max-w-[1350px] mx-auto grow">
             {children}
           </main>
           <Footer />
