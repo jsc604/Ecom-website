@@ -1,5 +1,6 @@
 'use client'
-import { List, ListItemButton, ListItemText } from "@mui/material"
+import { Dashboard, Inventory, People, Receipt } from "@mui/icons-material";
+import { List, ListItemButton, ListItemIcon, ListItemText } from "@mui/material"
 import { blue } from "@mui/material/colors"
 import Link from "next/link"
 import { usePathname } from "next/navigation";
@@ -16,7 +17,8 @@ export default function AdminNav() {
             backgroundColor: blue[50],
           },
         }}>
-          <ListItemText primary="Dashboard" />
+          <ListItemIcon sx={{ display: 'flex', justifyContent: 'center' }}><Dashboard /></ListItemIcon>
+          <ListItemText primary="Dashboard" className="max-sm:hidden" />
         </ListItemButton>
       </Link>
       <Link href={'/admin/products'}>
@@ -26,7 +28,8 @@ export default function AdminNav() {
             backgroundColor: blue[50],
           },
         }}>
-          <ListItemText primary="Products" />
+          <ListItemIcon sx={{ display: 'flex', justifyContent: 'center' }}><Inventory /></ListItemIcon>
+          <ListItemText primary="Products" className="max-sm:hidden" />
         </ListItemButton>
       </Link>
       <Link href={'/admin/orders'}>
@@ -36,7 +39,8 @@ export default function AdminNav() {
             backgroundColor: blue[50],
           },
         }}>
-          <ListItemText primary="Orders" />
+          <ListItemIcon sx={{ display: 'flex', justifyContent: 'center' }}><Receipt /></ListItemIcon>
+          <ListItemText primary="Orders" className="max-sm:hidden" />
         </ListItemButton>
       </Link>
       <Link href={'/admin/users'}>
@@ -46,17 +50,8 @@ export default function AdminNav() {
             backgroundColor: blue[50],
           },
         }}>
-          <ListItemText primary="Users" />
-        </ListItemButton>
-      </Link>
-      <Link href={'/admin/settings'}>
-        <ListItemButton sx={{
-          backgroundColor: pathname === '/admin/settings' ? blue[50] : 'transparent',
-          '&:hover': {
-            backgroundColor: blue[50],
-          },
-        }}>
-          <ListItemText primary="Settings" />
+          <ListItemIcon sx={{ display: 'flex', justifyContent: 'center' }}><People /></ListItemIcon>
+          <ListItemText primary="Users" className="max-sm:hidden" />
         </ListItemButton>
       </Link>
     </List>
