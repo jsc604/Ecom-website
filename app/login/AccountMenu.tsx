@@ -114,7 +114,7 @@ export default function AccountMenu() {
         ) : (
           <div>
             {userInfo.isAdmin &&
-              <MenuItem onClick={() => handleMenuItemClick('/account/admin')}>
+              <MenuItem onClick={() => handleMenuItemClick('/admin/dashboard')}>
                 <ListItemIcon>
                   <AdminPanelSettingsOutlined />
                 </ListItemIcon>
