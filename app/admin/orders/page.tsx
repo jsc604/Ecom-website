@@ -77,7 +77,7 @@ export default function AdminOrders() {
       alert(data.message);
       return;
     }
-    console.log(data);
+    
     fetchOrderHistory();
   }
 

@@ -7,7 +7,6 @@ import { useContext, useEffect, useState } from "react";
 import Error from "./error";
 import { ItemInfo } from "@/app/cart/page";
 import { ColorButton } from "@/app/cart/EmptyBag";
-import { grey } from "@mui/material/colors";
 
 interface PageProps {
   params: { id: string };
@@ -33,34 +32,55 @@ export default function OrdersPage({ params: { id } }: PageProps) {
   const { userInfo } = useContext(Store);
   const [errorMessage, setErrorMessage] = useState();
 
-  useEffect(() => {
-    const getOrderDetails = async () => {
-      let headers: { 'Content-Type': string, authorization?: string } = {
-        'Content-Type': 'application/json',
-      }
-
-      if (userInfo?.token) {
-        headers.authorization = `Bearer ${userInfo.token}`;
-      }
-
-      const res = await fetch(`/api/orders/${id}`, {
-        method: 'GET',
-        headers,
-      });
-
-      const data = await Promise.resolve(res.json());
-
-      if (!res.ok) {
-        setErrorMessage(data.message);
-        return;
-      }
-
-      setOrderDetails(data);
+  const getOrderDetails = async () => {
+    let headers: { 'Content-Type': string, authorization?: string } = {
+      'Content-Type': 'application/json',
     }
+
+    if (userInfo?.token) {
+      headers.authorization = `Bearer ${userInfo.token}`;
+    }
+
+    const res = await fetch(`/api/orders/${id}`, {
+      method: 'GET',
+      headers,
+    });
+
+    const data = await Promise.resolve(res.json());
+
+    if (!res.ok) {
+      setErrorMessage(data.message);
+      return;
+    }
+
+    setOrderDetails(data);
+  }
+
+  useEffect(() => {
     getOrderDetails();
   }, [id, userInfo])
 
   const date = orderDetails && new Date(orderDetails?.createdAt);
+
+  const handleDelivery = async (id: string) => {
+    const res = await fetch(`/api/admin/orders/deliver`, {
+      method: 'PUT',
+      headers: {
+        authorization: `Bearer ${userInfo?.token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ id }),
+    });
+
+    const data = await Promise.resolve(res.json());
+
+    if (!res.ok) {
+      alert(data.message);
+      return;
+    }
+    console.log(data);
+    getOrderDetails();
+  }
 
   return (
     <div className="mt-8">
@@ -112,7 +132,14 @@ export default function OrdersPage({ params: { id } }: PageProps) {
                 <></>
               )}
             </div>
-            {userInfo?.isAdmin && <ColorButton disabled={orderDetails.isDelivered} >Delivered</ColorButton>}
+            {userInfo?.isAdmin && (
+              <ColorButton
+                onClick={() => handleDelivery(orderDetails._id)}
+                disabled={orderDetails.isDelivered}
+              >
+                Delivered
+              </ColorButton>
+            )}
           </div>
 
           <div className="w-full ml:w-1/2">
