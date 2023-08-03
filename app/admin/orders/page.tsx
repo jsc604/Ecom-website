@@ -13,32 +13,73 @@ export default function AdminOrders() {
   const [orders, setOrders] = useState<OrderDetails[]>();
   const [loading, setLoading] = useState(false);
 
+  const fetchOrderHistory = async () => {
+    setLoading(true);
+    const res = await fetch(`/api/admin/orders`, {
+      method: 'GET',
+      headers: {
+        authorization: `Bearer ${userInfo?.token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const data = await Promise.resolve(res.json());
+
+    if (!res.ok) {
+      alert(data.message);
+      setLoading(false);
+      return;
+    }
+
+    setOrders(data);
+    setLoading(false);
+  }
+
   useEffect(() => {
     if (userInfo) {
-      const fetchOrderHistory = async () => {
-        setLoading(true);
-        const res = await fetch(`/api/admin/orders`, {
-          method: 'GET',
-          headers: {
-            authorization: `Bearer ${userInfo.token}`,
-            'Content-Type': 'application/json',
-          },
-        });
-
-        const data = await Promise.resolve(res.json());
-
-        if (!res.ok) {
-          alert(data.message);
-          setLoading(false);
-          return;
-        }
-
-        setOrders(data);
-        setLoading(false);
-      }
       fetchOrderHistory();
     }
   }, [userInfo])
+
+  const handlePayment = async (id: string) => {
+    const res = await fetch(`/api/admin/orders/pay`, {
+      method: 'PUT',
+      headers: {
+        authorization: `Bearer ${userInfo?.token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ id }),
+    });
+
+    const data = await Promise.resolve(res.json());
+
+    if (!res.ok) {
+      alert(data.message);
+      return;
+    }
+
+    fetchOrderHistory();
+  }
+
+  const handleDelivery = async (id: string) => {
+    const res = await fetch(`/api/admin/orders/deliver`, {
+      method: 'PUT',
+      headers: {
+        authorization: `Bearer ${userInfo?.token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ id }),
+    });
+
+    const data = await Promise.resolve(res.json());
+
+    if (!res.ok) {
+      alert(data.message);
+      return;
+    }
+    console.log(data);
+    fetchOrderHistory();
+  }
 
   return (
     <>
@@ -57,7 +98,7 @@ export default function AdminOrders() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {loading ? (
+            {loading || !userInfo ? (
               <>
                 <LoadingSkeleton />
                 <LoadingSkeleton />
@@ -94,7 +135,7 @@ export default function AdminOrders() {
                           ? `paid`
                           : 'processing'}
                       </Box>
-                      <ColorButton>{order.isPaid ? 'Undo' : 'Paid'}</ColorButton>
+                      <ColorButton onClick={() => handlePayment(order._id)}>{order.isPaid ? 'Undo' : 'Paid'}</ColorButton>
                     </TableCell>
                     <TableCell>
                       <Box component='div'>
@@ -102,7 +143,7 @@ export default function AdminOrders() {
                           ? `delivered`
                           : 'processing'}
                       </Box>
-                      <ColorButton>{order.isDelivered ? 'Undo' : 'Delivered'}</ColorButton>
+                      <ColorButton onClick={() => handleDelivery(order._id)}>{order.isDelivered ? 'Undo' : 'Delivered'}</ColorButton>
                     </TableCell>
                   </TableRow>
                 )

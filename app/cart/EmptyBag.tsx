@@ -9,7 +9,8 @@ export const ColorButton = styled(Button)<ButtonProps>(({ theme }) => ({
     backgroundColor: `${purple[700]} !important`,
   },
   '&.Mui-disabled': {
-    backgroundColor: grey[300],
+    backgroundColor: `${grey[500]} !important`,
+    color: `${grey[50]} !important`,
   },
 }));
 

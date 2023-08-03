@@ -7,6 +7,7 @@ import { useContext, useEffect, useState } from "react";
 import Error from "./error";
 import { ItemInfo } from "@/app/cart/page";
 import { ColorButton } from "@/app/cart/EmptyBag";
+import { grey } from "@mui/material/colors";
 
 interface PageProps {
   params: { id: string };
@@ -111,7 +112,7 @@ export default function OrdersPage({ params: { id } }: PageProps) {
                 <></>
               )}
             </div>
-            {userInfo?.isAdmin && <ColorButton>Delivered</ColorButton>}
+            {userInfo?.isAdmin && <ColorButton disabled={orderDetails.isDelivered} >Delivered</ColorButton>}
           </div>
 
           <div className="w-full ml:w-1/2">
