@@ -24,7 +24,7 @@ export default function RootLayout({
         <StoreProvider>
           <Nav />
           <ToastContainer />
-          <main className="w-11/12 max-w-[1350px] mx-auto grow">
+          <main className="w-11/12 max-w-[1350px] mx-auto grow mb-8">
             {children}
           </main>
           <Footer />

@@ -1,5 +1,3 @@
-'use client'
-
 import { Card, CardActionArea, Typography } from "@mui/material"
 
 interface StoreStatsProps {

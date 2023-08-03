@@ -65,7 +65,7 @@ export async function GET(req: NextRequest, { params }: RequestContext) {
   order.orderItems.forEach((item: ItemInfo, index: number) => {
     item.product = productObjects[index];
   });
-
+  
   await db.disconnect();
 
   return NextResponse.json(order);
