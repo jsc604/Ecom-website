@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
 import Error from "./error";
 import { ItemInfo } from "@/app/cart/page";
+import { ColorButton } from "@/app/cart/EmptyBag";
 
 interface PageProps {
   params: { id: string };
@@ -59,7 +60,7 @@ export default function OrdersPage({ params: { id } }: PageProps) {
   }, [id, userInfo])
 
   const date = orderDetails && new Date(orderDetails?.createdAt);
-  
+
   return (
     <div className="mt-8">
       {orderDetails && (
@@ -83,22 +84,34 @@ export default function OrdersPage({ params: { id } }: PageProps) {
             <div>
               <div className="font-semibold">Payment Method</div>
               <div>{orderDetails.paymentMethod}</div>
+              {userInfo?.isAdmin && <div>Status: {orderDetails.isPaid ? 'PAID' : 'PROCESSING'}</div>}
             </div>
             <Divider />
             <div>
               <div className="font-semibold">Shipping Method</div>
-              {!userInfo || (userInfo && userInfo._id !== orderDetails.user) ? <></> :
+              {userInfo?.isAdmin || (userInfo?._id === orderDetails.user) ? (
                 <>
                   <div>{orderDetails.shippingInfo.name}</div>
                   <div>{orderDetails.shippingInfo.address}</div>
                   <div>{orderDetails.shippingInfo.city}, {orderDetails.shippingInfo.province}, Canada, {orderDetails.shippingInfo.postalCode}</div>
                 </>
-              }
+              ) : (
+                <></>
+              )}
               <div>{orderDetails.shippingInfo.shippingOption}</div>
-              {!userInfo || (userInfo && userInfo._id !== orderDetails.user) ? <></> :
-                <Link href={'/'} className="uppercase font-semibold underline">Track order</Link>
-              }
+              {userInfo?.isAdmin || (userInfo?._id === orderDetails.user) ? (
+                <>
+                  {orderDetails.isDelivered ? (
+                    <Link href={'/'} className="uppercase font-semibold underline">Track order</Link>
+                  ) : (
+                    <div className="font-semibold">Order processing. No tracking available yet.</div>
+                  )}
+                </>
+              ) : (
+                <></>
+              )}
             </div>
+            {userInfo?.isAdmin && <ColorButton>Delivered</ColorButton>}
           </div>
 
           <div className="w-full ml:w-1/2">

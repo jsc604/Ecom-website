@@ -94,7 +94,7 @@ export default function AdminOrders() {
                           ? `paid`
                           : 'processing'}
                       </Box>
-                      <ColorButton>Paid</ColorButton>
+                      <ColorButton>{order.isPaid ? 'Undo' : 'Paid'}</ColorButton>
                     </TableCell>
                     <TableCell>
                       <Box component='div'>
@@ -102,7 +102,7 @@ export default function AdminOrders() {
                           ? `delivered`
                           : 'processing'}
                       </Box>
-                      <ColorButton>Delivered</ColorButton>
+                      <ColorButton>{order.isDelivered ? 'Undo' : 'Delivered'}</ColorButton>
                     </TableCell>
                   </TableRow>
                 )

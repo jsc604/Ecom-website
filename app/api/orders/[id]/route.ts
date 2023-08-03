@@ -40,19 +40,21 @@ export async function GET(req: NextRequest, { params }: RequestContext) {
       }
     );
   }
-
-  if (
-    (order.user && !user) ||
-    (order.user && user && user._id !== order.user.toString())
-  ) {
-    return NextResponse.json(
-      {
-        message: "You do not have access to this order!",
-      },
-      {
-        status: 401,
-      }
-    );
+  
+  if (!user?.isAdmin) {
+    if (
+      (order.user && !user) ||
+      (order.user && user && user._id !== order.user.toString())
+    ) {
+      return NextResponse.json(
+        {
+          message: "You do not have access to this order!",
+        },
+        {
+          status: 401,
+        }
+      );
+    }
   }
 
   // Fetch all product objects concurrently
@@ -65,7 +67,7 @@ export async function GET(req: NextRequest, { params }: RequestContext) {
   order.orderItems.forEach((item: ItemInfo, index: number) => {
     item.product = productObjects[index];
   });
-  
+
   await db.disconnect();
 
   return NextResponse.json(order);
