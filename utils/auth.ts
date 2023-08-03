@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { UserInfo } from "./StoreProvider";
 
 type User = {
@@ -39,6 +39,7 @@ async function isAuth(req: NextRequest): Promise<UserInfo> {
         reject(new Error("Token is not valid"));
       } else {
         resolve(decoded as UserInfo);
+        NextResponse.next();
       }
     });
   });

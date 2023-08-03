@@ -3,24 +3,14 @@ import { isAuth } from "@/utils/auth";
 import db from "@/utils/db";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(req: NextRequest) {
+export async function PUT(req: NextRequest) {
   const user = await isAuth(req);
-
-  if (!user) {
-    return NextResponse.json(
-      {
-        message: "No user found!",
-      },
-      {
-        status: 401,
-      }
-    );
-  }
+  const { id } = await req.json();
 
   if (!user.isAdmin) {
     return NextResponse.json(
       {
-        message: "Authororization required!",
+        message: "Unauthorized access!",
       },
       {
         status: 401,
@@ -29,19 +19,25 @@ export async function GET(req: NextRequest) {
   }
 
   await db.connect();
-  const orders = await Order.find({});
-  await db.disconnect();
 
-  if (orders.length < 1) {
+  const order = await Order.findById(id);
+
+  if (order) {
+    order.isDelivered = !order.isDelivered;
+    const updateDeliver = await order.save();
+    await db.disconnect();
+
+    return NextResponse.json({ order: updateDeliver });
+  } else {
+    await db.disconnect();
+
     return NextResponse.json(
       {
-        message: "Sorry, no orders found!",
+        message: "Order not found!",
       },
       {
         status: 404,
       }
     );
   }
-
-  return NextResponse.json(orders);
 }

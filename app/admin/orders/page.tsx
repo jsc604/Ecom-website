@@ -132,16 +132,16 @@ export default function AdminOrders() {
                     <TableCell>
                       <Box component='div'>
                         {order.isPaid
-                          ? `paid`
-                          : 'processing'}
+                          ? `Complete`
+                          : 'Processing'}
                       </Box>
                       <ColorButton onClick={() => handlePayment(order._id)}>{order.isPaid ? 'Undo' : 'Paid'}</ColorButton>
                     </TableCell>
                     <TableCell>
                       <Box component='div'>
                         {order.isDelivered
-                          ? `delivered`
-                          : 'processing'}
+                          ? `Complete`
+                          : 'Processing'}
                       </Box>
                       <ColorButton onClick={() => handleDelivery(order._id)}>{order.isDelivered ? 'Undo' : 'Delivered'}</ColorButton>
                     </TableCell>
