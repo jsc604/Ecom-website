@@ -92,8 +92,8 @@ export default function AdminOrders() {
                       {user.name}
                     </TableCell>
                     <TableCell>{user.email}</TableCell>
-                    <TableCell>{user.isAdmin}</TableCell>
-                    <TableCell>
+                    <TableCell>{user.isAdmin ? 'YES' : 'NO'}</TableCell>
+                    <TableCell sx={{ display:'flex', gap: 2 }}>
                       <Link href={`/admin/users/${user._id}`}>
                         <ColorButton>Edit</ColorButton>
                       </Link>
