@@ -6,10 +6,17 @@ import Link from "next/link"
 import { useContext, useEffect, useState } from "react"
 import LoadingSkeleton from "./LoadingSkeletion";
 import { toast } from "react-toastify";
+import { blue } from "@mui/material/colors";
+import { OrderCounts } from "@/app/api/admin/users/route";
+
+export interface userProps {
+  users: UserInfo[];
+  orderCounts: OrderCounts;
+}
 
 export default function AdminOrders() {
   const { userInfo } = useContext(Store);
-  const [users, setUsers] = useState<UserInfo[]>();
+  const [usersData, setUsersData] = useState<userProps>();
   const [loading, setLoading] = useState(false);
 
   const fetchUsers = async () => {
@@ -30,7 +37,7 @@ export default function AdminOrders() {
       return;
     }
 
-    setUsers(data);
+    setUsersData(data);
     setLoading(false);
   }
 
@@ -71,6 +78,7 @@ export default function AdminOrders() {
     fetchUsers();
   }
 
+  console.log(usersData)
   return (
     <>
       <Typography component={'h1'} variant='h4'>Users</Typography>
@@ -82,6 +90,7 @@ export default function AdminOrders() {
               <TableCell>NAME</TableCell>
               <TableCell>EMAIL</TableCell>
               <TableCell>ISADMIN</TableCell>
+              <TableCell>ORDERS</TableCell>
               <TableCell>ACTION</TableCell>
             </TableRow>
           </TableHead>
@@ -94,7 +103,7 @@ export default function AdminOrders() {
                 <LoadingSkeleton />
               </>
             ) : (
-              users && users.map((user: UserInfo) => {
+              usersData && usersData.users.map((user: UserInfo) => {
                 return (
                   <TableRow key={user._id}>
                     <TableCell>
@@ -105,8 +114,13 @@ export default function AdminOrders() {
                     </TableCell>
                     <TableCell>{user.email}</TableCell>
                     <TableCell>{user.isAdmin ? 'YES' : 'NO'}</TableCell>
+                    <TableCell sx={{ color: blue[800], textDecoration: 'underline' }}>
+                      <Link href={`/admin/users/${user._id}/orders`}>
+                        {usersData.orderCounts[user._id] || 0}
+                      </Link>
+                    </TableCell>
                     <TableCell sx={{ display: 'flex', gap: 2 }}>
-                      <Link href={`/admin/users/${user._id}`}>
+                      <Link href={`/admin/users/${user._id}/edit`}>
                         <ColorButton>Edit</ColorButton>
                       </Link>
                       <ColorButton onClick={() => handleDelete(user._id)}>Delete</ColorButton>
