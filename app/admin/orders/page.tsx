@@ -12,9 +12,11 @@ export default function AdminOrders() {
   const { userInfo } = useContext(Store);
   const [orders, setOrders] = useState<OrderDetails[]>();
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
   const fetchOrderHistory = async () => {
     setLoading(true);
+    setError(false);
     const res = await fetch(`/api/admin/orders`, {
       method: 'GET',
       headers: {
@@ -26,7 +28,7 @@ export default function AdminOrders() {
     const data = await Promise.resolve(res.json());
 
     if (!res.ok) {
-      alert(data.message);
+      setError(data.message);
       setLoading(false);
       return;
     }
@@ -77,7 +79,7 @@ export default function AdminOrders() {
       alert(data.message);
       return;
     }
-    
+
     fetchOrderHistory();
   }
 
@@ -106,7 +108,7 @@ export default function AdminOrders() {
                 <LoadingSkeleton />
               </>
             ) : (
-              orders && orders.map((order: OrderDetails) => {
+              orders ? (orders.map((order: OrderDetails) => {
                 const date = new Date(order.createdAt);
                 return (
                   <TableRow key={order._id}>
@@ -120,7 +122,7 @@ export default function AdminOrders() {
                     </TableCell>
                     <TableCell>
                       {order.user ? (
-                        <Link href={`/orders/${order._id}`} className="text-[#1565c0] underline">
+                        <Link href={`/admin/users/${order.user}/orders`} className="text-[#1565c0] underline">
                           {`${order.user.substring(0, 4)}...${order.user.substring(20, 24)}`}
                         </Link>
                       ) : (
@@ -147,7 +149,9 @@ export default function AdminOrders() {
                     </TableCell>
                   </TableRow>
                 )
-              })
+              })) : (
+                <>{error}</>
+              )
             )}
           </TableBody>
         </Table>

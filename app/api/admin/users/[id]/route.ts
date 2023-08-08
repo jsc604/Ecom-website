@@ -45,6 +45,41 @@ export async function DELETE(req: NextRequest, { params }: RequestContext) {
   }
 }
 
+export async function GET(req: NextRequest, { params }: RequestContext) {
+  const caller = await isAuth(req);
+  const { id } = params;
+
+  if (!caller.isAdmin) {
+    return NextResponse.json(
+      {
+        message: "Unauthorized access!",
+      },
+      {
+        status: 401,
+      }
+    );
+  }
+
+  await db.connect();
+
+  const user = await User.findById(id);
+
+  await db.disconnect();
+
+  if (user) {
+    return NextResponse.json(user);
+  } else {
+    return NextResponse.json(
+      {
+        message: "User not found!",
+      },
+      {
+        status: 404,
+      }
+    );
+  }
+}
+
 export async function PUT(req: NextRequest, { params }: RequestContext) {
   const caller = await isAuth(req);
   const { id } = params;
