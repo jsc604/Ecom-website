@@ -1,15 +1,16 @@
 'use client'
 import { Store } from "@/utils/StoreProvider";
-import { TextField, Button } from "@mui/material"
+import { TextField, Button, CircularProgress } from "@mui/material"
 import { setCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { Controller, FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
 export default function RegisterForm() {
   const { handleSubmit, control, formState: { errors } } = useForm();
   const { setUserInfo } = useContext(Store);
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const submitHandler: SubmitHandler<FieldValues> = async ({ firstName, lastName, email, confirmEmail, password, confirmPassword }) => {
@@ -39,6 +40,7 @@ export default function RegisterForm() {
       });
       return;
     }
+    setLoading(true);
     const res = await fetch('/api/account/register', {
       method: 'POST',
       body: JSON.stringify({ firstName, lastName, email: email.toLowerCase(), password }),
@@ -50,6 +52,7 @@ export default function RegisterForm() {
     const data = await Promise.resolve(res.json());
 
     if (!res.ok) {
+      setLoading(false);
       toast.error(`${data.message}`, {
         position: "top-center",
         autoClose: 8000,
@@ -65,6 +68,7 @@ export default function RegisterForm() {
 
     setCookie('userInfo', data, { maxAge: 60 * 60 * 12 });
     setUserInfo(data);
+    setLoading(false);
     router.push('/');
     toast.success(`Welcome ${data.name.split(' ')[0]}! You have successfully registered. 🦄`, {
       position: "top-center",
@@ -244,7 +248,9 @@ export default function RegisterForm() {
           )}
         />
       </div>
-      <Button type='submit' color='success' variant='contained' sx={{ width: '100%', marginTop: 1 }} className='bg-green-600'>Register</Button>
+      <Button type='submit' disabled={loading} color='success' variant='contained' sx={{ width: '100%', marginTop: 1 }} className='bg-green-600'>
+        {loading ? <CircularProgress /> : 'Register'}
+      </Button>
     </form>
   )
 }

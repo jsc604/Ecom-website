@@ -1,0 +1,84 @@
+import User from "@/models/User";
+import { isAuth } from "@/utils/auth";
+import db from "@/utils/db";
+import { NextRequest, NextResponse } from "next/server";
+
+interface RequestContext {
+  params: { id: string };
+}
+
+export async function DELETE(req: NextRequest, { params }: RequestContext) {
+  const caller = await isAuth(req);
+  const { id } = params;
+
+  if (!caller.isAdmin) {
+    return NextResponse.json(
+      {
+        message: "Unauthorized access!",
+      },
+      {
+        status: 401,
+      }
+    );
+  }
+
+  await db.connect();
+
+  const user = await User.findById(id);
+
+  if (user) {
+    await User.deleteOne({ _id: id });
+    await db.disconnect();
+
+    return NextResponse.json({ message: "User deleted!" });
+  } else {
+    await db.disconnect();
+
+    return NextResponse.json(
+      {
+        message: "User not found!",
+      },
+      {
+        status: 404,
+      }
+    );
+  }
+}
+
+export async function PUT(req: NextRequest, { params }: RequestContext) {
+  const caller = await isAuth(req);
+  const { id } = params;
+
+  if (!caller.isAdmin) {
+    return NextResponse.json(
+      {
+        message: "Unauthorized access!",
+      },
+      {
+        status: 401,
+      }
+    );
+  }
+
+  await db.connect();
+
+  const user = await User.findById(id);
+
+  if (user) {
+    await user.remove();
+    await db.disconnect();
+
+    return NextResponse.json({ message: "User deleted!" });
+  } else {
+    await db.disconnect();
+
+    return NextResponse.json(
+      {
+        message: "User not found!",
+      },
+      {
+        status: 404,
+      }
+    );
+  }
+}
