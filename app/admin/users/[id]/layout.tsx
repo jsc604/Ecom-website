@@ -30,10 +30,6 @@ export default function AdminLayout({
   children: React.ReactNode
   params: { id: string }
 }) {
-  const headersList = headers();
-  const pathname = headersList.get("x-invoke-path") || "";
-  const pageName = pathname.split('/')[4];
-
   const cookieStore = cookies();
   const token = cookieStore.get("userInfo");
   const userInfo = token && JSON.parse(token.value);
@@ -52,7 +48,7 @@ export default function AdminLayout({
 
   return (
     <section>
-      <UserNav id={user._id} name={user.name} pageName={pageName} />
+      <UserNav id={user._id} name={user.name} />
       {children}
     </section>
   )

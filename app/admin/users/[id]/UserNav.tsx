@@ -3,14 +3,16 @@ import { Edit, Receipt } from "@mui/icons-material";
 import { List, ListItemButton, ListItemIcon, ListItemText, Typography } from "@mui/material"
 import { blue } from "@mui/material/colors"
 import Link from "next/link"
+import { usePathname } from "next/navigation";
 
 interface PageProps {
   id: string;
   name: string;
-  pageName: string;
 }
 
-export default function UserNav({ id, name, pageName }: PageProps) {
+export default function UserNav({ id, name }: PageProps) {
+  const pathname = usePathname();
+  const pageName = pathname.split('/')[4];
 
   return (
     <>

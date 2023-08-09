@@ -46,7 +46,7 @@ export default function AdminNav() {
       </Link>
       <Link href={'/admin/users'}>
         <ListItemButton sx={{
-          backgroundColor: pathname === '/admin/users' || pageName === 'users' || pageName === 'orders' ? blue[50] : 'transparent',
+          backgroundColor: pathname === '/admin/users' || pageName === 'edit' || pageName === 'orders' ? blue[50] : 'transparent',
           '&:hover': {
             backgroundColor: blue[50],
           },
