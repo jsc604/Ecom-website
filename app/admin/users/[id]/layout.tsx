@@ -49,7 +49,6 @@ export default function AdminLayout({
   }
 
   const user = use(fetchUser(id, userInfo.token));
-  console.log(user);
 
   return (
     <section>

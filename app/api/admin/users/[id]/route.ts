@@ -82,7 +82,6 @@ export async function GET(req: NextRequest, { params }: RequestContext) {
 
 export async function PUT(req: NextRequest, { params }: RequestContext) {
   const caller = await isAuth(req);
-  const { id } = params;
 
   if (!caller.isAdmin) {
     return NextResponse.json(
@@ -95,18 +94,23 @@ export async function PUT(req: NextRequest, { params }: RequestContext) {
     );
   }
 
+  const { id } = params;
+  const data = await req.json();
+  const { name, isAdmin } = data;
+
   await db.connect();
 
   const user = await User.findById(id);
 
   if (user) {
-    await user.remove();
+    user.name = name;
+    user.isAdmin = Boolean(isAdmin);
+    await user.save();
     await db.disconnect();
 
-    return NextResponse.json({ message: "User deleted!" });
+    return NextResponse.json({ message: "User Updated Successfully!" });
   } else {
     await db.disconnect();
-
     return NextResponse.json(
       {
         message: "User not found!",

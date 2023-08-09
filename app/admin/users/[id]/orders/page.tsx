@@ -86,7 +86,7 @@ export default function UserOrders({ params }: PageProps) {
 
     fetchOrderHistory();
   }
-  console.log(orders);
+  
   return (
     <TableContainer>
       <Table>
