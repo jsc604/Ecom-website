@@ -78,7 +78,6 @@ export default function OrdersPage({ params: { id } }: PageProps) {
       alert(data.message);
       return;
     }
-    console.log(data);
     getOrderDetails();
   }
 

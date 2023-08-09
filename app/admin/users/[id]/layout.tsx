@@ -13,7 +13,7 @@ export async function generateMetadata() {
   };
 }
 
-function fetchUser(id: string, token: string) {
+async function fetchUser(id: string, token: string) {
   return fetch(`http://localhost:3000/api/admin/users/${id}`, {
     method: 'GET',
     headers: {

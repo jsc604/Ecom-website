@@ -3,7 +3,6 @@ import Link from "next/link";
 
 function handleClick(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
   event.preventDefault();
-  console.info('You clicked a breadcrumb.');
 }
 
 interface ProductBreadcrumbsProps {

@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import { productObject } from '../page';
 import ProductItem from '@/app/components/ProductItem';
+import { use } from 'react';
 
 interface PageProps {
   params: { category: string }
@@ -26,8 +27,8 @@ async function getCategoryData(category: string) {
   return res.json();
 }
 
-export default async function ProductCategoryPage({ params: { category } }: PageProps) {
-  const data = await getCategoryData(category);
+export default function ProductCategoryPage({ params: { category } }: PageProps) {
+  const data = use(getCategoryData(category));
 
   return (
     <>

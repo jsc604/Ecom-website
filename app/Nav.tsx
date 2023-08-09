@@ -39,9 +39,8 @@ const HideOnScroll: React.FC<HideOnScrollProps> = ({ children }) => {
 }
 
 const drawerWidth = 240;
-const navItems = ['wheels', 'tires', 'accessories'];
 
-export default function Nav() {
+export default function Nav({ navItems }: { navItems: string[] }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const { cart } = useContext(Store);
   const [cartItems, setCartItems] = useState<CartItems[]>([]);

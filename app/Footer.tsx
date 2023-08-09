@@ -1,40 +1,21 @@
-'use client'
-import { Typography } from "@mui/material";
 import Image from "next/image"
 import Link from "next/link"
-import { Key, useEffect, useState } from "react";
+import { Key } from "react";
 
 function Copyright() {
   return (
-    <Typography variant="body2" color="white">
+    <div color="white">
       {'Copyright © '}
       <Link color="inherit" href="/" className="underline">
         Ecom MN
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
-    </Typography>
+    </div>
   );
 }
 
-export default function Footer() {
-  // const [data, setData] = useState<any[]>();
-
-  // useEffect(() => {
-  //   async function fetchData() {
-  //     const res = await fetch('/api/products');
-  //     setData(await res.json());
-  //   }
-  //   fetchData();
-  // }, [])
-
-  // const categories = data?.reduce((accumulator, product) => {
-  //   if (product.category && !accumulator.includes(product.category)) {
-  //     accumulator.push(product.category);
-  //   }
-  //   return accumulator;
-  // }, []);
-
+export default function Footer({ categories }: { categories: string[] }) {
   return (
     <footer className="flex flex-col items-center bg-[#27272a] text-white mt-auto p-8 font-extralight">
       <div className="flex max-sm:flex-col max-sm:space-y-8 justify-evenly w-full max-w-[1350px] mb-8">
@@ -57,9 +38,9 @@ export default function Footer() {
           <div className="flex flex-col space-y-1">
             <div className="font-semibold mb-2">Shop</div>
             <Link className="hover:underline" href={'/products'}>All Products</Link>
-            {/* {categories?.map((category: string, index: Key) => (
+            {categories.map((category: string, index: Key) => (
               <Link key={index} href={`/products/${category}`} className="hover:underline" >{category}</Link>
-            ))} */}
+            ))}
           </div>
 
           <div className="flex flex-col space-y-1">
@@ -79,9 +60,9 @@ export default function Footer() {
         <div className="flex flex-col space-y-1 max-sm:hidden">
           <div className="font-semibold mb-2">Shop</div>
           <Link className="hover:underline" href={'/products'}>All Products</Link>
-          {/* {categories?.map((category: string, index: Key) => (
+          {categories.map((category: string, index: Key) => (
             <Link key={index} href={`/products/${category}`} className="hover:underline" >{category}</Link>
-          ))} */}
+          ))}
         </div>
 
         <div className="flex flex-col space-y-1 max-sm:hidden">

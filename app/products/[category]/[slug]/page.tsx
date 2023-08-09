@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import ProductInfo from "./ProductInfo";
+import { use } from "react";
 
 interface PageProps {
   params: { slug: string, category: string }
@@ -26,8 +27,8 @@ async function getProductData(category: string, slug: string) {
   return res.json();
 }
 
-export default async function ProductItemPage({ params: { slug, category } }: PageProps) {
-  const productData = await getProductData(category, slug)
+export default function ProductItemPage({ params: { slug, category } }: PageProps) {
+  const productData = use(getProductData(category, slug));
 
   return (
     <div className="min-h-80vh my-12 grid ml:grid-cols-2 gap-6 flex">

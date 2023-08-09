@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import ProductItem, { ItemOptions } from "../components/ProductItem";
+import { use } from "react";
 
 export const metadata = {
   title: 'All Products - Ecom MN',
@@ -26,8 +27,8 @@ export type productObject = {
   rating: number | undefined;
 };
 
-export default async function page() {
-  const data = await getData();
+export default function page() {
+  const data = use(getData());
 
   return (
     <>

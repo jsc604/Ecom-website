@@ -1,3 +1,4 @@
+import { use } from "react";
 import FeaturedProducts from "./home/FeaturedProducts";
 import { notFound } from "next/navigation";
 
@@ -11,8 +12,8 @@ async function getData() {
   return res.json();
 }
 
-export default async function Home() {
-  const data = await getData();
+export default function Home() {
+  const data = use(getData());
 
   return (
     <>

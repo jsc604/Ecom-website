@@ -58,7 +58,6 @@ export default function AdminOrders() {
     });
 
     const data = await res.json();
-    console.log(data);
 
     if (!res.ok) {
       alert(data.message);
@@ -78,7 +77,6 @@ export default function AdminOrders() {
     fetchUsers();
   }
 
-  console.log(usersData)
   return (
     <>
       <Typography component={'h1'} variant='h4'>Users</Typography>
