@@ -2,7 +2,7 @@
 import { ColorButton } from "@/app/cart/EmptyBag";
 import { OrderDetails } from "@/app/orders/[id]/page";
 import { Store } from "@/utils/StoreProvider";
-import { TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Typography, Box } from "@mui/material"
+import { TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Box } from "@mui/material"
 import { blue } from "@mui/material/colors";
 import Link from "next/link"
 import { useContext, useEffect, useState } from "react"

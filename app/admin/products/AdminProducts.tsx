@@ -5,17 +5,24 @@ import { TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Box, 
 import { blue } from '@mui/material/colors';
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import LoadingSkeleton from './LoadingSkeletion';
 import ProductNav from './ProductNav';
+import { Store } from '@/utils/StoreProvider';
+import { toast } from 'react-toastify';
+import { useRouter } from 'next/navigation';
 
 interface PageProps {
   products: productObject[]
 }
 
 export default function AdminProducts({ products }: PageProps) {
+  const { userInfo } = useContext(Store);
+  const router = useRouter();
+
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [filteredProducts, setFilteredProducts] = useState(products);
+  const [loadingDelete, setLoadingDelete] = useState(false);
 
   const categoriesSet = new Set();
 
@@ -40,6 +47,48 @@ export default function AdminProducts({ products }: PageProps) {
     }
 
   }, [selectedCategory])
+
+  const handleDeleteProduct = async (id: string) => {
+    setLoadingDelete(true);
+    const res = await fetch(`/api/admin/products`, {
+      method: 'DELETE',
+      body: JSON.stringify({ id }),
+      headers: {
+        authorization: `Bearer ${userInfo?.token}`,
+        'Content-Type': 'application/json',
+      }
+    })
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      setLoadingDelete(false);
+      toast.error(`${data.message}`, {
+        position: "top-center",
+        autoClose: 8000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+      return;
+    }
+
+    setLoadingDelete(false);
+    toast.success(`${data.message}`, {
+      position: "top-center",
+      autoClose: 8000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
+    router.refresh()
+  }
 
   return (
     <>
@@ -105,7 +154,7 @@ export default function AdminProducts({ products }: PageProps) {
                       </TableCell>
                       <TableCell>
                         <Button color='primary' onClick={() => { }}><Edit /></Button>
-                        <Button color='error' onClick={() => { }}><Delete /></Button>
+                        <Button color='error' onClick={() => { }} disabled={loadingDelete}><Delete /></Button>
                       </TableCell>
                     </TableRow>
                   )
