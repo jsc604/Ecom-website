@@ -17,13 +17,13 @@ async function getData() {
 }
 
 export type productObject = {
-  brand: any;
   _id: string;
   slug: string;
+  category: string;
+  brand: string;
   name: string;
   image: string;
   options: ItemOptions[];
-  category: string;
   rating: number | undefined;
 };
 

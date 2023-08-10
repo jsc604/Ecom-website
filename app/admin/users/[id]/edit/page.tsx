@@ -1,5 +1,5 @@
 'use client'
-import { Button, Checkbox, CircularProgress, FormControlLabel, List, ListItem, TextField } from '@mui/material'
+import { Checkbox, CircularProgress, FormControlLabel, List, ListItem, Skeleton, TextField } from '@mui/material'
 import React, { useContext, useEffect, useState } from 'react'
 import { Controller, FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import { Store, UserInfo } from '@/utils/StoreProvider';
@@ -99,6 +99,16 @@ export default function AdminEdit({ params }: PageProps) {
       theme: "colored",
     });
     router.refresh();
+  }
+
+  if (loadingFetch) {
+    return (
+      <>
+        <Skeleton width="40%" height={50} />
+        <Skeleton width="30%" height={50} />
+        <Skeleton width="20%" height={50} />
+      </>
+    )
   }
 
   return (

@@ -1,17 +1,7 @@
 import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
 import UserNav from "./UserNav";
-import { capitalizeWord } from "@/app/products/[category]/page";
 import { use } from "react";
-
-export async function generateMetadata() {
-  const headersList = headers();
-  const pathname = headersList.get("x-invoke-path") || "";
-  const pageName = pathname.split('/')[4];
-  return {
-    title: `Admin Users ${capitalizeWord(pageName)} - Ecom MN`,
-  };
-}
 
 async function fetchUser(id: string, token: string) {
   return fetch(`http://localhost:3000/api/admin/users/${id}`, {

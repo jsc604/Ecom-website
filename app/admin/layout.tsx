@@ -7,26 +7,20 @@ export async function generateMetadata() {
   const pathname = headersList.get("x-invoke-path") || "";
   let page: string;
 
-  switch (pathname) {
-    case '/admin/dashboard':
-      page = 'Dashboard';
-      break;
-    case '/admin/products':
-      page = 'Admin Products';
-      break;
-    case '/admin/orders':
-      page = 'Admin Orders';
-      break;
-    case '/admin/users':
-      page = 'Admin Users';
-      break;
-    case '/admin/settings':
-      page = 'Admin Settings';
-      break;
-    default:
-      page = '';
-      break;
+  if (pathname.startsWith('/admin/dashboard')) {
+    page = 'Admin Dashboard';
+  } else if (pathname.startsWith('/admin/products')) {
+    page = 'Admin Products';
+  } else if (pathname.startsWith('/admin/orders')) {
+    page = 'Admin Orders';
+  } else if (pathname.startsWith('/admin/users')) {
+    page = 'Admin Users';
+  } else if (pathname.startsWith('/admin/settings')) {
+    page = 'Admin Settings';
+  } else {
+    page = '';
   }
+
   return {
     title: `${page} - Ecom MN`,
   };
