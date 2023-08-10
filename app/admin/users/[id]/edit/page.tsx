@@ -21,7 +21,6 @@ export default function AdminEdit({ params }: PageProps) {
   const [isAdmin, setIsAdmin] = useState(false);
   const [loadingFetch, setLoadingFetch] = useState(false);
   const [loadingUpdate, setLoadingUpdate] = useState(false);
-  const [error, setError] = useState('');
 
   const fetchUser = async () => {
     setLoadingFetch(true);
@@ -36,8 +35,17 @@ export default function AdminEdit({ params }: PageProps) {
     const data = await Promise.resolve(res.json());
 
     if (!res.ok) {
-      setError(data.message);
       setLoadingFetch(false);
+      toast.error(`${data.message}`, {
+        position: "top-center",
+        autoClose: 8000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
       return;
     }
 
@@ -151,7 +159,6 @@ export default function AdminEdit({ params }: PageProps) {
         <ListItem>
           <ColorButton
             type="submit"
-          // fullWidth
           >
             {loadingUpdate ? <CircularProgress /> : 'Update'}
           </ColorButton>

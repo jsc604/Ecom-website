@@ -7,13 +7,12 @@ import { usePathname } from "next/navigation";
 
 export default function AdminNav() {
   const pathname = usePathname();
-  const pageName = pathname.split('/')[4];
 
   return (
     <List className="flex lg:block">
       <Link href={'/admin/dashboard'}>
         <ListItemButton sx={{
-          backgroundColor: pathname === '/admin/dashboard' ? blue[50] : 'transparent',
+          backgroundColor: pathname.startsWith('/admin/dashboard') ? blue[50] : 'transparent',
           '&:hover': {
             backgroundColor: blue[50],
           },
@@ -24,7 +23,7 @@ export default function AdminNav() {
       </Link>
       <Link href={'/admin/products'}>
         <ListItemButton sx={{
-          backgroundColor: pathname === '/admin/products' ? blue[50] : 'transparent',
+          backgroundColor: pathname.startsWith('/admin/products') ? blue[50] : 'transparent',
           '&:hover': {
             backgroundColor: blue[50],
           },
@@ -35,7 +34,7 @@ export default function AdminNav() {
       </Link>
       <Link href={'/admin/orders'}>
         <ListItemButton sx={{
-          backgroundColor: pathname === '/admin/orders' ? blue[50] : 'transparent',
+          backgroundColor: pathname.startsWith('/admin/orders') ? blue[50] : 'transparent',
           '&:hover': {
             backgroundColor: blue[50],
           },
@@ -46,7 +45,7 @@ export default function AdminNav() {
       </Link>
       <Link href={'/admin/users'}>
         <ListItemButton sx={{
-          backgroundColor: pathname === '/admin/users' || pageName === 'edit' || pageName === 'orders' ? blue[50] : 'transparent',
+          backgroundColor: pathname.startsWith('/admin/users') ? blue[50] : 'transparent',
           '&:hover': {
             backgroundColor: blue[50],
           },

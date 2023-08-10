@@ -1,27 +1,14 @@
 'use client'
 import { useContext, useEffect, useState } from 'react';
-import { ItemOptions } from '@/app/components/ProductItem';
 import { Divider, Rating, Typography } from '@mui/material';
 import ProductSizes from './ProductSizes';
 import ProductBreadcrumbs from './ProductBreadcrumbs';
 import ProductCheckoutCard from './ProductCheckoutCard';
 import { Store } from '@/utils/StoreProvider';
+import { productObject } from '../../page';
 
 interface PageProps {
-  product: {
-    _id: string;
-    name: string;
-    slug: string;
-    category: string;
-    image: string;
-    isFeatured?: boolean;
-    featuredImage?: string;
-    options: ItemOptions[];
-    brand: string;
-    rating: number;
-    numReviews: number;
-    description: string;
-  }
+  product: productObject;
 }
 
 export default function ProductInfo({ product }: PageProps) {

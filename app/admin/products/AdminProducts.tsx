@@ -1,7 +1,7 @@
 'use client'
 import { productObject } from '@/app/products/page';
 import { Add, Delete, Edit } from '@mui/icons-material';
-import { TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Box, Divider, Button } from '@mui/material';
+import { TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Box, Divider, Button, CircularProgress } from '@mui/material';
 import { blue } from '@mui/material/colors';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -153,8 +153,10 @@ export default function AdminProducts({ products }: PageProps) {
                         })}
                       </TableCell>
                       <TableCell>
-                        <Button color='primary' onClick={() => { }}><Edit /></Button>
-                        <Button color='error' onClick={() => { }} disabled={loadingDelete}><Delete /></Button>
+                        <Button color='primary' onClick={() => router.push(`/admin/products/${product._id}`)}><Edit /></Button>
+                        <Button color='error' onClick={() => handleDeleteProduct(product._id)} disabled={loadingDelete}>
+                          {loadingDelete ? <CircularProgress /> : <Delete />}
+                        </Button>
                       </TableCell>
                     </TableRow>
                   )
