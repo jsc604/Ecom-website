@@ -1,5 +1,5 @@
 'use client'
-import { Button, Checkbox, CircularProgress, FormControlLabel, IconButton, List, ListItem, TextField } from '@mui/material'
+import { Box, Button, Checkbox, CircularProgress, FormControlLabel, IconButton, List, ListItem, TextField } from '@mui/material'
 import React, { useContext, useEffect, useState } from 'react'
 import { Controller, FieldValues, SubmitHandler, useFieldArray, useForm } from 'react-hook-form'
 import { Store } from '@/utils/StoreProvider';
@@ -8,6 +8,7 @@ import { ColorButton } from '@/app/cart/EmptyBag';
 import { useRouter } from 'next/navigation';
 import { productObject } from '@/app/products/page';
 import { Add, AddAPhoto, Delete } from '@mui/icons-material';
+import Image from 'next/image';
 
 interface PageProps {
   product: productObject;
@@ -175,7 +176,7 @@ export default function AdminProductsEdit({ product }: PageProps) {
         </ListItem>
 
         <ListItem sx={{ display: 'flex', flexDirection: 'column' }}>
-          <label>Options</label>
+          <label className='underline'>Options</label>
           <List>
             {fields.map((option, index) => (
               <ListItem key={option.id} sx={{ gap: 2, display: 'flex', flexDirection: { xs: 'column', sm: 'row' } }}>
@@ -243,36 +244,27 @@ export default function AdminProductsEdit({ product }: PageProps) {
           ></FormControlLabel>
         </ListItem>
 
-        <ListItem>
-          <Controller
-            name="featuredImage"
-            control={control}
-            defaultValue=""
-            rules={{
-              required: true,
-            }}
-            render={({ field }) => (
-              <TextField
-                variant="outlined"
-                fullWidth
-                required
+        <Box component={'div'} sx={{ display: 'flex', gap: 2, mx: 2, mb: 4 }}>
+          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+            <label htmlFor="featuredImage">Featured Image</label>
+            <Button component="label" variant="contained" sx={{ width: 'fit-content' }}>
+              <Box component={'span'} sx={{ display: { xs: 'none', sm: 'block' } }}>Upload File</Box>
+              <AddAPhoto />
+              <input
+                type="file"
                 id="featuredImage"
-                label="Featured Image"
-                error={Boolean(errors.image)}
-                helperText={errors.image ? 'Featured image is required' : ''}
-                {...field}
-              ></TextField>
-            )}
-          ></Controller>
-        </ListItem>
-        <ListItem>
-          <Button component="label" variant='contained'>
-            Upload File
-            <AddAPhoto />
-            <input type="file" onChange={uploadHandler} hidden />
-          </Button>
-          {loadingUpload && <CircularProgress />}
-        </ListItem>
+                onChange={(e) => uploadHandler(e, 'featuredImage')}
+                hidden
+              />
+            </Button>
+            {loadingUpload && <CircularProgress />}
+          </Box>
+          {product.featuredImage && (
+            <Box component={'div'} sx={{ width: '50%', aspectRatio: 1 / 1, maxWidth: 300, position: 'relative' }}>
+              <Image src={product.featuredImage} alt="Featured Image" fill className='object-cover' />
+            </Box>
+          )}
+        </Box>
 
         <ListItem>
           <Controller
@@ -288,11 +280,11 @@ export default function AdminProductsEdit({ product }: PageProps) {
                 {...field}
               ></TextField>
             )}
-          ></Controller>
+          />
         </ListItem>
         <ListItem>
           <Button component="label" variant='contained'>
-            Upload File
+            <Box component={'span'} sx={{ display: { xs: 'none', sm: 'block' } }}>Upload File</Box>
             <AddAPhoto />
             <input type="file" onChange={uploadHandler} hidden />
           </Button>
@@ -320,7 +312,7 @@ export default function AdminProductsEdit({ product }: PageProps) {
                 {...field}
               />
             )}
-          ></Controller>
+          />
         </ListItem>
 
         <ListItem>
@@ -332,6 +324,6 @@ export default function AdminProductsEdit({ product }: PageProps) {
         </ListItem>
 
       </List>
-    </form>
+    </form >
   )
 }
