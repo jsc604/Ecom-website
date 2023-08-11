@@ -10,6 +10,9 @@ export default function page({ params }: { params: { id: string } }) {
   const product = use(fetchProducts(id));
 
   return (
-    <AdminProductsEdit product={product} />
+    <>
+      <div className='font-semibold text-xl'>Edit - {product.name}</div>
+      <AdminProductsEdit product={product} />
+    </>
   )
 }

@@ -28,6 +28,7 @@ async function connect() {
   const db = await mongoose.connect(uri);
 
   console.log('new connection');
+  // const gfs = new GridFSBucket(db as Db, { bucketName: "myFilesBucket" });
 
   connection.isConnected = db.connections[0].readyState === 1;
 }

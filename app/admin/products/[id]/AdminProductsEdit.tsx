@@ -1,12 +1,13 @@
 'use client'
-import { Checkbox, CircularProgress, FormControlLabel, List, ListItem, TextField } from '@mui/material'
+import { Button, Checkbox, CircularProgress, FormControlLabel, IconButton, List, ListItem, TextField } from '@mui/material'
 import React, { useContext, useEffect, useState } from 'react'
-import { Controller, FieldValues, SubmitHandler, useForm } from 'react-hook-form'
+import { Controller, FieldValues, SubmitHandler, useFieldArray, useForm } from 'react-hook-form'
 import { Store } from '@/utils/StoreProvider';
 import { toast } from 'react-toastify';
 import { ColorButton } from '@/app/cart/EmptyBag';
 import { useRouter } from 'next/navigation';
 import { productObject } from '@/app/products/page';
+import { Add, AddAPhoto, Delete } from '@mui/icons-material';
 
 interface PageProps {
   product: productObject;
@@ -18,13 +19,19 @@ export default function AdminProductsEdit({ product }: PageProps) {
   const router = useRouter();
 
   const [loadingUpdate, setLoadingUpdate] = useState(false);
+  const [loadingUpload, setLoadingUpload] = useState(false);
   const [isFeatured, setIsFeatured] = useState(product.isFeatured);
+
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: 'options',
+  });
 
   useEffect(() => {
     setValue('name', product.name);
     setValue('category', product.category);
     setValue('brand', product.brand);
-    setValue('image', product.image);
+    setValue('images', product.image);
     setValue('featuredImage', product.featuredImage);
     setValue('options', product.options);
     setValue('description', product.description);
@@ -71,6 +78,28 @@ export default function AdminProductsEdit({ product }: PageProps) {
     });
     router.refresh();
   }
+
+  const uploadHandler = async (e: any, imageField = 'image') => {
+    const file = e.target.files[0];
+    const bodyFormData = new FormData();
+    bodyFormData.append('file', file);
+    try {
+
+      const res = await fetch('/api/admin/upload', {
+        method: 'POST',
+        body: bodyFormData,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          authorization: `Bearer ${userInfo?.token}`,
+        },
+      });
+
+
+      // setValue(imageField, data.secure_url);
+    } catch (err) {
+      console.log('error: ', err);
+    }
+  };
 
   return (
     <form onSubmit={handleSubmit(submitHandler)}>
@@ -145,6 +174,62 @@ export default function AdminProductsEdit({ product }: PageProps) {
           ></Controller>
         </ListItem>
 
+        <ListItem sx={{ display: 'flex', flexDirection: 'column' }}>
+          <label>Options</label>
+          <List>
+            {fields.map((option, index) => (
+              <ListItem key={option.id} sx={{ gap: 2, display: 'flex', flexDirection: { xs: 'column', sm: 'row' } }}>
+                <Controller
+                  name={`options[${index}].size`}
+                  control={control}
+                  defaultValue=""
+                  render={({ field }) => (
+                    <TextField
+                      label="Size"
+                      variant="outlined"
+                      {...field}
+                    />
+                  )}
+                />
+                <Controller
+                  name={`options[${index}].price`}
+                  control={control}
+                  defaultValue=""
+                  render={({ field }) => (
+                    <TextField
+                      label="Price"
+                      variant="outlined"
+                      {...field}
+                    />
+                  )}
+                />
+                <Controller
+                  name={`options[${index}].countInStock`}
+                  control={control}
+                  defaultValue=""
+                  render={({ field }) => (
+                    <TextField
+                      label="Count in Stock"
+                      variant="outlined"
+                      {...field}
+                    />
+                  )}
+                />
+                <IconButton onClick={() => remove(index)} color='error'>
+                  <Delete />
+                </IconButton>
+              </ListItem>
+            ))}
+            <Button
+              type="button"
+              onClick={() => append({ size: '', price: '', countInStock: '' })}
+            >
+              Add Option
+              <Add />
+            </Button>
+          </List>
+        </ListItem>
+
         <ListItem>
           <FormControlLabel
             label="Is Featured"
@@ -156,6 +241,62 @@ export default function AdminProductsEdit({ product }: PageProps) {
               />
             }
           ></FormControlLabel>
+        </ListItem>
+
+        <ListItem>
+          <Controller
+            name="featuredImage"
+            control={control}
+            defaultValue=""
+            rules={{
+              required: true,
+            }}
+            render={({ field }) => (
+              <TextField
+                variant="outlined"
+                fullWidth
+                required
+                id="featuredImage"
+                label="Featured Image"
+                error={Boolean(errors.image)}
+                helperText={errors.image ? 'Featured image is required' : ''}
+                {...field}
+              ></TextField>
+            )}
+          ></Controller>
+        </ListItem>
+        <ListItem>
+          <Button component="label" variant='contained'>
+            Upload File
+            <AddAPhoto />
+            <input type="file" onChange={uploadHandler} hidden />
+          </Button>
+          {loadingUpload && <CircularProgress />}
+        </ListItem>
+
+        <ListItem>
+          <Controller
+            name="images"
+            control={control}
+            defaultValue=""
+            render={({ field }) => (
+              <TextField
+                variant="outlined"
+                fullWidth
+                id="images"
+                label="Images"
+                {...field}
+              ></TextField>
+            )}
+          ></Controller>
+        </ListItem>
+        <ListItem>
+          <Button component="label" variant='contained'>
+            Upload File
+            <AddAPhoto />
+            <input type="file" onChange={uploadHandler} hidden />
+          </Button>
+          {loadingUpload && <CircularProgress />}
         </ListItem>
 
         <ListItem>
