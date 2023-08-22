@@ -3,6 +3,7 @@
 import axios from "axios";
 import { useRef, useState } from "react";
 import Image from "next/image";
+
 const ImageUploader = () => {
   // 1. add reference to input element
   const ref = useRef<HTMLInputElement>(null);
@@ -20,6 +21,8 @@ const ImageUploader = () => {
       formData.append(file.name, file);
     }
 
+    console.log('files: ', files);
+
     // 4. use axios to send the FormData
     await axios.post("/api/upload", formData);
     setUrls(files.map((file) => `/api/upload/${file.name}`));
@@ -29,7 +32,7 @@ const ImageUploader = () => {
 
   return (
     <>
-      <input type="file" name="files" ref={ref} multiple onChange={handleSubmit} />
+      <input type="file" name="images" ref={ref} multiple onChange={handleSubmit} />
 
       {/* display uploaded images */}
       <div className="flex gap-4 mt-4 w-full">

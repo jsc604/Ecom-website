@@ -3,7 +3,11 @@ import { isAuth } from "@/utils/auth";
 import db from "@/utils/db";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function DELETE(req: NextRequest) {
+interface RequestContext {
+  params: { id: string };
+}
+
+export async function PUT(req: NextRequest, { params }: RequestContext) {
   const caller = await isAuth(req);
 
   if (!caller.isAdmin) {
@@ -17,18 +21,36 @@ export async function DELETE(req: NextRequest) {
     );
   }
 
+  const { id } = params;
   const data = await req.json();
-  const { id } = data;
+  const {
+    name,
+    category,
+    brand,
+    images,
+    isFeatured,
+    featuredImage,
+    options,
+    description,
+  } = data;
 
   await db.connect();
 
   const product = await Product.findById(id);
 
   if (product) {
-    await Product.deleteOne({ _id: id });
+    product.name = name;
+    product.category = category;
+    product.brand = brand;
+    product.images = images;
+    product.isFeatured = isFeatured;
+    product.featuredImage = featuredImage;
+    product.options = options;
+    product.description = description;
+    await product.save();
     await db.disconnect();
 
-    return NextResponse.json({ message: "Product deleted!" });
+    return NextResponse.json({ message: "Product updated successfully!" });
   } else {
     await db.disconnect();
 

@@ -20,7 +20,7 @@ export const data = {
       name: "Bentley Wheels",
       slug: "bentley-wheels",
       category: "wheels",
-      image: "/../public/images/bentley back.jpg",
+      images: ["/../public/images/bentley back.jpg"],
       isFeatured: true,
       featuredImage: "/../public/images/bentley back.jpg",
       options: [
@@ -37,7 +37,7 @@ export const data = {
       name: "Graphic Print",
       slug: "graphic-print",
       category: "accessories",
-      image: "/../public/images/Big Fat Grapic House.jpeg",
+      images: ["/../public/images/Big Fat Grapic House.jpeg"],
       isFeatured: true,
       featuredImage: "/../public/images/Big Fat Grapic House.jpeg",
       options: [
@@ -56,7 +56,7 @@ export const data = {
       name: "Camaro Tires",
       slug: "camaro-tires",
       category: "tires",
-      image: "/../public/images/camaro.jpeg",
+      images: ["/../public/images/camaro.jpeg"],
       isFeatured: false,
       featuredImage: "/../public/images/camaro.jpeg",
       options: [
@@ -73,7 +73,7 @@ export const data = {
       name: "Steering Wheel",
       slug: "steering-wheel",
       category: "accessories",
-      image: "/../public/images/chevelle interior.jpeg",
+      images:[ "/../public/images/chevelle interior.jpeg"],
       isFeatured: false,
       featuredImage: "/../public/images/chevelle interior.jpeg",
       options: [{ size: "one size", price: 250, countInStock: 20 }],
@@ -87,7 +87,7 @@ export const data = {
       name: "Polishing Agent",
       slug: "polishing-agent",
       category: "accessories",
-      image: "/../public/images/Koch Chemie.png",
+      images: ["/../public/images/Koch Chemie.png"],
       isFeatured: false,
       featuredImage: "/../public/images/Koch Chemie.png",
       options: [
@@ -105,7 +105,7 @@ export const data = {
       name: "Skyline Wheels",
       slug: "skyline-wheels",
       category: "wheels",
-      image: "/../public/images/skyline front.jpeg",
+      images: ["/../public/images/skyline front.jpeg"],
       isFeatured: false,
       featuredImage: "/../public/images/skyline front.jpeg",
       options: [

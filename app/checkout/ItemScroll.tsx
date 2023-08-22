@@ -44,7 +44,7 @@ export default function ItemScroll({ cartItemsInfo }: PageProps) {
                 <ListItem>
                   <StyledBadge badgeContent={item.quantity} color='info' sx={{ position: 'relative', aspectRatio: 1 / 1, width: 1 / 5, minWidth: '60px', borderRadius: 6, marginBottom: 'auto' }} >
                     <Image
-                      src={item.product.image}
+                      src={item.product.featuredImage}
                       alt={item.product.name}
                       fill
                       loading="lazy"

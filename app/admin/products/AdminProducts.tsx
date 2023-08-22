@@ -46,7 +46,7 @@ export default function AdminProducts({ products }: PageProps) {
       setFilteredProducts(filtered)
     }
 
-  }, [selectedCategory])
+  }, [products, selectedCategory])
 
   const handleDeleteProduct = async (id: string) => {
     setLoadingDelete(true);
@@ -129,7 +129,7 @@ export default function AdminProducts({ products }: PageProps) {
 
                       <TableCell >
                         <Box sx={{ position: 'relative', aspectRatio: 1 / 1 }}>
-                          <Image src={product.image} fill alt={product.slug} />
+                          <Image src={product.featuredImage} fill alt={product.slug} />
                         </Box>
                       </TableCell>
 

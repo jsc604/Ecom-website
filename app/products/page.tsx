@@ -21,7 +21,7 @@ export type productObject = {
   name: string;
   slug: string;
   category: string;
-  image: string;
+  images: string[];
   isFeatured: boolean;
   featuredImage: string;
   options: ItemOptions[];
@@ -42,7 +42,7 @@ export default function page() {
           <ProductItem
             key={item.slug}
             name={item.name}
-            image={item.image}
+            image={item.featuredImage}
             options={item.options}
             category={item.category}
             slug={item.slug}

@@ -39,7 +39,7 @@ export default function OrderSummary({ cartItemsInfo, subtotal, shippingPrice }:
                     <Box className="col-span-2" sx={{ display: 'flex', gap: 2 }}>
                       <Box className="max-sm:hidden" sx={{ position: 'relative', aspectRatio: 1 / 1, width: 1 / 4, minWidth: '60px', borderRadius: 6, marginBottom: 'auto' }} >
                         <Image
-                          src={item.product.image}
+                          src={item.product.featuredImage}
                           alt={item.product.name}
                           fill
                           loading="lazy"

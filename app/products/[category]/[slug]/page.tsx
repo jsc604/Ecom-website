@@ -34,7 +34,7 @@ export default function ProductItemPage({ params: { slug, category } }: PageProp
     <div className="min-h-80vh my-12 grid ml:grid-cols-2 gap-6 flex">
       <div className="relative aspect-square">
         <Image
-          src={productData.image}
+          src={productData.featuredImage}
           alt="Product image"
           fill
           loading="lazy"

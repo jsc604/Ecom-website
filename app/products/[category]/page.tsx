@@ -34,7 +34,7 @@ export default function ProductCategoryPage({ params: { category } }: PageProps)
           <ProductItem
             key={item.slug}
             name={item.name}
-            image={item.image}
+            image={item.featuredImage}
             options={item.options}
             category={item.category}
             slug={item.slug}

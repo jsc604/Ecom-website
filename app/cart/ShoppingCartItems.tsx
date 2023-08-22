@@ -16,7 +16,7 @@ export default function ShoppingCartItems({ cartItemsInfo }: PageProps) {
           <div key={index}>
             <Divider />
             <ShoppingCartItem
-              image={item.product.image}
+              image={item.product.featuredImage}
               id={item.product._id}
               slug={item.product.slug}
               category={item.product.category}

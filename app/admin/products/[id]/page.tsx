@@ -13,8 +13,9 @@ export default function page({ params }: { params: { id: string } }) {
   return (
     <>
       <div className='font-semibold text-xl'>Edit - {product.name}</div>
-      {/* <AdminProductsEdit product={product} /> */}
-      <ImageUploader />
+      <AdminProductsEdit product={product} />
+      {/* <ImageUploader />
+      <ImageUploader /> */}
     </>
   )
 }
