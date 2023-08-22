@@ -18,5 +18,5 @@ export async function GET() {
     return accumulator;
   }, []);
 
-  return NextResponse.json(categories);
+  return NextResponse.json(categories.sort((a: string, b: string) => a.trim().localeCompare(b.trim())));
 };

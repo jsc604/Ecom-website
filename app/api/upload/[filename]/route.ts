@@ -1,4 +1,5 @@
 
+import db from "@/utils/db";
 import { connectToDb } from "@/utils/mongo";
 import { NextResponse } from "next/server";
 
@@ -30,6 +31,7 @@ export async function GET(req: Request, { params }: Params) {
     filename
   ) as unknown as ReadableStream;
 
+  await db.disconnect();
   // 5. return a streamed response
   return new NextResponse(stream, {
     headers: {

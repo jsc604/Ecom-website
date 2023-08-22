@@ -1,13 +1,13 @@
 'use client'
 import { Box, Button, Checkbox, CircularProgress, FormControlLabel, IconButton, List, ListItem, TextField } from '@mui/material'
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, { ChangeEvent, useContext, useEffect, useState } from 'react'
 import { Controller, FieldValues, SubmitHandler, useFieldArray, useForm } from 'react-hook-form'
 import { Store } from '@/utils/StoreProvider';
 import { toast } from 'react-toastify';
 import { ColorButton } from '@/app/cart/EmptyBag';
 import { useRouter } from 'next/navigation';
 import { productObject } from '@/app/products/page';
-import { Add, AddAPhoto, Delete } from '@mui/icons-material';
+import { Add, Delete } from '@mui/icons-material';
 import Image from 'next/image';
 import axios from 'axios';
 
@@ -21,7 +21,7 @@ export default function AdminProductsEdit({ product }: PageProps) {
   const router = useRouter();
 
   const [loadingUpdate, setLoadingUpdate] = useState(false);
-  const [loadingUpload, setLoadingUpload] = useState(false);
+  const [loadingFeaturedImage, setLoadingFeaturedImage] = useState(false);
   const [loadingImages, setLoadingImages] = useState(false);
   const [isFeatured, setIsFeatured] = useState(product.isFeatured);
   const [featuredImage, setFeaturedImage] = useState(product.featuredImage);
@@ -38,6 +38,7 @@ export default function AdminProductsEdit({ product }: PageProps) {
     setValue('brand', product.brand);
     setValue('options', product.options);
     setValue('description', product.description);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const submitHandler: SubmitHandler<FieldValues> = async ({ name, category, brand, options, description }) => {
@@ -82,21 +83,53 @@ export default function AdminProductsEdit({ product }: PageProps) {
     router.refresh();
   }
 
-  const ref = useRef<HTMLInputElement>(null);
+  const handleFeaturedImageUpload = async (e: ChangeEvent<HTMLInputElement>) => {
+    setLoadingFeaturedImage(true);
 
-  const handleImagesUpload = async () => {
-    setLoadingImages(true);
-    const input = ref.current!;
+    const fileInput = e.target;
+    if (!fileInput) {
+      setLoadingFeaturedImage(false);
+      return;
+    }
+
+    const file = fileInput.files && fileInput.files[0];
+    if (!file) {
+      setLoadingFeaturedImage(false);
+      return;
+    }
 
     const formData = new FormData();
-    const files = Array.from(input.files ?? []);
+    formData.append(file.name, file);
+
+    await axios.post("/api/upload", formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        authorization: `Bearer ${userInfo?.token}`,
+      },
+    });
+
+    setFeaturedImage(`/api/upload/${file.name}`);
+
+    setLoadingFeaturedImage(false);
+  };
+
+  const handleImagesUpload = async (e: ChangeEvent<HTMLInputElement>) => {
+    setLoadingImages(true);
+
+    const formData = new FormData();
+    const files = Array.from(e.target.files ?? []);
     for (const file of files) {
       formData.append(file.name, file);
     }
 
-    await axios.post("/api/upload", formData);
-    setLoadingImages(false);
+    await axios.post("/api/upload", formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        authorization: `Bearer ${userInfo?.token}`,
+      },
+    });
     setImages(files.map((file) => `/api/upload/${file.name}`));
+    setLoadingImages(false);
   };
 
   return (
@@ -241,66 +274,32 @@ export default function AdminProductsEdit({ product }: PageProps) {
           ></FormControlLabel>
         </ListItem>
 
-        {/* <Box component={'div'} sx={{ display: 'flex', gap: 2, mx: 2, mb: 4 }}>
-          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-            <label htmlFor="featuredImage">Featured Image</label>
-            <Button component="label" variant="contained" sx={{ width: 'fit-content' }}>
-              <Box component={'span'} sx={{ display: { xs: 'none', sm: 'block' } }}>Upload File</Box>
-              <AddAPhoto />
-              <input
-                type="file"
-                id="featuredImage"
-                onChange={(e) => uploadHandler(e, 'featuredImage')}
-                hidden
-              />
-            </Button>
-            {loadingUpload && <CircularProgress />}
-          </Box>
-          {product.featuredImage && (
-            <Box component={'div'} sx={{ width: '50%', aspectRatio: 1 / 1, maxWidth: 300, position: 'relative' }}>
-              <Image src={product.featuredImage} alt="Featured Image" fill className='object-cover' />
-            </Box>
-          )}
-        </Box> */}
-
         <Box sx={{ display: 'flex', flexDirection: 'column', mx: 2, mb: 4 }}>
           <label htmlFor="featuredImages">Featured Images</label>
-          <input type="file" name="featuredImages" ref={ref} multiple onChange={handleImagesUpload} />
-          {loadingImages && <CircularProgress />}
-          <div className="flex gap-4 mt-4 w-full">
-            {images.map((image) => {
-              return (
-                <Image
-                  key={image}
-                  src={image}
-                  alt={image}
-                  className="object-cover aspect-square"
-                  width={200}
-                  height={200}
-                />
-              );
-            })}
-          </div>
+          <input type="file" name="featuredImages" onChange={handleFeaturedImageUpload} />
+          {loadingFeaturedImage && <CircularProgress />}
+          <Box component={'div'} sx={{ width: '50%', aspectRatio: 1 / 1, maxWidth: 300, position: 'relative', mt: 2 }}>
+            <Image src={featuredImage} alt="Featured Image" fill className='object-cover' />
+          </Box>
         </Box>
 
         <Box sx={{ display: 'flex', flexDirection: 'column', mx: 2, mb: 4 }}>
           <label htmlFor="images">Images</label>
-          <input type="file" name="images" ref={ref} multiple onChange={handleImagesUpload} />
+          <input type="file" name="images" multiple onChange={handleImagesUpload} />
           {loadingImages && <CircularProgress />}
-          <div className="flex gap-4 mt-4 w-full">
+          <Box sx={{ display: 'flex', gap: 2, mt: 2 }}>
             {images.map((image) => {
               return (
-                <Image
+                <Box
                   key={image}
-                  src={image}
-                  alt={image}
-                  className="object-cover aspect-square"
-                  width={100}
-                  height={100}
-                />
+                  component={'div'}
+                  sx={{ width: '50%', aspectRatio: 1 / 1, maxWidth: 150, position: 'relative', mt: 2 }}
+                >
+                  <Image src={image} alt={image} fill className='object-cover' />
+                </Box>
               );
             })}
-          </div>
+          </Box>
         </Box>
 
         <ListItem>

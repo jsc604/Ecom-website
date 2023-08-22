@@ -1,8 +1,34 @@
+import { isAuth } from "@/utils/auth";
+import db from "@/utils/db";
 import { connectToDb, fileExists } from "@/utils/mongo";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { Readable } from "stream";
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
+  const user = await isAuth(req);
+
+  if (!user) {
+    return NextResponse.json(
+      {
+        message: "No user found!",
+      },
+      {
+        status: 401,
+      }
+    );
+  }
+
+  if (!user.isAdmin) {
+    return NextResponse.json(
+      {
+        message: "Authororization required!",
+      },
+      {
+        status: 401,
+      }
+    );
+  }
+
   const { bucket } = await connectToDb();
   // get the form data
   const data = await req.formData();
@@ -39,7 +65,8 @@ export async function POST(req: Request) {
       await stream.pipe(uploadStream);
     }
   }
-
+  
+  await db.disconnect();
   // return the response after all the entries have been processed.
   return NextResponse.json({ success: true });
 }
