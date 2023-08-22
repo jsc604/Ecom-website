@@ -21,14 +21,10 @@ const ImageUploader = () => {
       formData.append(file.name, file);
     }
 
-    console.log('files: ', files);
-
     // 4. use axios to send the FormData
     await axios.post("/api/upload", formData);
     setUrls(files.map((file) => `/api/upload/${file.name}`));
   };
-
-  console.log('urls: ', urls);
 
   return (
     <>

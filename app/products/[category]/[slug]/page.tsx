@@ -1,7 +1,8 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import ProductInfo from "./ProductInfo";
-import { use } from "react";
+import { Key, use } from "react";
+import ImageCarousel from "./ImageCarousel";
 
 interface PageProps {
   params: { slug: string, category: string }
@@ -29,19 +30,17 @@ async function getProductData(category: string, slug: string) {
 
 export default function ProductItemPage({ params: { slug, category } }: PageProps) {
   const productData = use(getProductData(category, slug));
+  const images = [productData.featuredImage, ...productData.images];
+
+  const indicatorIcons = images.map((image, i) => (
+    <div className="aspect-square w-[40px] h-auto relative mx-1">
+      <Image key={i} src={image} alt={image} fill className="object-cover" />
+    </div>
+  ))
 
   return (
     <div className="min-h-80vh my-12 grid ml:grid-cols-2 gap-6 flex">
-      <div className="relative aspect-square">
-        <Image
-          src={productData.featuredImage}
-          alt="Product image"
-          fill
-          loading="lazy"
-          className="object-cover"
-          sizes="(max-width: 600px) 100vw, (max-width: 900px) 50vw, 33vw"
-        />
-      </div>
+      <ImageCarousel images={images} indicatorIcons={indicatorIcons} />
       <div>
         <ProductInfo product={productData} />
       </div>
