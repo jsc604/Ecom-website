@@ -8,6 +8,7 @@ import LoadingSkeleton from "./LoadingSkeletion";
 import { toast } from "react-toastify";
 import { blue } from "@mui/material/colors";
 import { OrderCounts } from "@/app/api/admin/users/route";
+import { toastOptions } from "@/utils/toastOptions";
 
 export interface userProps {
   users: UserInfo[];
@@ -64,16 +65,7 @@ export default function AdminOrders() {
       return;
     }
 
-    toast.success(`${data.message} 🦄`, {
-      position: "top-center",
-      autoClose: 8000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "colored",
-    });
+    toast.success(`${data.message} 🦄`, toastOptions);
     fetchUsers();
   }
 

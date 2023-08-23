@@ -12,6 +12,7 @@ import { deleteCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
 import { AccountCircleOutlined, AdminPanelSettingsOutlined, HistoryOutlined, LoginOutlined, LogoutOutlined } from '@mui/icons-material';
 import { toast } from 'react-toastify';
+import { toastOptions } from '@/utils/toastOptions';
 
 export default function AccountMenu() {
   const router = useRouter();
@@ -41,16 +42,7 @@ export default function AccountMenu() {
     deleteCookie('shippingInfo');
     handleUserLogout();
     router.push('/');
-    toast.info('You have been logged out successfully. Goodbye!', {
-      position: "top-center",
-      autoClose: 8000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "colored",
-    });
+    toast.info('You have been logged out successfully. Goodbye!', toastOptions);
   };
 
   return (

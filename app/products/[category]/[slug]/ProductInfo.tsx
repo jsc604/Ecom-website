@@ -39,7 +39,7 @@ export default function ProductInfo({ product }: PageProps) {
         <Rating value={product.rating} readOnly />
         <Typography variant='body1'>({product.numReviews} reviews)</Typography>
       </div>
-      <Typography variant='body1'>{product.description}</Typography>
+      <Typography variant='body1' dangerouslySetInnerHTML={{ __html: product.description }} />
       <Divider />
       <ProductSizes
         options={product.options}

@@ -5,6 +5,7 @@ import StoreStats from "./StoreStats";
 import { Store } from "@/utils/StoreProvider";
 import { toast } from "react-toastify";
 import { Skeleton } from "@mui/material";
+import { toastOptions } from "@/utils/toastOptions";
 
 type stats = {
   ordersCount: number;
@@ -32,16 +33,7 @@ export default function AdminDashboard() {
         const data = await Promise.resolve(res.json());
 
         if (!res.ok) {
-          toast.error(`${data.message}`, {
-            position: "top-center",
-            autoClose: 8000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "colored",
-          });
+          toast.error(`${data.message}`, toastOptions);
           setLoading(false);
           return;
         }

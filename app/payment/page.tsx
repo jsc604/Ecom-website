@@ -12,6 +12,7 @@ import { deleteCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 import { ItemInfo } from '../cart/page';
+import { toastOptions } from '@/utils/toastOptions';
 
 export default function Payment() {
   const router = useRouter();
@@ -93,16 +94,7 @@ export default function Payment() {
 
     if (!res.ok) {
       setLoading(false);
-      toast.error(`Error placing order!`, {
-        position: "top-center",
-        autoClose: 8000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
+      toast.error(`Error placing order!`, toastOptions);
       return;
     }
 
@@ -110,16 +102,7 @@ export default function Payment() {
     deleteCookie('cartItems');
     setLoading(false);
     router.push(`/orders/${data._id}`)
-    toast.success(`Success! Your order has been placed!`, {
-      position: "top-center",
-      autoClose: 8000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "colored",
-    });
+    toast.success(`Success! Your order has been placed!`, toastOptions);
   }
 
   return (

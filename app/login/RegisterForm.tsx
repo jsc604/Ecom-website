@@ -1,5 +1,6 @@
 'use client'
 import { Store } from "@/utils/StoreProvider";
+import { toastOptions } from "@/utils/toastOptions";
 import { TextField, Button, CircularProgress } from "@mui/material"
 import { setCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
@@ -15,29 +16,11 @@ export default function RegisterForm() {
 
   const submitHandler: SubmitHandler<FieldValues> = async ({ firstName, lastName, email, confirmEmail, password, confirmPassword }) => {
     if (email.toLowerCase() !== confirmEmail.toLowerCase()) {
-      toast.error('Emails do not match!', {
-        position: "top-center",
-        autoClose: 8000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
+      toast.error('Emails do not match!', toastOptions);
       return;
     }
     if (password !== confirmPassword) {
-      toast.error('Passwords do not match', {
-        position: "top-center",
-        autoClose: 8000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
+      toast.error('Passwords do not match', toastOptions);
       return;
     }
     setLoading(true);
@@ -53,16 +36,7 @@ export default function RegisterForm() {
 
     if (!res.ok) {
       setLoading(false);
-      toast.error(`${data.message}`, {
-        position: "top-center",
-        autoClose: 8000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
+      toast.error(`${data.message}`, toastOptions);
       return;
     }
 
@@ -70,16 +44,7 @@ export default function RegisterForm() {
     setUserInfo(data);
     setLoading(false);
     router.push('/');
-    toast.success(`Welcome ${data.name.split(' ')[0]}! You have successfully registered. 🦄`, {
-      position: "top-center",
-      autoClose: 8000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "colored",
-    });
+    toast.success(`Welcome ${data.name.split(' ')[0]}! You have successfully registered. 🦄`, toastOptions);
   }
 
   return (

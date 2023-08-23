@@ -1,6 +1,7 @@
 'use client'
 import { ColorButton } from '@/app/cart/EmptyBag';
 import { Store } from '@/utils/StoreProvider';
+import { toastOptions } from '@/utils/toastOptions';
 import { CircularProgress, TextField, Typography } from '@mui/material';
 import { setCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
@@ -32,16 +33,7 @@ export default function Profile() {
 
   const submitHandler: SubmitHandler<FieldValues> = async ({ name, email, password, confirmPassword }) => {
     if (password !== confirmPassword) {
-      toast.error('Passwords do not match', {
-        position: "top-center",
-        autoClose: 8000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
+      toast.error('Passwords do not match', toastOptions);
       return;
     }
 
@@ -59,16 +51,7 @@ export default function Profile() {
     const data = await res.json();
 
     if (!res.ok) {
-      toast.error(`${data.message}`, {
-        position: "top-center",
-        autoClose: 8000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
+      toast.error(`${data.message}`, toastOptions);
       setLoading(false);
       return;
     }
@@ -77,16 +60,7 @@ export default function Profile() {
     setUserInfo(data);
     reset({ password: '', confirmPassword: '' });
     setLoading(false);
-    toast.success(`Profile updated successfully! 🦄`, {
-      position: "top-center",
-      autoClose: 8000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "colored",
-    });
+    toast.success(`Profile updated successfully! 🦄`, toastOptions);
   };
 
   return (

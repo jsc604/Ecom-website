@@ -4,6 +4,7 @@ import { getCookie, setCookie } from "cookies-next";
 import { usePathname } from "next/navigation";
 import { createContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { toastOptions } from "./toastOptions";
 
 export interface CartItems {
   itemId: string;
@@ -111,28 +112,10 @@ export default function StoreProvider(props: React.PropsWithChildren<{}>) {
           );
           setCart(updatedCart);
           if (path !== '/cart') {
-            toast.success(`Item has been added to your cart!`, {
-              position: "top-center",
-              autoClose: 8000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "colored",
-            });
+            toast.success(`Item has been added to your cart!`, toastOptions);
           }
         } else {
-          toast.error(`Not enough stock!`, {
-            position: "top-center",
-            autoClose: 8000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "colored",
-          });
+          toast.error(`Not enough stock!`, toastOptions);
         }
       } else {
         const newItem = {
@@ -142,16 +125,7 @@ export default function StoreProvider(props: React.PropsWithChildren<{}>) {
         };
         setCart([...cart, newItem]);
         if (path !== '/cart') {
-          toast.success(`Item has been added to your cart!`, {
-            position: "top-center",
-            autoClose: 8000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "colored",
-          });
+          toast.success(`Item has been added to your cart!`, toastOptions);
         }
       }
     }

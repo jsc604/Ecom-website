@@ -11,6 +11,7 @@ import ProductNav from './ProductNav';
 import { Store } from '@/utils/StoreProvider';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
+import { toastOptions } from '@/utils/toastOptions';
 
 interface PageProps {
   products: productObject[]
@@ -63,36 +64,18 @@ export default function AdminProducts({ products }: PageProps) {
 
     if (!res.ok) {
       setLoadingDelete(false);
-      toast.error(`${data.message}`, {
-        position: "top-center",
-        autoClose: 8000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
+      toast.error(`${data.message}`, toastOptions);
       return;
     }
 
     setLoadingDelete(false);
-    toast.success(`${data.message}`, {
-      position: "top-center",
-      autoClose: 8000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "colored",
-    });
+    toast.success(`${data.message}`, toastOptions);
     router.refresh()
   }
 
   return (
     <>
-      <Button><Add /> Add New Product</Button>
+      <Button><Link href={'/admin/products/add'}><Add /> Add New Product</Link></Button>
       <ProductNav categories={categories} selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
       <TableContainer>
         <Table>

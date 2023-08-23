@@ -1,51 +1,37 @@
 'use client'
-import { Box, Button, Checkbox, CircularProgress, FormControlLabel, IconButton, List, ListItem, TextField } from '@mui/material'
-import React, { ChangeEvent, useContext, useEffect, useState } from 'react'
+import { Box, Button, Checkbox, CircularProgress, FormControlLabel, IconButton, List, ListItem, TextField, Typography } from '@mui/material'
+import React, { ChangeEvent, useContext, useState } from 'react'
 import { Controller, FieldValues, SubmitHandler, useFieldArray, useForm } from 'react-hook-form'
 import { Store } from '@/utils/StoreProvider';
 import { toast } from 'react-toastify';
 import { ColorButton } from '@/app/cart/EmptyBag';
 import { useRouter } from 'next/navigation';
-import { productObject } from '@/app/products/page';
 import { Add, Delete } from '@mui/icons-material';
 import Image from 'next/image';
 import axios from 'axios';
 import { toastOptions } from '@/utils/toastOptions';
 
-interface PageProps {
-  product: productObject;
-}
-
-export default function AdminProductsEdit({ product }: PageProps) {
-  const { handleSubmit, control, setValue, formState: { errors } } = useForm();
+export default function AdminProductsAdd() {
+  const { handleSubmit, control, formState: { errors } } = useForm();
   const { userInfo } = useContext(Store);
   const router = useRouter();
 
-  const [loadingUpdate, setLoadingUpdate] = useState(false);
+  const [loadingAdd, setLoadingAdd] = useState(false);
   const [loadingFeaturedImage, setLoadingFeaturedImage] = useState(false);
   const [loadingImages, setLoadingImages] = useState(false);
-  const [isFeatured, setIsFeatured] = useState(product.isFeatured);
-  const [featuredImage, setFeaturedImage] = useState(product.featuredImage);
-  const [images, setImages] = useState(product.images);
+  const [isFeatured, setIsFeatured] = useState(false);
+  const [featuredImage, setFeaturedImage] = useState<string>();
+  const [images, setImages] = useState<string[]>();
 
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'options',
   });
 
-  useEffect(() => {
-    setValue('name', product.name);
-    setValue('category', product.category);
-    setValue('brand', product.brand);
-    setValue('options', product.options);
-    setValue('description', product.description);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const submitHandler: SubmitHandler<FieldValues> = async ({ name, category, brand, options, description }) => {
-    setLoadingUpdate(true);
-    const res = await fetch(`/api/admin/products/${product._id}`, {
-      method: 'PUT',
+    setLoadingAdd(true);
+    const res = await fetch(`/api/admin/products`, {
+      method: 'POST',
       body: JSON.stringify({ name, category, brand, images, isFeatured, featuredImage, options, description }),
       headers: {
         'Content-Type': 'application/json',
@@ -56,14 +42,14 @@ export default function AdminProductsEdit({ product }: PageProps) {
     const data = await Promise.resolve(res.json());
 
     if (!res.ok) {
-      setLoadingUpdate(false);
+      setLoadingAdd(false);
       toast.error(`${data.message}`, toastOptions);
       return;
     }
 
-    setLoadingUpdate(false);
+    setLoadingAdd(false);
     toast.success(`${data.message}`, toastOptions);
-    router.refresh();
+    router.push('/admin/products');
   }
 
   const handleFeaturedImageUpload = async (e: ChangeEvent<HTMLInputElement>) => {
@@ -103,7 +89,7 @@ export default function AdminProductsEdit({ product }: PageProps) {
     const files = Array.from(e.target.files ?? []);
 
     if (files.length > 5) {
-      setLoadingUpdate(false);
+      setLoadingAdd(false);
       toast.error(`Maximum of 5 photos allowed`, toastOptions);
       return;
     }
@@ -124,6 +110,7 @@ export default function AdminProductsEdit({ product }: PageProps) {
 
   return (
     <form onSubmit={handleSubmit(submitHandler)}>
+      <Typography component={'h1'} variant='h4'>Add new product</Typography>
       <List>
 
         <ListItem>
@@ -268,28 +255,33 @@ export default function AdminProductsEdit({ product }: PageProps) {
           <label htmlFor="featuredImage">Featured Image</label>
           <input type="file" name="featuredImage" onChange={handleFeaturedImageUpload} />
           {loadingFeaturedImage && <CircularProgress />}
-          <Box component={'div'} sx={{ width: '50%', aspectRatio: 1 / 1, maxWidth: 300, position: 'relative', mt: 2 }}>
-            <Image src={featuredImage} alt="Featured Image" fill className='object-cover' />
-          </Box>
+          {featuredImage &&
+            <Box component={'div'} sx={{ width: '50%', aspectRatio: 1 / 1, maxWidth: 300, position: 'relative', mt: 2 }}>
+              <Image src={featuredImage} alt="Featured Image" fill className='object-cover' />
+            </Box>
+          }
         </Box>
 
         <Box sx={{ display: 'flex', flexDirection: 'column', mx: 2, mb: 4 }}>
           <label htmlFor="images">Images (up to 5)</label>
           <input type="file" name="images" multiple onChange={handleImagesUpload} />
           {loadingImages && <CircularProgress />}
-          <Box sx={{ display: 'flex', gap: 2, mt: 2 }}>
-            {images.map((image) => {
-              return (
-                <Box
-                  key={image}
-                  component={'div'}
-                  sx={{ width: '50%', aspectRatio: 1 / 1, maxWidth: 150, position: 'relative', mt: 2 }}
-                >
-                  <Image src={image} alt={image} fill className='object-cover' />
-                </Box>
-              );
-            })}
-          </Box>
+
+          {images &&
+            <Box sx={{ display: 'flex', gap: 2, mt: 2 }}>
+              {images.map((image) => {
+                return (
+                  <Box
+                    key={image}
+                    component={'div'}
+                    sx={{ width: '50%', aspectRatio: 1 / 1, maxWidth: 150, position: 'relative', mt: 2 }}
+                  >
+                    <Image src={image} alt={image} fill className='object-cover' />
+                  </Box>
+                );
+              })}
+            </Box>
+          }
         </Box>
 
         <ListItem>
@@ -320,7 +312,7 @@ export default function AdminProductsEdit({ product }: PageProps) {
           <ColorButton
             type="submit"
           >
-            {loadingUpdate ? <CircularProgress /> : 'Update'}
+            {loadingAdd ? <CircularProgress /> : 'Update'}
           </ColorButton>
         </ListItem>
 

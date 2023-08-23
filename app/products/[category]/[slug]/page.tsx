@@ -33,17 +33,15 @@ export default function ProductItemPage({ params: { slug, category } }: PageProp
   const images = [productData.featuredImage, ...productData.images];
 
   const indicatorIcons = images.map((image, i) => (
-    <div className="aspect-square w-[40px] h-auto relative mx-1">
-      <Image key={i} src={image} alt={image} fill className="object-cover" />
+    <div key={i} className="aspect-square w-[40px] h-auto relative mx-1">
+      <Image src={image} alt={image} fill className="object-cover" />
     </div>
   ))
 
   return (
     <div className="min-h-80vh my-12 grid ml:grid-cols-2 gap-6 flex">
       <ImageCarousel images={images} indicatorIcons={indicatorIcons} />
-      <div>
-        <ProductInfo product={productData} />
-      </div>
+      <ProductInfo product={productData} />
     </div>
   )
 }

@@ -1,5 +1,6 @@
 'use client'
 import { Store } from "@/utils/StoreProvider";
+import { toastOptions } from "@/utils/toastOptions";
 import { TextField, Button, CircularProgress } from "@mui/material"
 import { setCookie } from "cookies-next";
 import { usePathname, useRouter } from "next/navigation";
@@ -29,16 +30,7 @@ export default function LoginForm() {
 
     if (!res.ok) {
       setLoading(false);
-      toast.error(`${data.message}`, {
-        position: "top-center",
-        autoClose: 8000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
+      toast.error(`${data.message}`, toastOptions);
       return;
     }
 
@@ -48,16 +40,7 @@ export default function LoginForm() {
     if (pathname !== '/checkout') {
       router.back();
     }
-    toast.success(`Welcome back ${data.name.split(' ')[0]}! 🦄`, {
-      position: "top-center",
-      autoClose: 8000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "colored",
-    });
+    toast.success(`Welcome back ${data.name.split(' ')[0]}! 🦄`, toastOptions);
   }
 
   return (

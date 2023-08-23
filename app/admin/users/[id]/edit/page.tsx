@@ -6,6 +6,7 @@ import { Store, UserInfo } from '@/utils/StoreProvider';
 import { toast } from 'react-toastify';
 import { ColorButton } from '@/app/cart/EmptyBag';
 import { useRouter } from 'next/navigation';
+import { toastOptions } from '@/utils/toastOptions';
 
 interface PageProps {
   params: { id: string };
@@ -36,16 +37,7 @@ export default function AdminEdit({ params }: PageProps) {
 
     if (!res.ok) {
       setLoadingFetch(false);
-      toast.error(`${data.message}`, {
-        position: "top-center",
-        autoClose: 8000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
+      toast.error(`${data.message}`, toastOptions);
       return;
     }
 
@@ -82,30 +74,12 @@ export default function AdminEdit({ params }: PageProps) {
 
     if (!res.ok) {
       setLoadingUpdate(false);
-      toast.error(`${data.message}`, {
-        position: "top-center",
-        autoClose: 8000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
+      toast.error(`${data.message}`, toastOptions);
       return;
     }
 
     setLoadingUpdate(false);
-    toast.success(`${data.message}`, {
-      position: "top-center",
-      autoClose: 8000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "colored",
-    });
+    toast.success(`${data.message}`, toastOptions);
     router.refresh();
   }
 
