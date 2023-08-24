@@ -34,14 +34,14 @@ const initialCart: CartItems[] = [];
 
 export const Store = createContext({
   cart: initialCart,
-  setCart: (cart: CartItems[]) => { },
+  setCart: (_cart: CartItems[]) => { },
   handleAddToCart: (_itemId: string, _optionId: string, _quantity: number) => { },
   handleDeleteFromCart: (_optionId: string) => { },
   userInfo: null as UserInfo | null,
-  setUserInfo: (userInfo: UserInfo) => { },
+  setUserInfo: (_userInfo: UserInfo) => { },
   handleUserLogout: () => { },
   shippingInfo: null as ShippingInfo | null,
-  setShippingInfo: (shippingInfo: ShippingInfo) => { },
+  setShippingInfo: (_shippingInfo: ShippingInfo) => { },
 });
 
 export default function StoreProvider(props: React.PropsWithChildren<{}>) {

@@ -57,7 +57,7 @@ export default function ShoppingCartItem({ image, id, category, brand, slug, nam
             fill
             loading="lazy"
             className="object-cover rounded-md"
-            sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
+            sizes="(max-width: 767px) 224px, (max-width: 1023px) 143px, 134px"
           />
         </Link>
       </div>

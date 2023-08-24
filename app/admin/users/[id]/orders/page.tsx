@@ -45,6 +45,7 @@ export default function UserOrders({ params }: PageProps) {
     if (userInfo) {
       fetchOrderHistory();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userInfo])
 
   const handlePayment = async (id: string) => {
@@ -86,7 +87,7 @@ export default function UserOrders({ params }: PageProps) {
 
     fetchOrderHistory();
   }
-  
+
   return (
     <TableContainer>
       <Table>
@@ -102,12 +103,9 @@ export default function UserOrders({ params }: PageProps) {
         </TableHead>
         <TableBody>
           {loading || !userInfo ? (
-            <>
-              <LoadingSkeleton />
-              <LoadingSkeleton />
-              <LoadingSkeleton />
-              <LoadingSkeleton />
-            </>
+            Array.from({ length: 4 }).map((_, i) => (
+              <LoadingSkeleton key={i} />
+            ))
           ) : (
             orders ? (orders.map((order: OrderDetails) => {
               const date = new Date(order.createdAt);
@@ -142,7 +140,7 @@ export default function UserOrders({ params }: PageProps) {
                 </TableRow>
               )
             })) : (
-              <>{error}</>
+              <TableRow>{error}</TableRow>
             )
           )}
         </TableBody>

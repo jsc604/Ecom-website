@@ -13,6 +13,7 @@ import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 import { ItemInfo } from '../cart/page';
 import { toastOptions } from '@/utils/toastOptions';
+import { getCartItems } from '@/utils/fetchDataFunctions';
 
 export default function Payment() {
   const router = useRouter();
@@ -21,16 +22,17 @@ export default function Payment() {
   const [cartItemsInfo, setCartItemsInfo] = useState<ItemInfo[]>([]);
 
   useEffect(() => {
-    async function fetchData() {
-      if (cart.length > 0) {
-        const res = await fetch('/api/cart');
+    if (cart) {
+      const fetchData = async () => {
+        const fetchedData = await getCartItems(cart);
+        setCartItemsInfo(fetchedData);
+      };
 
-        setCartItemsInfo(await res.json());
-      }
+      fetchData();
+    } else {
+      router.push('/cart');
     }
-
-    fetchData();
-  }, [cart]);
+  }, [cart, router]);
 
   const [selectedOption, setSelectedOption] = useState('');
 

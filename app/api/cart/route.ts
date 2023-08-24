@@ -5,23 +5,24 @@ import db from "@/utils/db";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
-  const cookieStore = req.cookies;
-  const cartItems = cookieStore.get("cartItems")?.value;
+  const cartItems = JSON.parse(
+    req.nextUrl.searchParams.get("cartItems") as string
+  );
 
-  if (!cartItems) {
+  if (!cartItems || !Array.isArray(cartItems)) {
     return NextResponse.json(
       {
-        message: "No items found in cart!",
+        message: "Invalid input",
       },
       {
-        status: 404,
+        status: 400,
       }
     );
   }
 
   await db.connect();
 
-  const productPromises = JSON.parse(cartItems).map(async (cartItem: CartItems) => {
+  const productPromises = cartItems.map(async (cartItem: CartItems) => {
     const { itemId, optionId, quantity } = cartItem;
     const product = await Product.findById(itemId);
 

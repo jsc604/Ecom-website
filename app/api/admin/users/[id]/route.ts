@@ -9,7 +9,6 @@ interface RequestContext {
 
 export async function DELETE(req: NextRequest, { params }: RequestContext) {
   const caller = await isAuth(req);
-  const { id } = params;
 
   if (!caller.isAdmin) {
     return NextResponse.json(
@@ -21,6 +20,8 @@ export async function DELETE(req: NextRequest, { params }: RequestContext) {
       }
     );
   }
+
+  const { id } = params;
 
   await db.connect();
 

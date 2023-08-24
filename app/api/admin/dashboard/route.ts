@@ -8,17 +8,6 @@ import Product from "@/models/Product";
 export async function GET(req: NextRequest) {
   const user = await isAuth(req);
 
-  if (!user) {
-    return NextResponse.json(
-      {
-        message: "No user found!",
-      },
-      {
-        status: 401,
-      }
-    );
-  }
-
   if (!user.isAdmin) {
     return NextResponse.json(
       {

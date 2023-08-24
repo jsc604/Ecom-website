@@ -44,6 +44,7 @@ export default function OrderSummary({ cartItemsInfo, subtotal, shippingPrice }:
                           fill
                           loading="lazy"
                           className="object-cover rounded-md"
+                          sizes="(max-width: 639px) 0px, (max-width: 1023px) 110px, 73px"
                         />
                       </Box>
                       <Box>

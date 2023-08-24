@@ -49,6 +49,7 @@ export default function AdminEdit({ params }: PageProps) {
     if (userInfo) {
       fetchUser();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id])
 
   useEffect(() => {

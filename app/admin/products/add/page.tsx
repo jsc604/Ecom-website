@@ -257,7 +257,7 @@ export default function AdminProductsAdd() {
           {loadingFeaturedImage && <CircularProgress />}
           {featuredImage &&
             <Box component={'div'} sx={{ width: '50%', aspectRatio: 1 / 1, maxWidth: 300, position: 'relative', mt: 2 }}>
-              <Image src={featuredImage} alt="Featured Image" fill className='object-cover' />
+              <Image src={featuredImage} alt="Featured Image" fill className='object-cover' sizes='(max-width: 689px) 50vw, 300px' />
             </Box>
           }
         </Box>
@@ -276,7 +276,7 @@ export default function AdminProductsAdd() {
                     component={'div'}
                     sx={{ width: '50%', aspectRatio: 1 / 1, maxWidth: 150, position: 'relative', mt: 2 }}
                   >
-                    <Image src={image} alt={image} fill className='object-cover' />
+                    <Image src={image} alt={image} fill className='object-cover' sizes='(max-width: 923px) 20vw, 150px' />
                   </Box>
                 );
               })}

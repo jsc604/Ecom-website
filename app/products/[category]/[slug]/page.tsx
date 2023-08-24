@@ -1,8 +1,8 @@
-import { notFound } from "next/navigation";
 import Image from "next/image";
 import ProductInfo from "./ProductInfo";
-import { Key, use } from "react";
+import { use } from "react";
 import ImageCarousel from "./ImageCarousel";
+import { getProductData } from "@/utils/fetchDataFunctions";
 
 interface PageProps {
   params: { slug: string, category: string }
@@ -18,23 +18,14 @@ export async function generateMetadata({ params }: PageProps) {
   };
 }
 
-async function getProductData(category: string, slug: string) {
-  const res = await fetch(`http://localhost:3000/api/products/category/${category}/${slug}`);
-
-  if (!res.ok) {
-    notFound();
-  }
-
-  return res.json();
-}
-
 export default function ProductItemPage({ params: { slug, category } }: PageProps) {
   const productData = use(getProductData(category, slug));
+  
   const images = [productData.featuredImage, ...productData.images];
 
   const indicatorIcons = images.map((image, i) => (
     <div key={i} className="aspect-square w-[40px] h-auto relative mx-1">
-      <Image src={image} alt={image} fill className="object-cover" />
+      <Image src={image} alt={image} fill className="object-cover" sizes="40px" />
     </div>
   ))
 

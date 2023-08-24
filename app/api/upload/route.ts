@@ -1,6 +1,5 @@
 import { isAuth } from "@/utils/auth";
-import db from "@/utils/db";
-import { connectToDb, fileExists } from "@/utils/mongo";
+import { connectToDb, disconnectFromDb, fileExists } from "@/utils/mongo";
 import { NextRequest, NextResponse } from "next/server";
 import { Readable } from "stream";
 
@@ -59,6 +58,6 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  await db.disconnect();
+  await disconnectFromDb();
   return NextResponse.json({ success: true });
 }

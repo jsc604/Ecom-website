@@ -9,6 +9,7 @@ import ItemScroll from './ItemScroll';
 import { setCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
 import { ItemInfo } from '../cart/page';
+import { getCartItems } from "@/utils/fetchDataFunctions";
 
 const provinces = [
   { value: 'Alberta', label: 'Alberta' },
@@ -50,17 +51,16 @@ export default function Checkout() {
   const [cartItemsInfo, setCartItemsInfo] = useState<ItemInfo[]>([]);
 
   useEffect(() => {
-    async function fetchData() {
-      if (cart.length > 0) {
-        const res = await fetch('/api/cart');
+    if (cart) {
+      const fetchData = async () => {
+        const fetchedData = await getCartItems(cart);
+        setCartItemsInfo(fetchedData);
+      };
 
-        setCartItemsInfo(await res.json());
-      } else {
-        router.push('/cart');
-      }
+      fetchData();
+    } else {
+      router.push('/cart');
     }
-
-    fetchData();
   }, [cart, router]);
 
   const shippingPrice = 20;

@@ -32,7 +32,7 @@ export default function ProductItem({ name, image, options, category, slug, rati
               fill
               loading="lazy"
               className="object-cover"
-              sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
+              sizes='(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 33vw'
             />
           </div>
           <CardContent className="text-center">

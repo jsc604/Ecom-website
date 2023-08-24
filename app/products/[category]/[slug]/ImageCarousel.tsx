@@ -36,7 +36,7 @@ export default function ImageCarousel({ images, indicatorIcons }: PageProps) {
             fill
             loading="lazy"
             className="object-cover"
-            sizes="(max-width: 600px) 100vw, (max-width: 900px) 50vw, 33vw"
+            sizes="(max-width: 899px) 100vw, 50vw"
           />
         </div>
       ))}

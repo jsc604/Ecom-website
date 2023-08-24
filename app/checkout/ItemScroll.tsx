@@ -49,6 +49,7 @@ export default function ItemScroll({ cartItemsInfo }: PageProps) {
                       fill
                       loading="lazy"
                       className="object-cover rounded-md"
+                      sizes="(max-width: 639px) 111px, (max-width: 899px) 159px, (max-width: 1279px) 64px, 76px"
                     />
                   </StyledBadge>
                   <Box sx={{ width: 3 / 4, marginLeft: 2, marginBottom: 'auto' }}>

@@ -10,17 +10,6 @@ interface RequestContext {
 export async function GET(req: NextRequest, { params }: RequestContext) {
   const user = await isAuth(req);
 
-  if (!user) {
-    return NextResponse.json(
-      {
-        message: "No user found!",
-      },
-      {
-        status: 401,
-      }
-    );
-  }
-
   if (!user.isAdmin) {
     return NextResponse.json(
       {

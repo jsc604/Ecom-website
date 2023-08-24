@@ -1,4 +1,3 @@
-// lib/mongo.ts
 import { MongoClient, GridFSBucket } from "mongodb";
 declare global {
   var client: MongoClient | null;
@@ -12,12 +11,9 @@ if (!MONGODB_URI) {
   );
 }
 
-/* 
-  Initializes the connection to mongodb and creates a GridFSBucket
-  Once connected, it will use the cached connection.
- */
 export async function connectToDb() {
   if (global.client) {
+    console.log("Already connected");
     return {
       client: global.client,
       bucket: global.bucket!,
@@ -30,11 +26,23 @@ export async function connectToDb() {
   }));
 
   await global.client.connect();
-  console.log("Connected to the Database ");
+  console.log("Connected to the Database");
   return { client, bucket: bucket! };
 }
 
-// utility to check if file exists
+export async function disconnectFromDb() {
+  if (global.client) {
+    if (process.env.NODE_ENV === "production") {
+      await global.client.close();
+      global.client = null;
+      global.bucket = null;
+      console.log("Disconnected from the Database");
+    } else {
+      console.log("Not disconnected");
+    }
+  }
+}
+
 export async function fileExists(filename: string): Promise<boolean> {
   const { client } = await connectToDb();
   const count = await client

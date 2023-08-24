@@ -27,6 +27,7 @@ export default function Footer({ categories }: { categories: string[] }) {
               fill
               loading="lazy"
               className="object-cover rounded-md"
+              sizes="200px"
             />
           </div>
           <div className="mt-2">

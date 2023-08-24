@@ -5,7 +5,6 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function PUT(req: NextRequest) {
   const user = await isAuth(req);
-  const { id } = await req.json();
 
   if (!user.isAdmin) {
     return NextResponse.json(
@@ -17,6 +16,8 @@ export async function PUT(req: NextRequest) {
       }
     );
   }
+
+  const { id } = await req.json();
 
   await db.connect();
 

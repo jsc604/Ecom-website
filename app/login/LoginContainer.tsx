@@ -57,6 +57,7 @@ export default function LoginContainer() {
             alt='login image'
             fill
             className='object-cover'
+            sizes='(max-width: 899px) 0vw, 50vw'
           />
         </div>
 

@@ -6,6 +6,7 @@ import CheckoutWizard from "../components/CheckoutWizard";
 import CartSummary from "./CartSummary";
 import ShoppingCartItems from "./ShoppingCartItems";
 import { productObject } from "../products/page";
+import { getCartItems } from "@/utils/fetchDataFunctions";
 
 export interface ItemInfo {
   product: productObject;
@@ -18,24 +19,17 @@ export default function Cart() {
   const [cartItemsInfo, setCartItemsInfo] = useState<ItemInfo[]>([]);
 
   useEffect(() => {
-    async function fetchData() {
-      if (cart.length > 0) {
-        const res = await fetch('/api/cart');
+    if (cart) {
+      const fetchData = async () => {
+        const fetchedData = await getCartItems(cart);
+        setCartItemsInfo(fetchedData);
+      };
 
-        if (!res.ok) {
-          <EmptyBag />;
-        }
-
-        setCartItemsInfo(await res.json());
-      }
+      fetchData();
+    } else {
+      <EmptyBag />
     }
-
-    fetchData();
   }, [cart]);
-
-  if (cart.length < 1) {
-    return <EmptyBag />;
-  }
 
   return (
     <>

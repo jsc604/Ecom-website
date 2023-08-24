@@ -7,7 +7,7 @@ type Params = {
   params: { filename: string };
 };
 
-export async function GET(req: Request, { params }: Params) {
+export async function GET(_req: Request, { params }: Params) {
 
   const filename = params.filename as string;
 

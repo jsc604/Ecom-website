@@ -112,7 +112,7 @@ export default function AdminProducts({ products }: PageProps) {
 
                       <TableCell >
                         <Box sx={{ position: 'relative', aspectRatio: 1 / 1 }}>
-                          <Image src={product.featuredImage} fill alt={product.slug} />
+                          <Image src={product.featuredImage} fill alt={product.slug} sizes='(max-width: 1023px) 50px, 57px' />
                         </Box>
                       </TableCell>
 

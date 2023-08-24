@@ -1,8 +1,8 @@
-import { notFound } from 'next/navigation';
 import { productObject } from '../page';
 import ProductItem from '@/app/components/ProductItem';
 import { use } from 'react';
 import { capitalizeWord } from '@/utils/helpers';
+import { getCategoryData } from '@/utils/fetchDataFunctions';
 
 interface PageProps {
   params: { category: string }
@@ -11,16 +11,6 @@ export async function generateMetadata({ params }: PageProps) {
   return {
     title: `${capitalizeWord(params.category)} - Ecom MN`,
   };
-}
-
-async function getCategoryData(category: string) {
-  const res = await fetch(`http://localhost:3000/api/products/category/${category}`);
-
-  if (!res.ok) {
-    notFound();
-  }
-
-  return res.json();
 }
 
 export default function ProductCategoryPage({ params: { category } }: PageProps) {

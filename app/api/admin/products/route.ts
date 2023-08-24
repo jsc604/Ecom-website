@@ -45,9 +45,9 @@ export async function DELETE(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-  const caller = await isAuth(req);
+  const user = await isAuth(req);
 
-  if (!caller.isAdmin) {
+  if (!user.isAdmin) {
     return NextResponse.json(
       {
         message: "Unauthorized access!",

@@ -8,9 +8,9 @@ interface RequestContext {
 }
 
 export async function PUT(req: NextRequest, { params }: RequestContext) {
-  const caller = await isAuth(req);
+  const user = await isAuth(req);
 
-  if (!caller.isAdmin) {
+  if (!user.isAdmin) {
     return NextResponse.json(
       {
         message: "Unauthorized access!",

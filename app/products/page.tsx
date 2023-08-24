@@ -1,20 +1,10 @@
-import { notFound } from "next/navigation";
 import ProductItem, { ItemOptions } from "../components/ProductItem";
 import { use } from "react";
+import { getProducts } from "@/utils/fetchDataFunctions";
 
 export const metadata = {
   title: 'All Products - Ecom MN',
 };
-
-async function getData() {
-  const res = await fetch('http://localhost:3000/api/products');
-
-  if (!res.ok) {
-    notFound();
-  }
-
-  return res.json();
-}
 
 export type productObject = {
   _id: string;
@@ -32,7 +22,7 @@ export type productObject = {
 };
 
 export default function page() {
-  const data = use(getData());
+  const data = use(getProducts());
 
   return (
     <>
