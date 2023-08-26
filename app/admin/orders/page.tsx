@@ -41,6 +41,7 @@ export default function AdminOrders() {
     if (userInfo) {
       fetchOrderHistory();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userInfo])
 
   const handlePayment = async (id: string) => {

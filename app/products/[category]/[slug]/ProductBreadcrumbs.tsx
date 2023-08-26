@@ -5,10 +5,7 @@ function handleClick(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
   event.preventDefault();
 }
 
-interface ProductBreadcrumbsProps {
-  category: string;
-}
-export default function ProductBreadcrumbs({ category }: ProductBreadcrumbsProps) {
+export default function ProductBreadcrumbs({ category }: { category: string }) {
   return (
     <div role="presentation" onClick={handleClick} className='capitalize'>
       <Breadcrumbs aria-label="breadcrumb">

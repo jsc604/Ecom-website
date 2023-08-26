@@ -3,6 +3,8 @@ import ProductInfo from "./ProductInfo";
 import { use } from "react";
 import ImageCarousel from "./ImageCarousel";
 import { getProductData } from "@/utils/fetchDataFunctions";
+import Reviews from "./Reviews";
+import { Divider } from "@mui/material";
 
 interface PageProps {
   params: { slug: string, category: string }
@@ -19,9 +21,9 @@ export async function generateMetadata({ params }: PageProps) {
 }
 
 export default function ProductItemPage({ params: { slug, category } }: PageProps) {
-  const productData = use(getProductData(category, slug));
-  
-  const images = [productData.featuredImage, ...productData.images];
+  const { product, reviews } = use(getProductData(category, slug));
+
+  const images = [product.featuredImage, ...product.images];
 
   const indicatorIcons = images.map((image, i) => (
     <div key={i} className="aspect-square w-[40px] h-auto relative mx-1">
@@ -30,9 +32,12 @@ export default function ProductItemPage({ params: { slug, category } }: PageProp
   ))
 
   return (
-    <div className="min-h-80vh my-12 grid ml:grid-cols-2 gap-6 flex">
-      <ImageCarousel images={images} indicatorIcons={indicatorIcons} />
-      <ProductInfo product={productData} />
-    </div>
+    <>
+      <div className="min-h-80vh my-12 grid ml:grid-cols-2 gap-6 flex">
+        <ImageCarousel images={images} indicatorIcons={indicatorIcons} />
+        <ProductInfo product={product} />
+      </div>
+      <Reviews reviews={reviews} product={product} />
+    </>
   )
 }

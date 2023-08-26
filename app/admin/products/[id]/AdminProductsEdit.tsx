@@ -12,11 +12,7 @@ import Image from 'next/image';
 import axios from 'axios';
 import { toastOptions } from '@/utils/toastOptions';
 
-interface PageProps {
-  product: productObject;
-}
-
-export default function AdminProductsEdit({ product }: PageProps) {
+export default function AdminProductsEdit({ product }: { product: productObject }) {
   const { handleSubmit, control, setValue, formState: { errors } } = useForm();
   const { userInfo } = useContext(Store);
   const router = useRouter();

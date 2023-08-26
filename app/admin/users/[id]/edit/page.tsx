@@ -8,11 +8,7 @@ import { ColorButton } from '@/app/cart/EmptyBag';
 import { useRouter } from 'next/navigation';
 import { toastOptions } from '@/utils/toastOptions';
 
-interface PageProps {
-  params: { id: string };
-}
-
-export default function AdminEdit({ params }: PageProps) {
+export default function AdminEdit({ params }: { params: { id: string } }) {
   const { handleSubmit, control, setValue, formState: { errors } } = useForm();
   const { userInfo } = useContext(Store);
   const { id } = params;

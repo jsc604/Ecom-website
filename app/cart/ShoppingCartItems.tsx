@@ -2,11 +2,7 @@ import { Divider } from '@mui/material';
 import ShoppingCartItem from './ShoppingCartItem';
 import { ItemInfo } from './page';
 
-interface PageProps {
-  cartItemsInfo: ItemInfo[];
-}
-
-export default function ShoppingCartItems({ cartItemsInfo }: PageProps) {
+export default function ShoppingCartItems({ cartItemsInfo }: { cartItemsInfo: ItemInfo[] }) {
 
   return (
     <div>

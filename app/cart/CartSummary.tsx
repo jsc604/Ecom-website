@@ -2,11 +2,7 @@ import { Button, Divider } from '@mui/material'
 import { useRouter } from 'next/navigation';
 import { ItemInfo } from './page';
 
-interface PageProps {
-  cartItemsInfo: ItemInfo[];
-}
-
-export default function CartSummary({ cartItemsInfo }: PageProps) {
+export default function CartSummary({ cartItemsInfo }: { cartItemsInfo: ItemInfo[] }) {
   const router = useRouter();
 
   const shippingPrice = 20;

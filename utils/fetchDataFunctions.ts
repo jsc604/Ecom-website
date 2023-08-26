@@ -61,3 +61,13 @@ export async function getCartItems(cartItems: CartItems[]) {
   }
   return await res.json();
 }
+
+export async function getProductById(id: string) {
+  const res = await fetch(`http://localhost:3000/api/products/${id}`);
+
+  if (!res.ok) {
+    notFound();
+  }
+
+  return await res.json();
+}

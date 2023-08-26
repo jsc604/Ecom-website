@@ -7,11 +7,7 @@ import ProductCheckoutCard from './ProductCheckoutCard';
 import { Store } from '@/utils/StoreProvider';
 import { productObject } from '../../page';
 
-interface PageProps {
-  product: productObject;
-}
-
-export default function ProductInfo({ product }: PageProps) {
+export default function ProductInfo({ product }: { product: productObject }) {
   const [selectedItem, setSelectedItem] = useState(product.options[0]);
   const [quantity, setQuantity] = useState(1);
   const [itemSubtotal, setItemSubtotal] = useState(selectedItem.price);

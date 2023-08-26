@@ -13,11 +13,7 @@ import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
 import { toastOptions } from '@/utils/toastOptions';
 
-interface PageProps {
-  products: productObject[]
-}
-
-export default function AdminProducts({ products }: PageProps) {
+export default function AdminProducts({ products }: { products: productObject[] }) {
   const { userInfo } = useContext(Store);
   const router = useRouter();
 

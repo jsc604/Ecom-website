@@ -1,11 +1,7 @@
 import ProductItem from "../components/ProductItem";
 import { productObject } from "../products/page";
 
-interface PageProps {
-  products: productObject[];
-}
-
-export default function FeaturedProducts({ products }: PageProps) {
+export default function FeaturedProducts({ products }: { products: productObject[] }) {
 
   return (
     <>

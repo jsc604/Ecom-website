@@ -8,10 +8,6 @@ import Error from "./error";
 import { ItemInfo } from "@/app/cart/page";
 import { ColorButton } from "@/app/cart/EmptyBag";
 
-interface PageProps {
-  params: { id: string };
-}
-
 export type OrderDetails = {
   _id: string;
   user: string | null;
@@ -27,7 +23,7 @@ export type OrderDetails = {
   createdAt: string;
 }
 
-export default function OrdersPage({ params: { id } }: PageProps) {
+export default function OrdersPage({ params: { id } }: { params: { id: string } }) {
   const [orderDetails, setOrderDetails] = useState<OrderDetails>();
   const { userInfo } = useContext(Store);
   const [errorMessage, setErrorMessage] = useState();
@@ -58,6 +54,7 @@ export default function OrdersPage({ params: { id } }: PageProps) {
 
   useEffect(() => {
     getOrderDetails();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, userInfo])
 
   const date = orderDetails && new Date(orderDetails?.createdAt);

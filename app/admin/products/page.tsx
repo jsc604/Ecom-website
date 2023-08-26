@@ -1,12 +1,9 @@
 import { use } from 'react';
 import AdminProducts from './AdminProducts'
-
-async function fetchProducts() {
-  return fetch(`http://localhost:3000/api/products`).then(res => res.json());
-}
+import { getProducts } from '@/utils/fetchDataFunctions';
 
 export default function page() {
-  const products = use(fetchProducts());
+  const products = use(getProducts());
 
   return (
     <AdminProducts products={products} />

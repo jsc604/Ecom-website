@@ -1,15 +1,10 @@
 import { ExpandLess, ExpandMore, ShoppingBagOutlined } from "@mui/icons-material";
 import { List, ListItemButton, Typography, Collapse, ListItem, Divider, Box, BadgeProps, Badge, styled } from "@mui/material";
 import { useState } from "react";
-
 import Image from "next/image";
 import { ItemInfo } from "../cart/page";
 
-interface PageProps {
-  cartItemsInfo: ItemInfo[];
-}
-
-export default function ItemScroll({ cartItemsInfo }: PageProps) {
+export default function ItemScroll({ cartItemsInfo }: { cartItemsInfo: ItemInfo[] }) {
   const [open, setOpen] = useState(true);
 
   const handleClick = () => {

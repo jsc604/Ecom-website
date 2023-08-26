@@ -8,11 +8,8 @@ import Link from "next/link"
 import { useContext, useEffect, useState } from "react"
 import LoadingSkeleton from "./LoadingSkeletion";
 
-interface PageProps {
-  params: { id: string };
-}
 
-export default function UserOrders({ params }: PageProps) {
+export default function UserOrders({ params }: { params: { id: string } }) {
   const { id } = params;
   const { userInfo } = useContext(Store);
   const [orders, setOrders] = useState<OrderDetails[]>();

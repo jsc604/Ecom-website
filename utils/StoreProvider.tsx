@@ -91,10 +91,8 @@ export default function StoreProvider(props: React.PropsWithChildren<{}>) {
     const res = await fetch(`/api/products/${itemId}`);
     const data = await res.json();
 
-    const selectedSize = optionId;
-
     const stock = data?.options.reduce((acc: number | undefined, option: ItemOptions) => {
-      if (option.size === selectedSize) {
+      if (option.size === optionId) {
         return option.countInStock;
       }
       return acc;
