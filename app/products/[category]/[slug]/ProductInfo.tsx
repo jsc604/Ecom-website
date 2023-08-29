@@ -32,7 +32,7 @@ export default function ProductInfo({ product }: { product: productObject }) {
         </Typography>
       </div>
       <div className='flex '>
-        <Rating value={product.rating} readOnly />
+        <Rating value={product.rating} readOnly precision={0.5}/>
         <Typography variant='body1'>({product.numReviews} reviews)</Typography>
       </div>
       <Typography variant='body1' dangerouslySetInnerHTML={{ __html: product.description }} />

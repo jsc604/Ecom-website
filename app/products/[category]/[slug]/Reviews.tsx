@@ -1,21 +1,17 @@
 'use client'
 
-import { Store } from "@/utils/StoreProvider"
-import Button from "@mui/material/Button"
-import CircularProgress from "@mui/material/CircularProgress"
-import Grid from "@mui/material/Grid"
 import List from "@mui/material/List"
 import ListItem from "@mui/material/ListItem"
 import Rating from "@mui/material/Rating"
-import TextField from "@mui/material/TextField"
 import Typography from "@mui/material/Typography"
-import { FormEvent, MouseEvent, useContext, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { productObject } from "../../page"
-import { toast } from "react-toastify"
-import { toastOptions } from "@/utils/toastOptions"
-import { Divider } from "@mui/material"
+import { Box, Button, Card, Divider } from "@mui/material"
+import ReviewModal from "./ReviewModal"
+import ReviewFilter from "./ReviewFilter"
+import { getTimeAgo } from "@/utils/helpers"
 
-type review = {
+export type review = {
   _id: string,
   user: string,
   name: string,
@@ -30,152 +26,83 @@ function calculateAverageRating(reviews: review[]) {
   }
 
   const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
-  return totalRating / reviews.length;
+  return (totalRating / reviews.length).toFixed(1);
 }
 
 export default function Reviews({ reviews, product }: { reviews: review[], product: productObject }) {
-  const { userInfo } = useContext(Store);
   const [reviewData, setReviewData] = useState(reviews);
-  const [rating, setRating] = useState<number>();
-  const [comment, setComment] = useState<string>();
-  const [userRating, setUserRating] = useState<number | null>(0);
-  const [name, setName] = useState('anonymous');
-  const [loading, setLoading] = useState(false);
+  const [rating, setRating] = useState(product.rating);
+  const [isFilterVisible, setIsFilterVisible] = useState(false);
+
+  const handleFilterButtonClick = () => {
+    setIsFilterVisible(!isFilterVisible);
+  };
 
   useEffect(() => {
     const avgRating = calculateAverageRating(reviewData);
-    setRating(avgRating);
+    setRating(Number(avgRating));
   }, [reviewData]);
-
-  const fetchReviews = async () => {
-    const res = await fetch(`/api/reviews?itemId=${encodeURIComponent(JSON.stringify(product._id))}`);
-    const data = await Promise.resolve(res.json());
-
-    if (!res.ok) {
-      toast.error(data.message);
-      return;
-    }
-
-    setReviewData(data);
-    return;
-  }
-
-  const submitHandler = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setLoading(true);
-
-    let headers: { 'Content-Type': string, authorization?: string } = {
-      'Content-Type': 'application/json',
-    }
-
-    if (userInfo?.token) {
-      headers.authorization = `Bearer ${userInfo.token}`;
-    }
-
-    const res = await fetch(`/api/reviews`, {
-      method: 'POST',
-      body: JSON.stringify({ comment, userRating, itemId: product._id, name }),
-      headers,
-    });
-
-    const data = await res.json();
-
-    if (!res.ok) {
-      toast.error(`${data.message}`, toastOptions);
-      return;
-    }
-
-    toast.success(`${data.message}`, toastOptions);
-    fetchReviews();
-    setLoading(false);
-  };
 
   return (
     <>
       <Divider />
-      <div>
-        
-      </div>
-      <List>
-        <ListItem>
-          <Typography variant="h4">
-            Customer Reviews
+      <Box sx={{ mt: 4 }}>
+        <div className="flex gap-4 w-full my-4 flex-col ml:flex-row">
+          <Typography variant="h3" sx={{ minWidth: 300 }}>
+            Reviews
           </Typography>
-        </ListItem>
-        {reviewData.length === 0 ? <ListItem>No reviews</ListItem> : (
-          reviewData.map((review) => (
-            <ListItem key={review._id}>
-              <Grid container>
-                <Grid item >
-                  <Typography>
-                    <strong>{review.name}</strong>
-                  </Typography>
-                  <Typography>{review.createdAt.substring(0, 10)}</Typography>
-                </Grid>
-                <Grid item>
-                  <Rating value={review.rating} readOnly></Rating>
-                  <Typography>{review.comment}</Typography>
-                </Grid>
-              </Grid>
-            </ListItem>
-          ))
-        )}
-        <ListItem>
-          <form onSubmit={submitHandler}>
-            <List>
-              <ListItem>
-                <Typography variant="h6">Leave your review</Typography>
-              </ListItem>
-              {!userInfo &&
-                <ListItem>
-                  <TextField
-                    required
-                    multiline
-                    variant="outlined"
-                    fullWidth
-                    name="name"
-                    label="Enter your name"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                  />
-                </ListItem>
-              }
-              <ListItem>
-                <TextField
-                  required
-                  multiline
-                  variant="outlined"
-                  fullWidth
-                  name="review"
-                  label="Enter comment"
-                  value={comment}
-                  onChange={(e) => setComment(e.target.value)}
-                />
-              </ListItem>
-              <ListItem>
+          <div className="flex justify-between w-full items-center">
+            <Box>
+              <Box sx={{ display: 'flex', gap: 1 }}>
+                <Typography>{rating}</Typography>
                 <Rating
                   name="simple-controlled"
-                  value={userRating}
-                  onChange={(event, newValue) => setUserRating(newValue)}
+                  value={rating}
+                  precision={0.5}
+                  readOnly
                 />
-              </ListItem>
-              <ListItem>
-                <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  color="info"
-                  className="bg-info-dark"
-                >
-                  Submit
-                </Button>
+              </Box>
+              <Typography variant="body2">Based on {reviewData.length} reviews</Typography>
+            </Box>
 
-                {loading && <CircularProgress></CircularProgress>}
-              </ListItem>
-            </List>
-          </form>
-        </ListItem>
-      </List>
+            <ReviewModal itemId={product._id} setReviewData={setReviewData} />
+          </div>
+        </div>
+
+        <div className="flex gap-4 flex-col ml:flex-row">
+          <div className="min-w-[300px]">
+            <div className="hidden ml:block">
+              <Typography>Filter Reviews</Typography>
+              <ReviewFilter />
+            </div>
+            <div className="ml:hidden">
+              <Button onClick={handleFilterButtonClick} variant="outlined">
+                <Typography>Filter Reviews</Typography>
+              </Button>
+              {isFilterVisible && <ReviewFilter />}
+            </div>
+          </div>
+
+          <List sx={{ width: '100%' }}>
+            {reviewData.length === 0 ? <ListItem>No reviews</ListItem> : (
+              reviewData.map((review) => (
+                <ListItem key={review._id} sx={{ width: '100%' }}>
+                  <Card sx={{ width: '100%', p: 2 }}>
+                    <Box sx={{ display: 'flex', gap: 2 }}>
+                      <Typography>
+                        <strong>{review.name}</strong>
+                      </Typography>
+                      <Typography variant="body2">{getTimeAgo(review.createdAt)}</Typography>
+                    </Box>
+                    <Rating value={review.rating} readOnly></Rating>
+                    <Typography>{review.comment}</Typography>
+                  </Card>
+                </ListItem>
+              ))
+            )}
+          </List>
+        </div>
+      </Box>
     </>
   )
 }

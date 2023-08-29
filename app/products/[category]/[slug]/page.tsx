@@ -4,7 +4,6 @@ import { use } from "react";
 import ImageCarousel from "./ImageCarousel";
 import { getProductData } from "@/utils/fetchDataFunctions";
 import Reviews from "./Reviews";
-import { Divider } from "@mui/material";
 
 interface PageProps {
   params: { slug: string, category: string }
