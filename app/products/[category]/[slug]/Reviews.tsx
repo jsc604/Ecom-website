@@ -10,6 +10,8 @@ import { Box, Button, Card, Divider } from "@mui/material"
 import ReviewModal from "./ReviewModal"
 import ReviewFilter from "./ReviewFilter"
 import { getTimeAgo } from "@/utils/helpers"
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+import ArrowDropdownIcon from '@mui/icons-material/ArrowDropDown';
 
 export type review = {
   _id: string,
@@ -31,6 +33,7 @@ function calculateAverageRating(reviews: review[]) {
 
 export default function Reviews({ reviews, product }: { reviews: review[], product: productObject }) {
   const [reviewData, setReviewData] = useState(reviews);
+  const [filteredReviews, setFilteredReviews] = useState(reviews);
   const [rating, setRating] = useState(product.rating);
   const [isFilterVisible, setIsFilterVisible] = useState(false);
 
@@ -73,19 +76,19 @@ export default function Reviews({ reviews, product }: { reviews: review[], produ
           <div className="min-w-[300px]">
             <div className="hidden ml:block">
               <Typography>Filter Reviews</Typography>
-              <ReviewFilter />
+              <ReviewFilter reviewData={reviewData} setFilteredReviews={setFilteredReviews} />
             </div>
             <div className="ml:hidden">
               <Button onClick={handleFilterButtonClick} variant="outlined">
-                <Typography>Filter Reviews</Typography>
+                <Typography>Filter Reviews</Typography> {isFilterVisible ? <ArrowDropUpIcon /> : <ArrowDropdownIcon />}
               </Button>
-              {isFilterVisible && <ReviewFilter />}
+              {isFilterVisible && <ReviewFilter reviewData={reviewData} setFilteredReviews={setFilteredReviews} />}
             </div>
           </div>
 
           <List sx={{ width: '100%' }}>
-            {reviewData.length === 0 ? <ListItem>No reviews</ListItem> : (
-              reviewData.map((review) => (
+            {filteredReviews.length === 0 ? <ListItem>No reviews</ListItem> : (
+              filteredReviews.map((review) => (
                 <ListItem key={review._id} sx={{ width: '100%' }}>
                   <Card sx={{ width: '100%', p: 2 }}>
                     <Box sx={{ display: 'flex', gap: 2 }}>
