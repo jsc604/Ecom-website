@@ -1,6 +1,5 @@
 'use client'
 
-import { Opacity } from '@mui/icons-material';
 import Image from 'next/image'
 import { Key } from 'react';
 import Carousel from "react-material-ui-carousel";
