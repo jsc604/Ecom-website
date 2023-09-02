@@ -1,15 +1,16 @@
 import { use } from "react";
 import FeaturedProducts from "./home/FeaturedProducts";
-import { getFeaturedProducts } from "@/utils/fetchDataFunctions";
+import { getDeals, getFeaturedProducts } from "@/utils/fetchDataFunctions";
 import DealsCarousel from "./home/DealsCarousel";
 
 export default function Home() {
-  const data = use(getFeaturedProducts());
+  const featuredProducts = use(getFeaturedProducts());
+  const deals = use(getDeals());
 
   return (
     <>
-      <DealsCarousel />
-      <FeaturedProducts products={data} />
+      <DealsCarousel deals={deals} />
+      <FeaturedProducts products={featuredProducts} />
     </>
   );
 }

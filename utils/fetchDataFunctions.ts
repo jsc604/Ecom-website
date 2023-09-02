@@ -71,3 +71,13 @@ export async function getProductById(id: string) {
 
   return await res.json();
 }
+
+export async function getDeals() {
+  const res = await fetch(`http://localhost:3000/api/deals`);
+
+  if (!res.ok) {
+    notFound();
+  }
+
+  return await res.json();
+}

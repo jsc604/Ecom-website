@@ -53,6 +53,7 @@ export default function AdminProductsAdd() {
   }
 
   const handleFeaturedImageUpload = async (e: ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
     setLoadingFeaturedImage(true);
 
     const fileInput = e.target;
@@ -83,6 +84,7 @@ export default function AdminProductsAdd() {
   };
 
   const handleImagesUpload = async (e: ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
     setLoadingImages(true);
 
     const formData = new FormData();
